@@ -16,7 +16,7 @@ const App: React.FC = () => {
         backgroundColor={'#fff'}
       />
       <View>
-        <Text>Test</Text>
+        <Text>Sneding changes to Stagging</Text>
       </View>
     </SafeAreaView>
   );
