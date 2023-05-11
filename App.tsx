@@ -17,7 +17,7 @@ const App: React.FC = () => {
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={'#fff'}
         />
-
+  <Text>Funcionasdsadsd</Text>
       </SafeAreaView>
     </ThemeProvider>
   );
