@@ -6,19 +6,20 @@ import {
   useColorScheme,
   Text,
 } from 'react-native';
+import ThemeProvider from './src/providers/ThemeProvider';
 
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <SafeAreaView>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={'#fff'}
-      />
-      <View>
-        <Text>Sneding changes testingbranch to Stagging</Text>
-      </View>
-    </SafeAreaView>
+    <ThemeProvider>
+      <SafeAreaView>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={'#fff'}
+        />
+
+      </SafeAreaView>
+    </ThemeProvider>
   );
 };
 
