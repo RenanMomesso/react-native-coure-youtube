@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "postcss": "^8.4.23",
     "react": "18.2.0",
     "react-native": "0.71.7",
     "react-native-dotenv": "^3.4.8",
