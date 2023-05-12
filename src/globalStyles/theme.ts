@@ -9,6 +9,19 @@ export default {
     disabledBlack: '#c4c3c3',
   },
   sizes: {
-    fontSize: width * 0.8,
+    fontSize: {
+      small: width * 0.036,
+      medium: width * 0.45,
+      large: width * 0.055,
+    },
+    fontFamily: {
+      RobotoBold: 'RobotoMono-Bold',
+      RobotoRegular: 'RobotoMono-Regular',
+      RobotoMedium: 'RobotoMono-Medium',
+      RoboSemiBold: 'RobotoMono-SemiBold',
+      PoppinsRegular: 'Poppins-Regular',
+      PoppinsSemiBold: 'Poppins-SemiBold',
+      PoppinsMedium: 'Poppins-Medium',
+    },
   },
 };

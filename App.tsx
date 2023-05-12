@@ -18,11 +18,6 @@ const App: React.FC = () => {
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={'#fff'}
         />
-
-        <View style={{ flex: 1, marginHorizontal: 20, marginTop: 8, backgroundColor: 'red' }}>
-
-          <Button text='Login with Facebook' bgColor='blue' />
-        </View>
       </SafeAreaView>
     </ThemeProvider>
   );

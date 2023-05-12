@@ -25,5 +25,10 @@ export const ButtonContainer = styled.TouchableOpacity<IButtonContainerProps>`
 `
 
 export const ButtonText = styled.Text<{ textColor?: string }>`
-    color: ${props => props.textColor || "#FFF"};
+    ${({ theme, textColor }) => css`
+    color: ${textColor || "#FFF"};
+    font-size: ${({ theme }) => Math.floor(theme.sizes.fontSize.small)}px;
+    font-family: ${theme.sizes.fontFamily.PoppinsMedium};
+    `}
+    
 `
