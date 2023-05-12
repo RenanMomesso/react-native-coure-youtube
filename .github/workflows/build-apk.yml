@@ -3,8 +3,7 @@ name: Build APK
 on:
   push:
     branches:
-      - staging
-      - main
+      - stagging
 
 jobs:
   build:

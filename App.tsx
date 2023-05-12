@@ -2,23 +2,26 @@ import React from 'react';
 import {
   SafeAreaView,
   StatusBar,
-  View,
   useColorScheme,
-  Text,
 } from 'react-native';
+import ThemeProvider from './src/providers/ThemeProvider';
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import RootNavigation from './src/navigations/RootNavigation';
 
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <SafeAreaView>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={'#fff'}
-      />
-      <View>
-        <Text>Sneding changes testingbranch to Stagging</Text>
-      </View>
-    </SafeAreaView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider>
+        <SafeAreaView style={{ flex: 1 }}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={'#fff'}
+          />
+          <RootNavigation />
+        </SafeAreaView>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 };
 
