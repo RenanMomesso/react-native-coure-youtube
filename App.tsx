@@ -7,17 +7,22 @@ import {
   Text,
 } from 'react-native';
 import ThemeProvider from './src/providers/ThemeProvider';
+import Button from './src/components/Button';
 
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <ThemeProvider>
-      <SafeAreaView>
+      <SafeAreaView style={{ flex: 1 }}>
         <StatusBar
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={'#fff'}
         />
-  <Text>Funcionasdsadsd</Text>
+
+        <View style={{ flex: 1, marginHorizontal: 20, marginTop: 8, backgroundColor: 'red' }}>
+
+          <Button text='Login with Facebook' bgColor='blue' />
+        </View>
       </SafeAreaView>
     </ThemeProvider>
   );
