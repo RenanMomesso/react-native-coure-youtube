@@ -41,8 +41,7 @@ const TextInputIcon: React.FC<InputProps> = ({ leftIconName, rightIconName, onCh
     return (
         <KeyboardAvoidingView
             behavior={'position'}
-            keyboardVerticalOffset={30}
-        >
+            keyboardVerticalOffset={30}>
             <InputContainer onPress={() => inputRef.current?.focus()}>
                 {leftIconName && leftIconName}
                 <TextInput value={value} ref={inputRef} onChangeText={onChangeText} placeholder={placeholder} />
