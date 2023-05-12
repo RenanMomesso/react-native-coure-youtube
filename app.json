@@ -1,4 +1,11 @@
 {
   "name": "eviraAPP",
-  "displayName": "eviraAPP"
+  "displayName": "eviraAPP",
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/images/adaptive-icon.png",
+      "backgroundColor": "#ffffff"
+    },
+    "softwareKeyboardLayoutMode": "pan"
+  }
 }
