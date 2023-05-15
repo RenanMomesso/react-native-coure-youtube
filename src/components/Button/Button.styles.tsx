@@ -11,7 +11,7 @@ export const CircleButtonFormat = (buttonProps: IButtonContainerProps, theme: Th
     `;
 
 export const ButtonContainer = styled.TouchableOpacity<IButtonContainerProps>`
-    ${({ circle, theme, fullWidth, bgColor }) => css`
+    ${({ circle, theme, bgColor }) => css`
     background-color: ${bgColor || theme.colors.black};
         ${circle && CircleButtonFormat({ circle, bgColor }, theme)}
         border-radius: ${circle ? 50 : 10}px;
@@ -21,14 +21,16 @@ export const ButtonContainer = styled.TouchableOpacity<IButtonContainerProps>`
         padding-vertical: 10px;
         elevation: 5;
         margin-vertical: 10px;
+        flex-direction: row;
+        gap: 10px;
     `}
 `
 
 export const ButtonText = styled.Text<{ textColor?: string }>`
     ${({ theme, textColor }) => css`
     color: ${textColor || "#FFF"};
-    font-size: ${({ theme }) => Math.floor(theme.sizes.fontSize.small)}px;
-    font-family: ${theme.sizes.fontFamily.PoppinsMedium};
+    font-size: ${theme?.sizes?.fontSize?.small || 12}px;
+    font-family: ${theme?.sizes?.fontFamily?.PoppinsSemiBold || "Poppins-SemiBold"};
     `}
     
 `

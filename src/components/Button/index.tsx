@@ -16,7 +16,7 @@ const Button: React.FC<IButtonProps> = ({ onClick, text = null, icon = null, bgC
     return (
         <ButtonContainer {...rest} testID='button-component' onPress={onClick} bgColor={bgColor} circle={circle} fullWidth={fullWidth}>
             {icon && icon}
-            {text && <ButtonText textColor={textColor}>{text}</ButtonText>}
+            {text && !circle && <ButtonText textColor={textColor}>{text}</ButtonText>}
         </ButtonContainer>
     )
 }
