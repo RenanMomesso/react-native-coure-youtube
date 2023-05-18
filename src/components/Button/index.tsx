@@ -1,6 +1,7 @@
 import React from 'react';
-import { ButtonContainer, ButtonText } from './Button.styles'
+import { ButtonContainer } from './Button.styles'
 import { TouchableOpacityProps } from 'react-native';
+import Text from '../Text';
 
 interface IButtonProps extends TouchableOpacityProps {
     onClick?: () => void;
@@ -9,14 +10,14 @@ interface IButtonProps extends TouchableOpacityProps {
     bgColor?: string;
     textColor?: string;
     circle?: boolean;
-    fullWidth?: boolean;
+
 }
 
-const Button: React.FC<IButtonProps> = ({ onClick, text = null, icon = null, bgColor, textColor, circle, fullWidth = true, ...rest }) => {
+const Button: React.FC<IButtonProps> = ({ onClick, text = null, icon = null, bgColor, textColor, circle, ...rest }) => {
     return (
-        <ButtonContainer {...rest} testID='button-component' onPress={onClick} bgColor={bgColor} circle={circle} fullWidth={fullWidth}>
+        <ButtonContainer {...rest} testID='button-component' onPress={onClick} bgColor={bgColor} circle={circle} >
             {icon && icon}
-            {text && !circle && <ButtonText textColor={textColor}>{text}</ButtonText>}
+            {text && !circle && <Text size='button'>{text}</Text>}
         </ButtonContainer>
     )
 }

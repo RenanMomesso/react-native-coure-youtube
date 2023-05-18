@@ -2,7 +2,6 @@ import styled, { ThemeType, css } from 'styled-components/native';
 interface IButtonContainerProps {
     bgColor?: string;
     circle?: boolean;
-    fullWidth?: boolean;
 }
 
 export const CircleButtonFormat = (buttonProps: IButtonContainerProps, theme: ThemeType) => css`
@@ -24,13 +23,4 @@ export const ButtonContainer = styled.TouchableOpacity<IButtonContainerProps>`
         flex-direction: row;
         gap: 10px;
     `}
-`
-
-export const ButtonText = styled.Text<{ textColor?: string }>`
-    ${({ theme, textColor }) => css`
-    color: ${textColor || "#FFF"};
-    font-size: ${theme?.sizes?.fontSize?.small || 12}px;
-    font-family: ${theme?.sizes?.fontFamily?.PoppinsSemiBold || "Poppins-SemiBold"};
-    `}
-    
 `

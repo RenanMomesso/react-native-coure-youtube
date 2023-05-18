@@ -7,7 +7,7 @@ export default {
     lightBlack: '#151617',
     textBlackColor: '#242424',
     disabledBlack: '#c4c3c3',
-    white: '#ffffff',
+    white: '#FFF',
     lightWhite: '#f7f7f7',
   },
   sizes: {

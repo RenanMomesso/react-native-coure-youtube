@@ -7,15 +7,17 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import MyButton from '.'
 import { Alert } from 'react-native';
 import { View } from 'react-native';
+import theme from '../../globalStyles/theme';
+import { ThemeProvider } from 'styled-components/native';
 
 export default {
     title: 'components/MyButton',
     component: MyButton,
     decorators: [
         (Story) => (
-            <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
+            <ThemeProvider theme={theme} >
                 <Story />
-            </View>
+            </ThemeProvider>
         )
     ],
     parameters: {
@@ -37,12 +39,14 @@ export const Basic: ComponentStory<typeof MyButton> = args => (
 );
 
 Basic.args = {
-    text: 'Hello World',
-    textColor: 'purple',
-    bgColor: 'red',
+    text: 'Sign up',
+    textColor: theme.colors.white || '#FFF',
+    bgColor: theme.colors.black || '#000',
     onClick: () => { Alert.alert("button is working") },
-    circle: true,
-    icon: <Icon name="google" /> || null,
-
+    circle: false,
+    icon: <Icon name="google" color={"white"} /> || null,
+    activeOpacity: 0.8
 };
+
+
 

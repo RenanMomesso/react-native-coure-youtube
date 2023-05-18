@@ -38,16 +38,16 @@ describe('Button', () => {
         expect(text.props.style.color).toBe('#FFF')
     })
 
-    it("should have blue color, blue text and circle style if props were passed", () => {
-        const { getByTestId, getByText } = render(
+    it("should have blue color, doesn't have text if circle were passed", () => {
+        const { getByTestId, queryByText } = render(
             <ThemeProvider theme={theme}>
-                <Button text='Press Me' textColor='blue' bgColor='blue' circle />
+                <Button text='Press Me' bgColor='blue' circle />
             </ThemeProvider>)
         const button = getByTestId('button-component')
-        const text = getByText('Press Me')
+        const text = queryByText('Press Me')
         expect(button.props.style.borderTopLeftRadius).toBe(50)
         expect(button.props.style.borderBottomRightRadius).toBe(50)
         expect(button.props.style.backgroundColor).toBe('blue')
-        expect(text.props.style.color).toBe('blue')
+        expect(text).toBeNull()
     })
 });
