@@ -6,12 +6,11 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import MyButton from '.'
 import { Alert } from 'react-native';
-import { View } from 'react-native';
 import theme from '../../globalStyles/theme';
 import { ThemeProvider } from 'styled-components/native';
 
 export default {
-    title: 'components/MyButton',
+    title: 'MyButton',
     component: MyButton,
     decorators: [
         (Story) => (
@@ -20,6 +19,22 @@ export default {
             </ThemeProvider>
         )
     ],
+    argTypes: {
+        bgColor: {
+            options: ['red', 'green', 'blue'],
+            control: { type: 'radio' },
+        },
+        activeOpacity: {
+            options: [0.1, 0.5, 1],
+            
+            control: { type: 'number', min: 400, max: 1200, step: 50 },
+        },
+        icon: {
+            options: [<Icon name="google" color={"white"} />, <Icon name="facebook" color={"white"} />, <Icon name="twitter" color={"white"} />],
+            control: { type: 'radio' },
+        }
+
+    },
     parameters: {
         layout: 'fullscreen',
         backgrounds: {

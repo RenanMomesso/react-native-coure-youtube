@@ -9,11 +9,11 @@ export enum FontFamily {
     'RobotoMono-Bold' = 'RobotoBold',
 }
 
-export type colors = 'white' | 'black' | 'disabled';
+export type IColors = 'white' | 'black' | 'disabled';
 export interface ITextProps extends RNTextProps {
     fontFamily?: FontFamily;
     size?: 'heading' | 'text' | 'button';
-    color?: colors
+    color?: IColors
     align?: 'left' | 'center' | 'right';
 }
 

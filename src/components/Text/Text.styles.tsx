@@ -1,6 +1,6 @@
 import { Text } from "react-native";
 import { css, styled } from "styled-components/native";
-import { ITextProps, colors } from ".";
+import { ITextProps, IColors } from ".";
 import theme from "../../globalStyles/theme";
 
 const colorModifier = {
@@ -10,15 +10,15 @@ const colorModifier = {
 }
 
 export const modifier = {
-  heading: (color: colors) => css`
+  heading: (color: IColors) => css`
         font-size: ${({ theme }) => theme?.sizes?.fontSize?.large || 24}px;
         line-height: 36px;
         letter-spacing: 0.1px;
         color: ${({ theme }) => colorModifier[color] || theme?.colors?.black || '#FFF'};
         font-family: ${({ theme }) => theme?.sizes?.fontFamily?.PoppinsSemiBold || 'Poppins-SemiBold'};
   `,
-  text: (color: colors) => css``,
-  button: (color: colors) => css`
+  text: (color: IColors) => css``,
+  button: (color: IColors) => css`
         font-size: ${({ theme }) => theme?.sizes?.fontSize?.small || 12}px;
         line-height: 24px;
         letter-spacing: 0.5px;
@@ -29,7 +29,7 @@ export const modifier = {
 
 export const StyledText = styled(Text) <ITextProps>`
   ${({ size, color, align }) => css`
-        ${size && modifier[size](color || 'white')};
+        ${size && modifier[size || 'button'](color || 'white')};
         text-align: ${align};
   `}
 `;
