@@ -13,8 +13,8 @@ export default {
   sizes: {
     fontSize: {
       small: Math.floor(width * 0.036),
-      medium: Math.floor(width * 0.45),
-      large: Math.floor(width * 0.055),
+      medium: Math.floor(width * 0.045),
+      large: Math.floor(width * 0.085),
     },
     fontFamily: {
       RobotoBold: 'RobotoMono-Bold',

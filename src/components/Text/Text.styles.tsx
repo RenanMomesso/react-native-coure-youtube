@@ -1,4 +1,4 @@
-import { TextProps as RNTextProps, Text } from "react-native";
+import { Text } from "react-native";
 import { css, styled } from "styled-components/native";
 import { ITextProps, colors } from ".";
 import theme from "../../globalStyles/theme";
@@ -10,10 +10,16 @@ const colorModifier = {
 }
 
 export const modifier = {
-  heading: (color: colors) => css``,
+  heading: (color: colors) => css`
+        font-size: ${({ theme }) => theme?.sizes?.fontSize?.large || 24}px;
+        line-height: 36px;
+        letter-spacing: 0.1px;
+        color: ${({ theme }) => colorModifier[color] || theme?.colors?.black || '#FFF'};
+        font-family: ${({ theme }) => theme?.sizes?.fontFamily?.PoppinsSemiBold || 'Poppins-SemiBold'};
+  `,
   text: (color: colors) => css``,
   button: (color: colors) => css`
-        font-size: 12px;
+        font-size: ${({ theme }) => theme?.sizes?.fontSize?.small || 12}px;
         line-height: 24px;
         letter-spacing: 0.5px;
         color: ${({ theme }) => colorModifier[color] || theme?.colors?.white || '#FFF'};
@@ -22,7 +28,8 @@ export const modifier = {
 }
 
 export const StyledText = styled(Text) <ITextProps>`
-  ${({ size, color }) => css`
+  ${({ size, color, align }) => css`
         ${size && modifier[size](color || 'white')};
-`}
+        text-align: ${align};
+  `}
 `;

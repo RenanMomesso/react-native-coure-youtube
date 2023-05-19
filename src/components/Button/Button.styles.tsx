@@ -13,7 +13,7 @@ export const ButtonContainer = styled.TouchableOpacity<IButtonContainerProps>`
     ${({ circle, theme, bgColor }) => css`
     background-color: ${bgColor || theme.colors.black};
         ${circle && CircleButtonFormat({ circle, bgColor }, theme)}
-        border-radius: ${circle ? 50 : 10}px;
+        border-radius: ${circle ? 50 : 20}px;
         width: ${circle ? '50px' : '100%'};
         align-items: center;
         justify-content: center;

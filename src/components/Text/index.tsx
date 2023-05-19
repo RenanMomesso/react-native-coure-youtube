@@ -14,10 +14,11 @@ export interface ITextProps extends RNTextProps {
     fontFamily?: FontFamily;
     size?: 'heading' | 'text' | 'button';
     color?: colors
+    align?: 'left' | 'center' | 'right';
 }
 
-const Text: React.FC<ITextProps> = ({ children, size = 'button', ...rest }) => {
-    return <StyledText size={size} {...rest}>{children}</StyledText>;
+const Text: React.FC<ITextProps> = ({ children, size = 'button', align = 'center', ...rest }) => {
+    return <StyledText size={size} align={align} {...rest}>{children}</StyledText>;
 };
 
 export default Text;
