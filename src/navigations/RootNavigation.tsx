@@ -4,10 +4,20 @@ import Home from '../pages/Home'
 import Signin from '../pages/Signin'
 import OnboardingScreen from '../pages/OnboardingScreen'
 import { useSelector } from 'react-redux'
+import SignupScreen from '../pages/Signup'
+import SigninPassword from '../pages/SigninPassword'
+
+export type RootStackParamList = {
+    Home: undefined
+    Signin: undefined
+    Signup: undefined
+    SigninPassword: undefined
+    Onboarding: undefined
+}
 
 const RootNavigation = () => {
     const userReducer = useSelector((state: any) => state.user)
-    const Stack = createStackNavigator()
+    const Stack = createStackNavigator<RootStackParamList>()
     const stackNavigationOptions: StackNavigationOptions = {
         headerShown: false,
     }
@@ -27,7 +37,11 @@ const RootNavigation = () => {
         )
     } else {
         stackScreen = (
-            <Stack.Screen name="Signin" component={Signin} />
+            <>
+                <Stack.Screen name="Signin" component={Signin} />
+                <Stack.Screen name="Signup" component={SignupScreen} />
+                <Stack.Screen name="SigninPassword" component={SigninPassword} />
+            </>
         )
     }
 

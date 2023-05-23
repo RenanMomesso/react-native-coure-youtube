@@ -17,10 +17,10 @@ export const ButtonContainer = styled.TouchableOpacity<IButtonContainerProps>`
         width: ${circle ? '50px' : '100%'};
         align-items: center;
         justify-content: center;
-        padding-vertical: 10px;
         elevation: 5;
+        height: 45px;
         margin-vertical: 10px;
         flex-direction: row;
-        gap: 10px;
+        gap: 7px;
     `}
 `

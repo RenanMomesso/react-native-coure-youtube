@@ -12,7 +12,7 @@ export default {
   },
   sizes: {
     fontSize: {
-      small: Math.floor(width * 0.036),
+      small: Math.floor(width * 0.030),
       medium: Math.floor(width * 0.045),
       large: Math.floor(width * 0.085),
     },

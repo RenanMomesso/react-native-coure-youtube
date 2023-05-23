@@ -19,11 +19,10 @@ export const modifier = {
   `,
   text: (color: IColors) => css``,
   button: (color: IColors) => css`
-        font-size: ${({ theme }) => theme?.sizes?.fontSize?.small || 12}px;
-        line-height: 24px;
+        font-size: ${({ theme }) => theme.sizes.fontSize.small || 12}px;
         letter-spacing: 0.5px;
         color: ${({ theme }) => colorModifier[color] || theme?.colors?.white || '#FFF'};
-        font-family: ${({ theme }) => theme?.sizes?.fontFamily?.PoppinsMedium || 'Poppins-Medium'};
+        font-family: ${({ theme }) => theme?.sizes?.fontFamily.PoppinsSemiBold || 'Poppins-SemiBold'};
     `,
 }
 
