@@ -7,14 +7,14 @@ import Button from '../../components/Button';
 import Paginator from './components/Paginator';
 import SkipSlides from './components/Skip';
 import { NavigationProp } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { saveDataToStorage } from '../../utils/AsyncStorageUtils';
+import { useDispatch } from "react-redux"
 
 interface IOnboardingScreenProps {
     navigation: NavigationProp<any>;
 }
 const OnboardingScreen = ({ navigation }: IOnboardingScreenProps) => {
-
+    const dispatch = useDispatch()
     const flatListRef = React.useRef<FlatList>(null);
     const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -39,7 +39,7 @@ const OnboardingScreen = ({ navigation }: IOnboardingScreenProps) => {
     const buttonTitle = currentIndex === onboardingData.length - 1 ? 'Get Started' : 'Next';
 
     const navigationToLogin = async () => {
-        await saveDataToStorage('showOnboarding', 'true')
+        dispatch({ type: "ONBOARDING_COMPLETE", payload: true })
     };
 
     return (

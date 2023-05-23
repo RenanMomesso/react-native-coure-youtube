@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { getDataFromStorage } from '../utils/AsyncStorageUtils';
+import { useDispatch } from 'react-redux'
 
 const useOnboarding = () => {
+    const dispatch = useDispatch()
     const [showOnboarding, setShowOnboarding] = React.useState<boolean>(false);
     const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -9,7 +11,8 @@ const useOnboarding = () => {
         const shouldShowOnboarding = async () => {
             setLoading(true)
             const data = await getDataFromStorage("showOnboarding")
-            setShowOnboarding(data === "true" ? true : false)
+            dispatch({ type: "SET_SHOW_ONBOARDING", payload: data === null ? true : false })
+            setShowOnboarding(data === null ? true : false)
             setLoading(false)
         }
         shouldShowOnboarding()

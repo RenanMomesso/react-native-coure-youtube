@@ -3,21 +3,19 @@ import { StackNavigationOptions, createStackNavigator } from '@react-navigation/
 import Home from '../pages/Home'
 import Signin from '../pages/Signin'
 import OnboardingScreen from '../pages/OnboardingScreen'
-import Loading from '../components/Loading'
-import useOnboarding from './useOnboarding'
+import { useSelector } from 'react-redux'
 
 const RootNavigation = () => {
+    const { onboardingComplete } = useSelector((state: any) => state.user)
     const Stack = createStackNavigator()
-    const { loading, showOnboarding } = useOnboarding()
     const stackNavigationOptions: StackNavigationOptions = {
         headerShown: false,
     }
 
-    if (loading) return <Loading />
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={stackNavigationOptions}>
-                {!showOnboarding ?
+                {!onboardingComplete ?
                     <>
                         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
                     </>

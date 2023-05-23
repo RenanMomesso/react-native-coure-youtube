@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, Text, Alert } from 'react-native';
+import { Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming, } from 'react-native-reanimated';
 import Button from '../../components/Button';
-import { clearStorage } from '../../utils/AsyncStorageUtils';
 import { Container } from '../../globalStyles/globalComponents';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux'
+import { clearOnboarding } from '../../store/actions/userActions';
 
 const Home: React.FC = () => {
+    const dispatch = useDispatch()
     const sharedValue = useSharedValue(10)
     const animationFont = useAnimatedStyle(() => {
         return {
@@ -15,10 +16,8 @@ const Home: React.FC = () => {
         }
     }, [])
     const navigation = useNavigation()
-    const clearStorageDevice = async () => {
-        await AsyncStorage.clear()
-        Alert.alert("Storage cleared")
-    }
+    const clearStorageDevice = () => dispatch(clearOnboarding())
+
     return (
         <Container>
             <Text onPress={() => sharedValue.value = Math.random() * 10}>Testing shared Value</Text>
