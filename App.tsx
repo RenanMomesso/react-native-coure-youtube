@@ -9,7 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import RootNavigation from './src/navigations/RootNavigation';
 import StorybbokUI from './.storybook'
 
-const IS_STORYBOOK = true
+const IS_STORYBOOK = false
 const App: React.FC = () => {
     const isDarkMode = useColorScheme() === 'dark';
     return (

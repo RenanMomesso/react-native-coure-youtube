@@ -4,7 +4,6 @@ import Button from '../Button';
 import { render, fireEvent } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
 import theme from '../../globalStyles/theme';
-
 describe('Button', () => {
     it('renders correctly', () => {
         const { getByTestId } = render(
