@@ -8,7 +8,7 @@ interface ILineWithTextProps {
 
 const HorizontalLineWithText = ({ text, marginVertical = 10 }: ILineWithTextProps) => {
     return (
-        <Container style={{ marginVertical }}>
+        <Container testID='lineWithText-container' marginVertical={marginVertical}>
             <Line />
             <TextStyled>{text}</TextStyled>
             <Line />

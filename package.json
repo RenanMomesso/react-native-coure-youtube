@@ -12,7 +12,8 @@
     "storybook-generate": "sb-rn-get-stories",
     "storybook-watch": "sb-rn-watcher",
     "storybook": "yarn storybook-generate && yarn android",
-    "dev": "yarn test && yarn storybook"
+    "dev": "yarn test && yarn storybook",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@react-navigation/native": "^6.1.6",

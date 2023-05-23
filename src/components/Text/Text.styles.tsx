@@ -14,15 +14,15 @@ export const modifier = {
         font-size: ${({ theme }) => theme?.sizes?.fontSize?.large || 24}px;
         line-height: 36px;
         letter-spacing: 0.1px;
-        color: ${({ theme }) => colorModifier[color] || theme?.colors?.black || '#FFF'};
+        color: ${({ theme }) => colorModifier[color]};
         font-family: ${({ theme }) => theme?.sizes?.fontFamily?.PoppinsSemiBold || 'Poppins-SemiBold'};
   `,
   text: (color: IColors) => css``,
   button: (color: IColors) => css`
         font-size: ${({ theme }) => theme.sizes.fontSize.small || 12}px;
         letter-spacing: 0.5px;
-        color: ${({ theme }) => colorModifier[color] || theme?.colors?.white || '#FFF'};
-        font-family: ${({ theme }) => theme?.sizes?.fontFamily.PoppinsSemiBold || 'Poppins-SemiBold'};
+        color: ${({ theme }) => colorModifier[color]};
+        font-family: ${({ theme }) => theme?.sizes?.fontFamily.PoppinsSemiBold};
     `,
 }
 
