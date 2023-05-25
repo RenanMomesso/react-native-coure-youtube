@@ -4,8 +4,8 @@ import Home from '../pages/Home'
 import Signin from '../pages/Signin'
 import OnboardingScreen from '../pages/OnboardingScreen'
 import { useSelector } from 'react-redux'
-import SignupScreen from '../pages/Signup'
-import SigninPassword from '../pages/SigninPassword'
+import SignupScreen from '@pages/Signup'
+import SigninPassword from '@pages/SigninPassword'
 
 export type RootStackParamList = {
     Home: undefined
