@@ -9,7 +9,7 @@ export enum FontFamily {
     'RobotoMono-Bold' = 'RobotoBold',
 }
 
-export type IColors = 'white' | 'black' | 'disabled';
+export type IColors = 'white' | 'black' | 'disabled' | 'bolder';
 export interface ITextProps extends RNTextProps {
     fontFamily?: FontFamily;
     size?: 'heading' | 'text' | 'button';

@@ -1,14 +1,15 @@
 import React from 'react';
 import { Container, Line, TextStyled } from './LineWithText.styles'
+import { ViewProps } from 'react-native'
 
-interface ILineWithTextProps {
+interface ILineWithTextProps extends ViewProps {
     text: string;
     marginVertical?: number;
 }
 
-const HorizontalLineWithText = ({ text, marginVertical = 10 }: ILineWithTextProps) => {
+const HorizontalLineWithText = ({ text, marginVertical = 10, ...rest }: ILineWithTextProps) => {
     return (
-        <Container testID='lineWithText-container' marginVertical={marginVertical}>
+        <Container {...rest} testID='lineWithText-container' marginVertical={marginVertical}>
             <Line />
             <TextStyled>{text}</TextStyled>
             <Line />

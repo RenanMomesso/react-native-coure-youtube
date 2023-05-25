@@ -6,7 +6,8 @@ import theme from "../../globalStyles/theme";
 const colorModifier = {
   white: theme.colors.white || '#FFF',
   black: theme.colors.black || '#000',
-  disabled: theme.colors.disabledBlack || '#CCC'
+  disabled: theme.colors.disabledBlack || '#CCC',
+  bolder: theme.colors.normalBlack || '#333',
 }
 
 export const modifier = {
@@ -17,10 +18,11 @@ export const modifier = {
         color: ${({ theme }) => colorModifier[color]};
         font-family: ${({ theme }) => theme?.sizes?.fontFamily?.PoppinsSemiBold || 'Poppins-SemiBold'};
   `,
-  text: (color: IColors) => css``,
+  text: (color: IColors) => css`
+      color: ${({ theme }) => colorModifier[color]};
+  `,
   button: (color: IColors) => css`
         font-size: ${({ theme }) => theme.sizes.fontSize.small || 12}px;
-        letter-spacing: 0.5px;
         color: ${({ theme }) => colorModifier[color]};
         font-family: ${({ theme }) => theme?.sizes?.fontFamily.PoppinsSemiBold};
     `,

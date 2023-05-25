@@ -1,54 +1,41 @@
-import React, { useRef } from 'react';
-import styled from 'styled-components/native';
-import { KeyboardAvoidingView, TextInput as RNTextInput } from 'react-native';
-import { Platform } from 'react-native';
-import theme from '../../globalStyles/theme';
+import React from 'react';
+import { KeyboardAvoidingView, TextInput as RNTextInput, TextInputProps } from 'react-native';
+import { InputContainer, TextInput } from './TextInputWithIcon.styles';
 
-// Define the props our component will receive
-interface InputProps {
+interface InputProps extends TextInputProps {
     leftIconName?: React.ReactElement | null;
     rightIconName?: React.ReactElement | null;
     onChangeText: (text: string) => void;
     placeholder?: string;
     value?: string;
+    endEdditing?: () => void;
+    isFocused?: boolean;
 }
 
-const InputContainer = styled.TouchableOpacity.attrs({
-    activeOpacity: 1,
-})`
-  flex-direction: row;
-  align-items: center;
-  border-width: 1px;
-  border-color: black;
-  padding: 0px 18px;
-  background-color: transparent;
-  background-color: ${({ theme }) => theme.colors.white};
-  border-radius: 8px;
-  elevation:2;
-  gap: 8px;
-`;
+const TextInputIcon = React.forwardRef((props: InputProps, ref: React.Ref<RNTextInput>) => {
+    const { onChangeText, leftIconName, placeholder, rightIconName, value, endEdditing, isFocused, ...rest } = props;
 
-const TextInput = styled.TextInput.attrs({
-    selectionColor: theme.colors.black,
-})`
-  flex: 1;
-  font-family: ${({ theme }) => theme.sizes.fontFamily.PoppinsSemiBold};
-`;
-
-const TextInputIcon: React.FC<InputProps> = ({ leftIconName, rightIconName, onChangeText, placeholder, value }) => {
-    console.log({ value })
-    const inputRef = useRef<RNTextInput | null>(null);
     return (
         <KeyboardAvoidingView
             behavior={'position'}
             keyboardVerticalOffset={30}>
-            <InputContainer onPress={() => inputRef.current?.focus()}>
+            <InputContainer
+                isFocused={isFocused}
+                onPress={() => ref?.current && ref?.current?.focus()}>
                 {leftIconName && leftIconName}
-                <TextInput value={value} ref={inputRef} onChangeText={onChangeText} placeholder={placeholder} />
+                <TextInput
+                    onEndEditing={endEdditing}
+                    {...rest}
+                    value={value}
+                    ref={ref}
+                    onChangeText={onChangeText}
+                    placeholder={placeholder}
+                />
                 {rightIconName && rightIconName}
             </InputContainer>
         </KeyboardAvoidingView>
     );
-}
+});
+
 
 export default TextInputIcon;

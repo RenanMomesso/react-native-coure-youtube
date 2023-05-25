@@ -3,6 +3,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Entypo';
 import { Row } from '../../globalStyles/globalComponents';
 import Text from '../Text';
+import theme from '../../globalStyles/theme';
 
 export interface HeaderNavigationProps {
     leftIcon?: React.ReactElement | null;
@@ -22,7 +23,7 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = ({
     const handleGoBack = () => navigation.goBack();
     return (
         <Row style={{ gap: 8 }}>
-            {leftIcon ? leftIcon : <Icon testID='back-button' name="arrow-long-left" size={20} color="black" onPress={handleGoBack} />}
+            {leftIcon ? leftIcon : <Icon testID='back-button' name="arrow-long-left" size={20} color={theme.colors.black} onPress={handleGoBack} />}
             <Text size='heading' style={{ marginLeft: leftIcon ? 8 : 0 }} color='black'>{title}</Text>
             {rightIcon && rightIcon}
         </Row>

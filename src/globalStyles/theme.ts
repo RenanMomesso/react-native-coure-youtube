@@ -3,16 +3,18 @@ import { Dimensions } from 'react-native';
 const { scale, width } = Dimensions.get('window');
 export default {
   colors: {
-    black: '#101010',
+    normalBlack: '#000',
+    black: '#242424',
     lightBlack: '#151617',
     textBlackColor: '#242424',
-    disabledBlack: '#c4c3c3',
+    disabledBlack: '#cccc',
     white: '#FFF',
-    lightWhite: '#f7f7f7',
+    lightWhite: '#f7f7F2',
+    lightGray: '#f9f9f9',
   },
   sizes: {
     fontSize: {
-      small: Math.floor(width * 0.030),
+      small: Math.floor(width * 0.03),
       medium: Math.floor(width * 0.045),
       large: Math.floor(width * 0.085),
     },

@@ -56,6 +56,7 @@ const getStories = () => {
   return {
     "./src/components/Button/Button.stories.tsx": require("../src/components/Button/Button.stories.tsx"),
     "./src/components/HeaderNavigation/HeaderNavigation.stories.tsx": require("../src/components/HeaderNavigation/HeaderNavigation.stories.tsx"),
+    "./src/components/LineWithText/LineWithText.stories.tsx": require("../src/components/LineWithText/LineWithText.stories.tsx"),
     "./src/components/Text/Text.stories.tsx": require("../src/components/Text/Text.stories.tsx"),
   };
 };
