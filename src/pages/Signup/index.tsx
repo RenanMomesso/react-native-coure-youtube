@@ -6,7 +6,7 @@ import { RootStackParamList } from '../../navigations/RootNavigation';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Text from '../../components/Text';
 import TextInputIcon from '../../components/TextInputWithIcon';
-import { EmailIcon, PasswordIcon } from '../../components/TextInputWithIcon/TextInputWithIcon.styles';
+import { EmailIcon, IconEye, PasswordIcon } from '../../components/TextInputWithIcon/TextInputWithIcon.styles';
 import { Pressable } from 'react-native'
 import RememberMeCheckBox from './components/RememberMeCheckBox';
 import Button from '../../components/Button';
@@ -18,8 +18,11 @@ export type NavigationScreenProp = StackNavigationProp<RootStackParamList, Scree
 const SignupScreen = () => {
     const navigation: NavigationScreenProp = useNavigation();
     const [email, setEmail] = useState("")
+    const [emailFocused, setEmailFocused] = useState(false)
+    const [passwordFocused, setPasswordFocused] = useState(false)
     const [password, setPassword] = useState("")
     const [rememberMe, setRememberMe] = useState(false)
+    const [showSecuryTextEntry, setShowSecuryTextEntry] = useState(false)
 
     const emailRef = useRef<TextInput>(null);
     const passwordRef = useRef<TextInput>(null);
@@ -34,24 +37,34 @@ const SignupScreen = () => {
             <HeaderNavigation navigation={navigation} />
             <Text style={{ marginVertical: 40 }} size='heading' align='left' color='black' numberOfLines={2}>Create your {'\n'}account</Text>
             <TextInputIcon
-                isFocused={emailRef.current?.isFocused()}
+                isFocused={emailFocused}
+                keyboardType='email-address'
                 ref={emailRef}
                 placeholder='Email'
                 value={email}
                 onChangeText={setEmail}
                 leftIconName={<EmailIcon />}
+                returnKeyType='next'
                 endEdditing={() => passwordRef.current?.focus()}
+                onFocus={() => setEmailFocused(true)}
+                onBlur={() => setEmailFocused(false)}
             />
             <TextInputIcon
+                isFocused={passwordFocused}
                 placeholder='Password'
                 value={password}
                 onChangeText={setPassword}
                 leftIconName={<PasswordIcon />}
                 ref={passwordRef}
+                onFocus={() => setPasswordFocused(true)}
+                onBlur={() => setPasswordFocused(false)}
+                secureTextEntry={!showSecuryTextEntry}
+                rightIconName={<IconEye onPress={() => setShowSecuryTextEntry(!showSecuryTextEntry)} showPassword={showSecuryTextEntry} />}
             />
             <RememberMeCheckBox value={rememberMe} setValue={setRememberMe} />
             <Button text='Sign up' />
             <HorizontalLineWithText style={{ marginTop: 40 }} text='or continue with' />
+
         </Pressable>
     )
 }
