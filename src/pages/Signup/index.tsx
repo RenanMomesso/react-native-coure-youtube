@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { TextInput } from 'react-native'
+import { Alert, TextInput } from 'react-native'
 import HeaderNavigation from '../../components/HeaderNavigation';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../navigations/RootNavigation';
@@ -13,12 +13,20 @@ import Button from '@components/Button';
 import HorizontalLineWithText from '../../components/LineWithText';
 import Row from '../../globalStyles/globalComponents/Row';
 import { FaceBookSquareIcon, GoogleIcon } from '../../globalStyles/globalComponents';
+import { useMutation } from '@apollo/client';
+import { SignupMutation } from '../../graphql/mutations';
 
 type ScreenName = keyof RootStackParamList;
 export type NavigationScreenProp = StackNavigationProp<RootStackParamList, ScreenName>
 
 const SignupScreen = () => {
     const navigation: NavigationScreenProp = useNavigation();
+    const [handleSignupMutation, { loading }] = useMutation<{
+        variables: {
+            email: string,
+            password: string
+        }
+    }>(SignupMutation)
     const [email, setEmail] = useState("")
     const [emailFocused, setEmailFocused] = useState(false)
     const [passwordFocused, setPasswordFocused] = useState(false)
@@ -33,6 +41,28 @@ const SignupScreen = () => {
         emailRef?.current?.blur();
         passwordRef?.current?.blur();
     }
+
+    const handleSignUp = async () => {
+        try {
+            const { data, errors } = await handleSignupMutation({
+                variables: {
+                    data: {
+                        email: 2323,
+                        password
+                    }
+                }
+            })
+            console.log(data, errors, loading)
+            if (errors) {
+                Alert.alert("Error", 'errou')
+            } else {
+                Alert.alert("Success", "Sign up successfully")
+            }
+        } catch (error) {
+
+            Alert.alert("Error", (error as any)?.networkError?.result?.errors[0].message)
+        }
+    };
 
     return (
         <Pressable onPress={handleLoseFocus} style={{ paddingHorizontal: 20, paddingTop: 40, backgroundColor: "#FFF", flex: 1 }}>
@@ -50,8 +80,10 @@ const SignupScreen = () => {
                 endEdditing={() => passwordRef.current?.focus()}
                 onFocus={() => setEmailFocused(true)}
                 onBlur={() => setEmailFocused(false)}
+                placeholderTextColor={"lightgray"}
             />
             <TextInputIcon
+                placeholderTextColor={"lightgray"}
                 isFocused={passwordFocused}
                 placeholder='Password'
                 value={password}
@@ -64,7 +96,7 @@ const SignupScreen = () => {
                 rightIconName={<IconEye onPress={() => setShowSecuryTextEntry(!showSecuryTextEntry)} showPassword={showSecuryTextEntry} />}
             />
             <RememberMeCheckBox value={rememberMe} setValue={setRememberMe} />
-            <Button text='Sign up' />
+            <Button text='Sign up' onClick={handleSignUp} />
             <HorizontalLineWithText style={{ marginTop: 40, marginBottom: 10 }} text='or continue with' />
             <Row style={{ marginBottom: 10 }}>
                 <Button bgColor={"#FFF"} style={{ flex: 1 }} icon={<FaceBookSquareIcon />} />

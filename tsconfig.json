@@ -10,7 +10,8 @@
       "@assets/*": ["./assets/*"],
       "@utils/*": ["./src/utils/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@gcomponents/*": ["./src/globalStyles/globalComponents/*"]
+      "@gcomponents/*": ["./src/globalStyles/globalComponents/*"],
+      "@graphql/*": ["./src/graphql/*"]
     }
   }
 }

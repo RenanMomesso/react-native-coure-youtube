@@ -8,6 +8,7 @@ module.exports = {
         root: ['./src'],
         alias: {
           '@pages': './src/pages',
+          '@graphql': './src/graphql',
           '@components': './src/components',
           '@assets': './assets',
           '@utils': './src/utils',
