@@ -15,18 +15,19 @@ import Row from '../../globalStyles/globalComponents/Row';
 import { FaceBookSquareIcon, GoogleIcon } from '../../globalStyles/globalComponents';
 import { useMutation } from '@apollo/client';
 import { SignupMutation } from '../../graphql/mutations';
+import { MutationCreateUserArgs, ResponseMessage } from '@graphql/generated';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserAction } from '../../store/actions/userActions';
 
 type ScreenName = keyof RootStackParamList;
 export type NavigationScreenProp = StackNavigationProp<RootStackParamList, ScreenName>
 
 const SignupScreen = () => {
+    const user = useSelector((state: any) => state.user)
+    console.log("🚀 ~ file: index.tsx:27 ~ SignupScreen ~ user:", user)
+    const dispatch = useDispatch();
     const navigation: NavigationScreenProp = useNavigation();
-    const [handleSignupMutation, { loading }] = useMutation<{
-        variables: {
-            email: string,
-            password: string
-        }
-    }>(SignupMutation)
+    const [handleSignupMutation] = useMutation<ResponseMessage, MutationCreateUserArgs>(SignupMutation)
     const [email, setEmail] = useState("")
     const [emailFocused, setEmailFocused] = useState(false)
     const [passwordFocused, setPasswordFocused] = useState(false)
@@ -44,23 +45,24 @@ const SignupScreen = () => {
 
     const handleSignUp = async () => {
         try {
-            const { data, errors } = await handleSignupMutation({
-                variables: {
-                    data: {
-                        email: 2323,
-                        password
-                    }
-                }
-            })
-            console.log(data, errors, loading)
-            if (errors) {
-                Alert.alert("Error", 'errou')
-            } else {
-                Alert.alert("Success", "Sign up successfully")
-            }
+            // const { data, errors } = await handleSignupMutation({
+            //     variables: {
+            //         data: {
+            //             password,
+            //             email
+            //         }
+            //     }
+            // })
+            // if (errors) {
+            //     Alert.alert("Error", errors[0].message || 'Something went wrong')
+            //     return;
+            // }
+            // if (data?.success) {
+            dispatch(setUserAction({ email }))
+            // }
         } catch (error) {
-
-            Alert.alert("Error", (error as any)?.networkError?.result?.errors[0].message)
+            console.log({ error })
+            Alert.alert("Error", (error as any)?.networkError?.result?.errors[0].message || (error as Error).message || "Something went wrong")
         }
     };
 

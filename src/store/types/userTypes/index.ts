@@ -3,9 +3,14 @@ export const ONBOARDING_COMPLETE = 'ONBOARDING_COMPLETE';
 export const SET_USER = 'SET_USER';
 export const CLEAR_USER = 'CLEAR_USER';
 
+export interface IUser {
+  name?: string;
+  email?: string;
+}
+
 export type IUserInitialState = {
   onboardingComplete: boolean;
-  userInfo: object;
+  userInfo: IUser;
 };
 
 export interface IOnboardingCompleteAction {
@@ -14,7 +19,6 @@ export interface IOnboardingCompleteAction {
 
 export interface IClearOnboardingAction {
   type: typeof CLEAR_ONBOARDING;
-  payload: boolean;
 }
 
 export interface ISetUserAction {

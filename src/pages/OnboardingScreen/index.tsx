@@ -6,14 +6,10 @@ import OnboardingItem from './components/OnboardingItem';
 import Button from '../../components/Button';
 import Paginator from './components/Paginator';
 import SkipSlides from './components/Skip';
-import { NavigationProp } from '@react-navigation/native';
-import { saveDataToStorage } from '../../utils/AsyncStorageUtils';
 import { useDispatch } from "react-redux"
+import { onBoardingCompleted } from '../../store/actions/userActions';
 
-interface IOnboardingScreenProps {
-    navigation: NavigationProp<any>;
-}
-const OnboardingScreen = ({ navigation }: IOnboardingScreenProps) => {
+const OnboardingScreen = () => {
     const dispatch = useDispatch()
     const flatListRef = React.useRef<FlatList>(null);
     const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -39,7 +35,7 @@ const OnboardingScreen = ({ navigation }: IOnboardingScreenProps) => {
     const buttonTitle = currentIndex === onboardingData.length - 1 ? 'Get Started' : 'Next';
 
     const navigationToLogin = async () => {
-        dispatch({ type: "ONBOARDING_COMPLETE", payload: true })
+        dispatch(onBoardingCompleted())
     };
 
     return (

@@ -6,42 +6,37 @@ import OnboardingScreen from '../pages/OnboardingScreen'
 import { useSelector } from 'react-redux'
 import SignupScreen from '@pages/Signup'
 import SigninPassword from '@pages/SigninPassword'
-
-export type RootStackParamList = {
-    Home: undefined
-    Signin: undefined
-    Signup: undefined
-    SigninPassword: undefined
-    Onboarding: undefined
-}
+import { RootState } from 'src/store'
+import { RootStackParamList } from 'src/dtos'
 
 const RootNavigation = () => {
-    const userReducer = useSelector((state: any) => state.user)
+    const userReducer = useSelector((state: RootState) => state.user)
+    console.log("🚀 ~ file: RootNavigation.tsx:20 ~ RootNavigation ~ userReducer:", userReducer)
     const Stack = createStackNavigator<RootStackParamList>()
     const stackNavigationOptions: StackNavigationOptions = {
         headerShown: false,
     }
 
     let stackScreen = null;
-    const user = userReducer.user
+    const onboardingComplete = userReducer.onboardingComplete
+    const userInfo = userReducer.userInfo
+    console.log("🚀 ~ file: RootNavigation.tsx:23 ~ RootNavigation ~ userInfo:", !userInfo?.email.length)
 
-    if (userReducer.onboardingComplete === false) {
-        stackScreen = (
-            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-        )
-    }
-
-    if (user) {
-        stackScreen = (
-            <Stack.Screen name="Home" component={Home} />
-        )
-    } else {
+    if (onboardingComplete && !userInfo?.email.length) {
         stackScreen = (
             <>
                 <Stack.Screen name="Signin" component={Signin} />
                 <Stack.Screen name="Signup" component={SignupScreen} />
                 <Stack.Screen name="SigninPassword" component={SigninPassword} />
             </>
+        )
+    } else if (onboardingComplete && userInfo?.email.length) {
+        stackScreen = (
+            <Stack.Screen name="Home" component={Home} />
+        )
+    } else {
+        stackScreen = (
+            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         )
     }
 

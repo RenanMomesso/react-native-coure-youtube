@@ -9,7 +9,10 @@ import {
 
 const userInitialState: IUserInitialState = {
   onboardingComplete: false,
-  userInfo: {},
+  userInfo: {
+    name: '',
+    email: '',
+  },
 };
 
 const userReducer = (
@@ -28,6 +31,9 @@ const userReducer = (
         ...state,
         userInfo: {},
       };
+    case 'CLEAR_EVERYTHING': {
+      return userInitialState;
+    }
     default:
       return state;
   }

@@ -7,6 +7,7 @@ module.exports = {
       {
         root: ['./src'],
         alias: {
+          'src': './src',
           '@pages': './src/pages',
           '@graphql': './src/graphql',
           '@components': './src/components',
