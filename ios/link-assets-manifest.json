@@ -2,6 +2,22 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/Inter-Bold.ttf",
+      "sha1": "444cdca680f8ce64c16fe5a606dcfbe4b33e7925"
+    },
+    {
+      "path": "assets/fonts/Inter-Medium.ttf",
+      "sha1": "9674d43c8207459a432863c47c3858d2244c19ec"
+    },
+    {
+      "path": "assets/fonts/Inter-Regular.ttf",
+      "sha1": "c2767d146c3c10fe6c9b8ac0f181ef907c111f19"
+    },
+    {
+      "path": "assets/fonts/Inter-SemiBold.ttf",
+      "sha1": "acda92adc6cf8c67c89395c65f371a4d2b05a783"
+    },
+    {
       "path": "assets/fonts/Poppins-Medium.ttf",
       "sha1": "283f21b44efbdbf276ba802be2d949a36bbc4233"
     },
@@ -12,62 +28,6 @@
     {
       "path": "assets/fonts/Poppins-SemiBold.ttf",
       "sha1": "8a4ace9392d06bcb7f8ea2f5169b07e4c383a90d"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-Bold.ttf",
-      "sha1": "d686ac429ff50e2ea83e898960f3fee3dc5bd8d0"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-BoldItalic.ttf",
-      "sha1": "c7aaaabf3f980c463c6b5494ceed42c723874717"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-ExtraLight.ttf",
-      "sha1": "ebfcb10463bc7ddf5e6a6267f42de11be504c19d"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-ExtraLightItalic.ttf",
-      "sha1": "3e07959f150c0573d0fa08ebe23d6e549d361ff9"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-Italic.ttf",
-      "sha1": "459538e4665069f7176189e4ab13388afa8280c4"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-Light.ttf",
-      "sha1": "db25896dd20883e7cbaa290f319008901e6e296b"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-LightItalic.ttf",
-      "sha1": "883475134ada9c9527a6d2f2cfcc8b80eaf2f9e6"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-Medium.ttf",
-      "sha1": "1946f62c36b95d99e72ac9e605209635194b5164"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-MediumItalic.ttf",
-      "sha1": "bb91fb47c5d02d88c81fb2dbc38976dd25a655b3"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-Regular.ttf",
-      "sha1": "e58b156099b36bcb5fb6f10b58f82ac8639d0466"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-SemiBold.ttf",
-      "sha1": "846d0f722857c7492f4dd88a7d4a4cbd912abedc"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-SemiBoldItalic.ttf",
-      "sha1": "77471dfa0a1567d2601da132f8e72bab50dc37c0"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-Thin.ttf",
-      "sha1": "d44af321bd53270714a712521a03515b75bf25e6"
-    },
-    {
-      "path": "assets/fonts/RobotoMono-ThinItalic.ttf",
-      "sha1": "e10a93cedc292ae6717a726451ddc09049cbd708"
     }
   ]
 }

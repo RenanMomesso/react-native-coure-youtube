@@ -14,15 +14,15 @@ export default {
   },
   sizes: {
     fontSize: {
-      small: Math.floor(width * 0.03),
+      small: Math.floor(width * 0.032),
       medium: Math.floor(width * 0.045),
       large: Math.floor(width * 0.085),
     },
     fontFamily: {
-      RobotoBold: 'RobotoMono-Bold',
-      RobotoRegular: 'RobotoMono-Regular',
-      RobotoMedium: 'RobotoMono-Medium',
-      RoboSemiBold: 'RobotoMono-SemiBold',
+      InterBold: 'Inter-Bold',
+      InterRegular: 'Inter-Regular',
+      InterMedium: 'Inter-Medium',
+      InterSemiBold: 'Inter-SemiBold',
       PoppinsRegular: 'Poppins-Regular',
       PoppinsSemiBold: 'Poppins-SemiBold',
       PoppinsMedium: 'Poppins-Medium',

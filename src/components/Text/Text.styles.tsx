@@ -24,7 +24,8 @@ export const modifier = {
   button: (color: IColors) => css`
         font-size: ${({ theme }) => theme.sizes.fontSize.small || 12}px;
         color: ${({ theme }) => colorModifier[color]};
-        font-family: ${({ theme }) => theme?.sizes?.fontFamily.PoppinsSemiBold};
+        font-family: ${({ theme }) => theme?.sizes?.fontFamily.InterSemiBold};
+        letter-spacing: 0.5px;
     `,
 }
 
