@@ -12,7 +12,7 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './src/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Loading from './src/components/Loading';
-
+import ApolloProviderWrapper from './src/providers/ApolloProvider';
 
 const IS_STORYBOOK = false
 const App: React.FC = () => {
@@ -22,17 +22,19 @@ const App: React.FC = () => {
             <ThemeProvider>
                 <Provider store={store}>
                     <PersistGate loading={<Loading />} persistor={persistor}>
-                        <SafeAreaView style={{ flex: 1 }}>
-                            <StatusBar
-                                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                                backgroundColor={'#fff'}
-                            />
-                            <RootNavigation />
-                        </SafeAreaView>
+                        <ApolloProviderWrapper>
+                            <SafeAreaView style={{ flex: 1 }}>
+                                <StatusBar
+                                    barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+                                    backgroundColor={'#fff'}
+                                />
+                                <RootNavigation />
+                            </SafeAreaView>
+                        </ApolloProviderWrapper>
                     </PersistGate>
                 </Provider>
             </ThemeProvider>
-        </GestureHandlerRootView>
+        </GestureHandlerRootView >
     );
 };
 
