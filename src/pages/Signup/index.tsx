@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { Alert, TextInput } from 'react-native'
 import HeaderNavigation from '../../components/HeaderNavigation';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../../navigations/RootNavigation';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Text from '../../components/Text';
 import TextInputIcon from '../../components/TextInputWithIcon';
@@ -13,21 +12,18 @@ import Button from '@components/Button';
 import HorizontalLineWithText from '../../components/LineWithText';
 import Row from '../../globalStyles/globalComponents/Row';
 import { FaceBookSquareIcon, GoogleIcon } from '../../globalStyles/globalComponents';
-import { useMutation } from '@apollo/client';
-import { SignupMutation } from '../../graphql/mutations';
-import { MutationCreateUserArgs, ResponseMessage } from '@graphql/generated';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserAction } from '../../store/actions/userActions';
+import { RootStackParamList } from 'src/dtos';
+import { login, signUp } from 'src/services/auth-service';
 
 type ScreenName = keyof RootStackParamList;
 export type NavigationScreenProp = StackNavigationProp<RootStackParamList, ScreenName>
 
 const SignupScreen = () => {
     const user = useSelector((state: any) => state.user)
-    console.log("🚀 ~ file: index.tsx:27 ~ SignupScreen ~ user:", user)
     const dispatch = useDispatch();
     const navigation: NavigationScreenProp = useNavigation();
-    const [handleSignupMutation] = useMutation<ResponseMessage, MutationCreateUserArgs>(SignupMutation)
     const [email, setEmail] = useState("")
     const [emailFocused, setEmailFocused] = useState(false)
     const [passwordFocused, setPasswordFocused] = useState(false)
@@ -45,21 +41,18 @@ const SignupScreen = () => {
 
     const handleSignUp = async () => {
         try {
-            // const { data, errors } = await handleSignupMutation({
-            //     variables: {
-            //         data: {
-            //             password,
-            //             email
-            //         }
-            //     }
-            // })
-            // if (errors) {
-            //     Alert.alert("Error", errors[0].message || 'Something went wrong')
-            //     return;
-            // }
-            // if (data?.success) {
-            dispatch(setUserAction({ email }))
-            // }
+            const result = await signUp(email, password)
+            console.log({ result })
+            if (result?.token) {
+                dispatch(setUserAction({
+                    email: result.email,
+                    token: result.token,
+                    id: result.id,
+                    name: result.fullname,
+                }))
+            }
+
+
         } catch (error) {
             console.log({ error })
             Alert.alert("Error", (error as any)?.networkError?.result?.errors[0].message || (error as Error).message || "Something went wrong")

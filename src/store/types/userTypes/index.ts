@@ -6,6 +6,8 @@ export const CLEAR_USER = 'CLEAR_USER';
 export interface IUser {
   name?: string;
   email?: string;
+  token?: string;
+  id?: string;
 }
 
 export type IUserInitialState = {

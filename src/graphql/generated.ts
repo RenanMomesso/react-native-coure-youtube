@@ -28,10 +28,16 @@ export type Address = {
   zipcode: Scalars['String']['output'];
 };
 
+export type LoginUserInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: ResponseMessage;
   updateUser: ResponseMessage;
+  userLogin: ResponseLoginUser;
 };
 
 
@@ -45,6 +51,11 @@ export type MutationUpdateUserArgs = {
   id: Scalars['String']['input'];
 };
 
+
+export type MutationUserLoginArgs = {
+  data: LoginUserInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   getUser: User;
@@ -54,6 +65,18 @@ export type Query = {
 
 export type QueryGetUserArgs = {
   id: Scalars['String']['input'];
+};
+
+/** The response from the server after creating a user */
+export type ResponseLoginUser = {
+  __typename?: 'ResponseLoginUser';
+  email: Scalars['String']['output'];
+  fullname: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+  token: Scalars['String']['output'];
 };
 
 /** The response from the server after creating a user */

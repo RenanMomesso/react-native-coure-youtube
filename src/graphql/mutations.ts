@@ -8,3 +8,16 @@ export const SignupMutation = gql`
     }
   }
 `;
+
+export const LoginMutation = gql`
+  mutation UserLogin($data: LoginUserInput!) {
+    userLogin(data: $data) {
+      token
+      email
+      id
+      success
+      message
+      fullname
+    }
+  }
+`;

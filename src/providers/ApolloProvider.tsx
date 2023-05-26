@@ -1,10 +1,5 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-
-const client = new ApolloClient({
-    uri: 'https://74ab-2804-7f0-b901-f763-e594-2691-80f1-de5e.ngrok-free.app/',
-    cache: new InMemoryCache(),
-});
-
+import { ApolloProvider } from '@apollo/client';
+import { client } from '@utils/client';
 
 const ApolloProviderWrapper = ({ children }: { children: React.ReactNode }) => {
     return (

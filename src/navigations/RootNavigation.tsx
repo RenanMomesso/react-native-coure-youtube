@@ -20,9 +20,8 @@ const RootNavigation = () => {
     let stackScreen = null;
     const onboardingComplete = userReducer.onboardingComplete
     const userInfo = userReducer.userInfo
-    console.log("🚀 ~ file: RootNavigation.tsx:23 ~ RootNavigation ~ userInfo:", !userInfo?.email.length)
 
-    if (onboardingComplete && !userInfo?.email.length) {
+    if (onboardingComplete && !userInfo?.email?.length) {
         stackScreen = (
             <>
                 <Stack.Screen name="Signin" component={Signin} />
@@ -30,7 +29,7 @@ const RootNavigation = () => {
                 <Stack.Screen name="SigninPassword" component={SigninPassword} />
             </>
         )
-    } else if (onboardingComplete && userInfo?.email.length) {
+    } else if (onboardingComplete && userInfo?.email?.length) {
         stackScreen = (
             <Stack.Screen name="Home" component={Home} />
         )
