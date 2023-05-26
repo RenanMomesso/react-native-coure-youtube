@@ -10,8 +10,6 @@ interface IButtonProps extends TouchableOpacityProps {
     bgColor?: string;
     textColor?: IColors;
     circle?: boolean;
-
-
 }
 
 const Button: React.FC<IButtonProps> = ({ onClick, text = null, icon = null, bgColor, textColor, circle, ...rest }) => {

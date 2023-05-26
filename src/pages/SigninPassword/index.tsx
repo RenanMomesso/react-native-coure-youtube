@@ -1,16 +1,102 @@
-import React from 'react';
-import { View } from 'react-native';
-import { Container } from '../../globalStyles/globalComponents';
+import React, { useState, useRef } from 'react';
+import { Alert, TextInput } from 'react-native'
 import HeaderNavigation from '../../components/HeaderNavigation';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import Text from '../../components/Text';
+import TextInputIcon from '../../components/TextInputWithIcon';
+import { EmailIcon, IconEye, PasswordIcon } from '../../components/TextInputWithIcon/TextInputWithIcon.styles';
+import { Pressable } from 'react-native'
+import RememberMeCheckBox from '@components/CheckBoxAndText/RememberMeCheckBox';
+import Button from '@components/Button';
+import HorizontalLineWithText from '../../components/LineWithText';
+import { useDispatch } from 'react-redux';
+import { setUserAction } from '../../store/actions/userActions';
+import { RootStackParamList } from 'src/dtos';
+import { signUp } from 'src/services/auth-service';
+import LoginWithSocials from '@components/LoginWithSocials';
 
-// import { Container } from './styles';
+type ScreenName = keyof RootStackParamList;
+export type NavigationScreenProp = StackNavigationProp<RootStackParamList, ScreenName>
 
-const SigninPassword: React.FC = ({ navigation }) => {
+const SigninWithPassword = () => {
+    const dispatch = useDispatch();
+    const navigation: NavigationScreenProp = useNavigation();
+    const [email, setEmail] = useState("")
+    const [emailFocused, setEmailFocused] = useState(false)
+    const [passwordFocused, setPasswordFocused] = useState(false)
+    const [password, setPassword] = useState("")
+    const [rememberMe, setRememberMe] = useState(false)
+    const [showSecuryTextEntry, setShowSecuryTextEntry] = useState(false)
+
+    const emailRef = useRef<TextInput>(null);
+    const passwordRef = useRef<TextInput>(null);
+
+    const handleLoseFocus = () => {
+        emailRef?.current?.blur();
+        passwordRef?.current?.blur();
+    }
+
+    const handleSignin = async () => {
+        try {
+            const result = await signUp(email, password)
+            if (result?.token) {
+                dispatch(setUserAction({
+                    email: result.email,
+                    token: result.token,
+                    id: result.id,
+                    name: result.fullname,
+                }))
+            }
+        } catch (error) {
+            Alert.alert("Error", (error as any)?.networkError?.result?.errors[0].message || (error as Error).message || "Something went wrong")
+        }
+    };
+
+    const disabledButton = !email.length || !password.length;
+
     return (
-        <Container>
-            <HeaderNavigation title='Sign in' navigation={navigation} />
-        </Container>
+        <Pressable onPress={handleLoseFocus} style={{ paddingHorizontal: 20, paddingTop: 40, backgroundColor: "#FFF", flex: 1 }}>
+            <HeaderNavigation navigation={navigation} />
+            <Text style={{ marginVertical: 40 }} size='heading' align='left' color='black' numberOfLines={2}>Login to your {'\n'}account</Text>
+            <TextInputIcon
+                isFocused={emailFocused}
+                keyboardType='email-address'
+                ref={emailRef}
+                placeholder='Email'
+                value={email}
+                onChangeText={setEmail}
+                leftIconName={<EmailIcon isFocused={emailFocused || !!email.length} />}
+                returnKeyType='next'
+                endEdditing={() => passwordRef.current?.focus()}
+                onFocus={() => setEmailFocused(true)}
+                onBlur={() => setEmailFocused(false)}
+                placeholderTextColor={"lightgray"}
+            />
+            <TextInputIcon
+                placeholderTextColor={"lightgray"}
+                isFocused={passwordFocused}
+                placeholder='Password'
+                value={password}
+                onChangeText={setPassword}
+                leftIconName={<PasswordIcon isFocused={passwordFocused || !!password.length} />}
+                ref={passwordRef}
+                onFocus={() => setPasswordFocused(true)}
+                onBlur={() => setPasswordFocused(false)}
+                secureTextEntry={!showSecuryTextEntry}
+                rightIconName={<IconEye isFocused={passwordFocused || !!password.length} onPress={() => setShowSecuryTextEntry(!showSecuryTextEntry)} showPassword={showSecuryTextEntry} />}
+            />
+            <RememberMeCheckBox value={rememberMe} setValue={setRememberMe} text='Remember me' />
+            <Button style={{ opacity: disabledButton ? 0.5 : 1, marginBottom: 20 }} disabled={disabledButton} text='Sign in' onClick={handleSignin} />
+            <Text color='bolder'>Forgot the password?</Text>
+            <HorizontalLineWithText style={{ marginTop: 40, marginBottom: 10 }} text='or continue with' />
+            <LoginWithSocials />
+            <Text color='disabled' onPress={() => navigation.navigate('SigninPassword')}>
+                Already have any account?
+                <Text color='black'> Sign in</Text>
+            </Text>
+        </Pressable>
     )
 }
 
-export default SigninPassword;
+export default SigninWithPassword;

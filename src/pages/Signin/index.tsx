@@ -2,11 +2,10 @@ import React from 'react';
 import { Container, FaceBookSquareIcon, GoogleIcon } from '../../globalStyles/globalComponents';
 import { ContainerImage, ImageStyled } from './Signin.styles'
 import Button from '../../components/Button';
-import Anticon from 'react-native-vector-icons/AntDesign'
 import HorizontalLineWithText from '../../components/LineWithText';
 import Text from '../../components/Text';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../navigations/RootNavigation';
+import { RootStackParamList } from 'src/dtos';
 type ScreenName = keyof RootStackParamList;
 interface ISignProps {
     navigation: StackNavigationProp<RootStackParamList, ScreenName> | any;

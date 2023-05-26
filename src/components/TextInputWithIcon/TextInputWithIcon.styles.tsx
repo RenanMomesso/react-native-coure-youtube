@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 interface IconEyeProps {
   showPassword?: boolean;
+  isFocused?: boolean;
 }
 
 export const InputContainer = styled.TouchableOpacity.attrs({
@@ -31,21 +32,23 @@ export const TextInput = styled.TextInput.attrs({
   top: 1px;
 `;
 
-export const EmailIcon = styled(Icon).attrs({
+export const EmailIcon = styled(Icon).attrs((props: { isFocused?: boolean }) => ({
   name: 'email',
   size: 20,
-  color: theme.colors.black,
-})``
+  color: props.isFocused ? theme.colors.black : theme.colors.disabledBlack,
+  ...props
+}))``
 
-export const PasswordIcon = styled(Icon).attrs({
+export const PasswordIcon = styled(Icon).attrs((props: { isFocused?: boolean }) => ({
   name: 'lock',
   size: 20,
-  color: theme.colors.black,
-})``
+  color: props.isFocused ? theme.colors.black : theme.colors.disabledBlack,
+  ...props
+}))``
 
 export const IconEye = styled(Icon).attrs((props: IconEyeProps) => ({
   name: props.showPassword ? 'eye-off' : 'eye',
   size: 20,
-  color: theme.colors.black,
+  color: props.isFocused ? theme.colors.black : theme.colors.disabledBlack,
   ...props
 }))``;

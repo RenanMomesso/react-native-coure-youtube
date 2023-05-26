@@ -13,7 +13,7 @@ describe('HorizontalLineWithText', () => {
         expect(middleText).toBeTruthy();
         expect(lines).toHaveLength(2);
         expect(lines[0].props.style).toHaveProperty('flexGrow', 1);
-        expect(lines[1].props.style).toHaveProperty('backgroundColor', "#c4c3c3" || "#CCC");
+        expect(lines[1].props.style).toHaveProperty('backgroundColor', "#cccc");
 
 
     });

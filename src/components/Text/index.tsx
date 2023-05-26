@@ -7,6 +7,7 @@ export enum FontFamily {
     'Poppins-Regular' = 'Poppins-Regular',
     'Poppins-Medium' = 'Poppins-Medium',
     'RobotoMono-Bold' = 'RobotoBold',
+    'Inter-SemiBold' = 'Inter-SemiBold',
 }
 
 export type IColors = 'white' | 'black' | 'disabled' | 'bolder';

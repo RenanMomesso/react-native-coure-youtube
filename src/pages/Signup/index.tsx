@@ -7,7 +7,7 @@ import Text from '../../components/Text';
 import TextInputIcon from '../../components/TextInputWithIcon';
 import { EmailIcon, IconEye, PasswordIcon } from '../../components/TextInputWithIcon/TextInputWithIcon.styles';
 import { Pressable } from 'react-native'
-import RememberMeCheckBox from './components/RememberMeCheckBox';
+import RememberMeCheckBox from '@components/CheckBoxAndText/RememberMeCheckBox';
 import Button from '@components/Button';
 import HorizontalLineWithText from '../../components/LineWithText';
 import Row from '../../globalStyles/globalComponents/Row';
@@ -90,7 +90,7 @@ const SignupScreen = () => {
                 secureTextEntry={!showSecuryTextEntry}
                 rightIconName={<IconEye onPress={() => setShowSecuryTextEntry(!showSecuryTextEntry)} showPassword={showSecuryTextEntry} />}
             />
-            <RememberMeCheckBox value={rememberMe} setValue={setRememberMe} />
+            <RememberMeCheckBox value={rememberMe} setValue={setRememberMe} text='Remember me'/>
             <Button text='Sign up' onClick={handleSignUp} />
             <HorizontalLineWithText style={{ marginTop: 40, marginBottom: 10 }} text='or continue with' />
             <Row style={{ marginBottom: 10 }}>
