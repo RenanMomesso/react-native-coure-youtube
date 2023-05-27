@@ -13,7 +13,7 @@ import HorizontalLineWithText from '../../components/LineWithText';
 import { useDispatch } from 'react-redux';
 import { setUserAction } from '../../store/actions/userActions';
 import { RootStackParamList } from 'src/dtos';
-import { signUp } from 'src/services/auth-service';
+import { login, signUp } from 'src/services/auth-service';
 import LoginWithSocials from '@components/LoginWithSocials';
 
 type ScreenName = keyof RootStackParamList;
@@ -39,7 +39,8 @@ const SigninWithPassword = () => {
 
     const handleSignin = async () => {
         try {
-            const result = await signUp(email, password)
+            const result = await login(email, password)
+            console.log("🚀 ~ file: index.tsx:43 ~ handleSignin ~ result:", result)
             if (result?.token) {
                 dispatch(setUserAction({
                     email: result.email,

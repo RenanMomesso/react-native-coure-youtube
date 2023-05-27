@@ -1,8 +1,10 @@
 import React from 'react';
 import { Container, FaceBookSquareIcon, GoogleIcon } from '../../globalStyles/globalComponents';
-import { ContainerImage, ImageStyled } from './Signin.styles'
+import { ContainerBackground, ContainerImage, ImageStyled } from './Signin.styles'
 import Button from '../../components/Button';
+import Anticon from 'react-native-vector-icons/AntDesign'
 import HorizontalLineWithText from '../../components/LineWithText';
+import { View } from 'react-native'
 import Text from '../../components/Text';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'src/dtos';
@@ -18,20 +20,22 @@ const Signin = ({ navigation }: ISignProps) => {
     }
 
     return (
-        <Container style={{ paddingHorizontal: 20, paddingTop: 40, }}>
-            <ContainerImage>
-                <ImageStyled />
-            </ContainerImage>
-            <Text style={{ marginVertical: 10 }} size='heading' color='black'>Sign in</Text>
-            <Button icon={<FaceBookSquareIcon />} text='Continue with Facebook' textColor='black' bgColor='#FFF' />
-            <Button icon={<GoogleIcon />} text='Continue with Google' textColor='black' bgColor='#FFF' />
-            <HorizontalLineWithText text='or' marginVertical={20} />
-            <Button onClick={() => navigateTo("SigninPassword")} text='Sign in with password' textColor='white' bgColor='#000' />
-            <Text color='disabled' onPress={() => navigateTo("Signup")}>
-                Don't have any account?
-                <Text color='black'> Sign up</Text>
-            </Text>
-        </Container>
+        <ContainerBackground>
+            <View style={{ paddingHorizontal: 20, paddingTop: 40, }}>
+                <ContainerImage>
+                    {/* <ImageStyled /> */}
+                </ContainerImage>
+                <Text style={{ marginVertical: 10 }} size='heading' >Sign in</Text>
+                <Button icon={<FaceBookSquareIcon />} text='Continue with Facebook' textColor='black' bgColor='#FFF' />
+                <Button icon={<GoogleIcon />} text='Continue with Google' textColor='black' bgColor='#FFF' />
+                <HorizontalLineWithText textColor='white' text='or' marginVertical={20} lineColor='#FFF' />
+                <Button onClick={() => navigateTo("SigninPassword")} text='Sign in with password' textColor='white' bgColor='#000' />
+                <Text onPress={() => navigateTo("Signup")}>
+                    Don't have any account?
+                    <Text color='black'> Sign up</Text>
+                </Text>
+            </View>
+        </ContainerBackground>
     )
 }
 

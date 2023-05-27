@@ -8,7 +8,7 @@ import { LoginMutation, SignupMutation } from '@graphql/mutations';
 import { client } from '@utils/client';
 import { Alert } from 'react-native';
 
-interface ISignupResponse {
+export interface ISignupResponse {
   createUser: ResponseMessage;
 }
 
@@ -23,6 +23,7 @@ interface IResponseLoginUser {
   email?: string;
   id?: string;
   fullname?: string;
+  firstTimeLogging?: boolean;
 }
 
 export async function signUp(
@@ -55,6 +56,7 @@ export async function signUp(
         token: loginResponse.token,
         email: loginResponse.email,
         id: loginResponse.id,
+        firstTimeLogging: loginResponse.firstTimeLogging,
       };
     } else {
       return {
@@ -91,7 +93,6 @@ export async function login(
         message: errors![0].message!,
       };
     }
-    console.log('user login', data?.userLogin);
     return {
       success: data?.userLogin.success!,
       message: data?.userLogin.message!,
@@ -101,6 +102,7 @@ export async function login(
       fullname: data?.userLogin.fullname!,
     };
   } catch (error) {
+    console.log({ error });
     Alert.alert('Error', (error as Error).message);
     return {
       success: false,

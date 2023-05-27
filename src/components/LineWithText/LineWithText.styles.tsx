@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import Text from '../Text';
+import Text, { IColors } from '../Text';
 
 export const Container = styled.View<{ marginVertical: number }>`
   flex-direction: row;
@@ -10,14 +10,15 @@ export const Container = styled.View<{ marginVertical: number }>`
 
 export const Line = styled.View.attrs({
   testID: 'lineWithText-line'
-})`
+}) <{ lineColor?: string }>`
   flex: 1;
-  height: 1px;
-  background-color: ${({ theme }) => theme.colors.disabledBlack};
+  height: 2px;
+  background-color: ${({ theme, lineColor }) => lineColor || theme.colors.disabledBlack};
 `;
 
-export const TextStyled = styled(Text).attrs({
-  color: 'black'
-})`
+export const TextStyled = styled(Text).attrs((props: { selectedColor: IColors }) => ({
+  color: props.selectedColor || 'black',
+  ...props
+}))`
   margin-horizontal: 10px;
 `;

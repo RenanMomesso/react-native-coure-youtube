@@ -16,7 +16,7 @@ export default {
     fontSize: {
       small: Math.floor(width * 0.032),
       medium: Math.floor(width * 0.045),
-      large: Math.floor(width * 0.085),
+      large: Math.floor(width * 0.095),
     },
     fontFamily: {
       InterBold: 'Inter-Bold',

@@ -90,7 +90,7 @@ const SignupScreen = () => {
                 secureTextEntry={!showSecuryTextEntry}
                 rightIconName={<IconEye onPress={() => setShowSecuryTextEntry(!showSecuryTextEntry)} showPassword={showSecuryTextEntry} />}
             />
-            <RememberMeCheckBox value={rememberMe} setValue={setRememberMe} text='Remember me'/>
+            <RememberMeCheckBox value={rememberMe} setValue={setRememberMe} text='Remember me' />
             <Button text='Sign up' onClick={handleSignUp} />
             <HorizontalLineWithText style={{ marginTop: 40, marginBottom: 10 }} text='or continue with' />
             <Row style={{ marginBottom: 10 }}>

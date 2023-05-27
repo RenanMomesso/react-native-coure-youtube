@@ -13,10 +13,10 @@ const colorModifier = {
 export const modifier = {
   heading: (color: IColors) => css`
         font-size: ${({ theme }) => theme?.sizes?.fontSize?.large || 24}px;
-        line-height: 36px;
         letter-spacing: 0.1px;
         color: ${({ theme }) => colorModifier[color]};
         font-family: ${({ theme }) => theme?.sizes?.fontFamily?.PoppinsSemiBold || 'Poppins-SemiBold'};
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   `,
   text: (color: IColors) => css`
       color: ${({ theme }) => colorModifier[color]};
