@@ -20,11 +20,13 @@ export const modifier = {
   `,
   text: (color: IColors) => css`
       color: ${({ theme }) => colorModifier[color]};
+      font-family: ${({ theme }) => theme?.sizes?.fontFamily?.InterMedium || 'Poppins-SemiBold'};
+      /* font-size: ${({ theme }) => theme?.sizes?.fontSize?.medium || 16}px; */
   `,
   button: (color: IColors) => css`
         font-size: ${({ theme }) => theme.sizes.fontSize.small || 12}px;
         color: ${({ theme }) => colorModifier[color]};
-        font-family: ${({ theme }) => theme?.sizes?.fontFamily.InterSemiBold};
+        font-family: ${({ theme }) => theme?.sizes?.fontFamily.InterBold};
         letter-spacing: 0.5px;
     `,
 }

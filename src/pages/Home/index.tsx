@@ -18,7 +18,6 @@ const Home: React.FC = () => {
     }, [])
     const navigation = useNavigation<NavigationScreenProp>()
     const clearStorageDevice = () => {
-        Alert.alert('Clear storage', 'Are you sure you want to clear the storage device?')
         dispatch({
             type: "CLEAR_EVERYTHING"
         })
@@ -28,7 +27,7 @@ const Home: React.FC = () => {
         <Container>
             <Text onPress={() => sharedValue.value = Math.random() * 10}>Testing shared Value</Text>
             <Animated.Text style={animationFont} onPress={() => navigation.navigate('Signin')}>Homasde</Animated.Text>
-            <Button bgColor='red' onClick={clearStorageDevice} text='Cleaasdasdr storage' />
+            <Button bgColor='red' onClick={clearStorageDevice} text='Clear storage' />
         </Container>
     )
 }

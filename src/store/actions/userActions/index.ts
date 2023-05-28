@@ -1,10 +1,13 @@
 import {
   CLEAR_ONBOARDING,
+  CLEAR_STORE,
   IClearOnboardingAction,
+  IClearStoreAction,
   IOnboardingCompleteAction,
   ISetUserAction,
   IUser,
   ONBOARDING_COMPLETE,
+  SET_USER,
 } from '../../types';
 
 export const clearOnboarding = (): IClearOnboardingAction => {
@@ -19,9 +22,16 @@ export const onBoardingCompleted = (): IOnboardingCompleteAction => {
   };
 };
 
-export const setUserAction = (user: IUser): ISetUserAction => {
+export const clearUserAction = (): IClearStoreAction => {
   return {
-    type: 'SET_USER',
+    type: CLEAR_STORE,
+  };
+};
+
+export const setUserAction = (user: IUser): ISetUserAction => {
+  console.log(JSON.stringify({ ...user }), undefined, 3);
+  return {
+    type: SET_USER,
     payload: { ...user },
   };
 };

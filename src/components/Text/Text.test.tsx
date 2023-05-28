@@ -25,7 +25,7 @@ describe('Text', () => {
     const customFontElement = getByTestId('custom-font');
     expect(customFontElement.props.style).toHaveProperty(
       'fontFamily',
-      FontFamily['Inter-SemiBold']
+      FontFamily['Inter-Bold']
     );
   });
 });

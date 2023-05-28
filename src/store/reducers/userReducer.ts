@@ -5,6 +5,7 @@ import {
   UserActionTypes,
   CLEAR_USER,
   SET_USER,
+  CLEAR_STORE,
 } from '../types/userTypes';
 
 const userInitialState: IUserInitialState = {
@@ -12,13 +13,16 @@ const userInitialState: IUserInitialState = {
   userInfo: {
     name: '',
     email: '',
+    firstTimeLogging: false,
+    token: '',
+    id: '',
   },
 };
 
 const userReducer = (
   state: IUserInitialState = userInitialState,
   action: UserActionTypes,
-) => {
+): IUserInitialState => {
   switch (action.type) {
     case ONBOARDING_COMPLETE:
       return { ...state, onboardingComplete: true };
@@ -31,7 +35,7 @@ const userReducer = (
         ...state,
         userInfo: {},
       };
-    case 'CLEAR_EVERYTHING': {
+    case CLEAR_STORE: {
       return userInitialState;
     }
     default:

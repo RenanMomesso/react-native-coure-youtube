@@ -4,32 +4,26 @@ import HeaderNavigation from '../../components/HeaderNavigation';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Text from '../../components/Text';
-import TextInputIcon from '../../components/TextInputWithIcon';
-import { EmailIcon, IconEye, PasswordIcon } from '../../components/TextInputWithIcon/TextInputWithIcon.styles';
 import { Pressable } from 'react-native'
 import RememberMeCheckBox from '@components/CheckBoxAndText/RememberMeCheckBox';
 import Button from '@components/Button';
 import HorizontalLineWithText from '../../components/LineWithText';
-import Row from '../../globalStyles/globalComponents/Row';
-import { FaceBookSquareIcon, GoogleIcon } from '../../globalStyles/globalComponents';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setUserAction } from '../../store/actions/userActions';
 import { RootStackParamList } from 'src/dtos';
-import { login, signUp } from 'src/services/auth-service';
+import { signUp } from 'src/services/auth-service';
+import AuthForm from '@pages/shared/AuthForm';
+import LoginWithSocials from '@components/LoginWithSocials';
 
 type ScreenName = keyof RootStackParamList;
 export type NavigationScreenProp = StackNavigationProp<RootStackParamList, ScreenName>
 
 const SignupScreen = () => {
-    const user = useSelector((state: any) => state.user)
     const dispatch = useDispatch();
     const navigation: NavigationScreenProp = useNavigation();
     const [email, setEmail] = useState("")
-    const [emailFocused, setEmailFocused] = useState(false)
-    const [passwordFocused, setPasswordFocused] = useState(false)
     const [password, setPassword] = useState("")
     const [rememberMe, setRememberMe] = useState(false)
-    const [showSecuryTextEntry, setShowSecuryTextEntry] = useState(false)
 
     const emailRef = useRef<TextInput>(null);
     const passwordRef = useRef<TextInput>(null);
@@ -42,61 +36,24 @@ const SignupScreen = () => {
     const handleSignUp = async () => {
         try {
             const result = await signUp(email, password)
-            console.log({ result })
-            if (result?.token) {
-                dispatch(setUserAction({
-                    email: result.email,
-                    token: result.token,
-                    id: result.id,
-                    name: result.fullname,
-                }))
-            }
-
-
+            if (result?.token) dispatch(setUserAction(result))
+            else Alert.alert("Error", "Something went wrong")
         } catch (error) {
-            console.log({ error })
             Alert.alert("Error", (error as any)?.networkError?.result?.errors[0].message || (error as Error).message || "Something went wrong")
         }
     };
+
+    const disabledButton = !email.length || !password.length;
 
     return (
         <Pressable onPress={handleLoseFocus} style={{ paddingHorizontal: 20, paddingTop: 40, backgroundColor: "#FFF", flex: 1 }}>
             <HeaderNavigation navigation={navigation} />
             <Text style={{ marginVertical: 40 }} size='heading' align='left' color='black' numberOfLines={2}>Create your {'\n'}account</Text>
-            <TextInputIcon
-                isFocused={emailFocused}
-                keyboardType='email-address'
-                ref={emailRef}
-                placeholder='Email'
-                value={email}
-                onChangeText={setEmail}
-                leftIconName={<EmailIcon />}
-                returnKeyType='next'
-                endEdditing={() => passwordRef.current?.focus()}
-                onFocus={() => setEmailFocused(true)}
-                onBlur={() => setEmailFocused(false)}
-                placeholderTextColor={"lightgray"}
-            />
-            <TextInputIcon
-                placeholderTextColor={"lightgray"}
-                isFocused={passwordFocused}
-                placeholder='Password'
-                value={password}
-                onChangeText={setPassword}
-                leftIconName={<PasswordIcon />}
-                ref={passwordRef}
-                onFocus={() => setPasswordFocused(true)}
-                onBlur={() => setPasswordFocused(false)}
-                secureTextEntry={!showSecuryTextEntry}
-                rightIconName={<IconEye onPress={() => setShowSecuryTextEntry(!showSecuryTextEntry)} showPassword={showSecuryTextEntry} />}
-            />
+            <AuthForm passwordRef={passwordRef} emailRef={emailRef} password={password} email={email} setEmail={setEmail} setPassword={setPassword} />
             <RememberMeCheckBox value={rememberMe} setValue={setRememberMe} text='Remember me' />
-            <Button text='Sign up' onClick={handleSignUp} />
+            <Button style={{ opacity: disabledButton ? 0.5 : 1, marginBottom: 20 }} disabled={disabledButton} text='Sign up' onClick={handleSignUp} />
             <HorizontalLineWithText style={{ marginTop: 40, marginBottom: 10 }} text='or continue with' />
-            <Row style={{ marginBottom: 10 }}>
-                <Button bgColor={"#FFF"} style={{ flex: 1 }} icon={<FaceBookSquareIcon />} />
-                <Button bgColor={"#FFF"} style={{ flex: 1 }} icon={<GoogleIcon />} />
-            </Row>
+            <LoginWithSocials />
             <Text color='disabled' onPress={() => navigation.navigate('SigninPassword')}>
                 Already have any account?
                 <Text color='black'> Sign in</Text>

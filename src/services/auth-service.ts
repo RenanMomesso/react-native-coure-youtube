@@ -6,6 +6,7 @@ import {
 } from '@graphql/generated';
 import { LoginMutation, SignupMutation } from '@graphql/mutations';
 import { client } from '@utils/client';
+import { errorResponseHandling } from '@utils/errorResponseHandling';
 import { Alert } from 'react-native';
 
 export interface ISignupResponse {
@@ -43,33 +44,17 @@ export async function signUp(
 
     if (!data?.createUser.success || errors?.length) {
       Alert.alert('Error', errors![0].message!);
-      return {
-        message: errors![0].message!,
-        success: false,
-      };
+      return errorResponseHandling(errors![0].message!);
     }
     const loginResponse = await login(email, password);
     if (loginResponse.token && loginResponse.success) {
-      return {
-        message: loginResponse.message,
-        success: loginResponse.success,
-        token: loginResponse.token,
-        email: loginResponse.email,
-        id: loginResponse.id,
-        firstTimeLogging: loginResponse.firstTimeLogging,
-      };
+      return { ...loginResponse };
     } else {
-      return {
-        message: loginResponse.message,
-        success: loginResponse.success,
-      };
+      return errorResponseHandling(loginResponse.message!);
     }
   } catch (error) {
     Alert.alert('Error', (error as Error).message);
-    return {
-      message: (error as Error).message,
-      success: false,
-    };
+    return errorResponseHandling((error as Error).message);
   }
 }
 
@@ -88,25 +73,15 @@ export async function login(
       },
     });
     if (!data?.userLogin.success || errors?.length) {
-      return {
-        success: false,
-        message: errors![0].message!,
-      };
+      return errorResponseHandling(errors![0].message!);
     }
-    return {
-      success: data?.userLogin.success!,
-      message: data?.userLogin.message!,
-      token: data?.userLogin.token!,
-      email: data?.userLogin.email!,
-      id: data?.userLogin.id!,
-      fullname: data?.userLogin.fullname!,
-    };
+    if (data?.userLogin?.__typename) {
+      delete data?.userLogin.__typename;
+    }
+
+    return { ...data.userLogin };
   } catch (error) {
-    console.log({ error });
     Alert.alert('Error', (error as Error).message);
-    return {
-      success: false,
-      message: (error as Error).message,
-    };
+    return errorResponseHandling((error as Error).message);
   }
 }

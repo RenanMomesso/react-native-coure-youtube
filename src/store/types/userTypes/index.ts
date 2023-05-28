@@ -2,12 +2,14 @@ export const CLEAR_ONBOARDING = 'CLEAR_ONBOARDING';
 export const ONBOARDING_COMPLETE = 'ONBOARDING_COMPLETE';
 export const SET_USER = 'SET_USER';
 export const CLEAR_USER = 'CLEAR_USER';
+export const CLEAR_STORE = 'CLEAR_STORE';
 
 export interface IUser {
   name?: string;
   email?: string;
   token?: string;
   id?: string;
+  firstTimeLogging?: boolean;
 }
 
 export type IUserInitialState = {
@@ -33,8 +35,13 @@ export interface IClearUserAction {
   payload: object;
 }
 
+export interface IClearStoreAction {
+  type: typeof CLEAR_STORE;
+}
+
 export type UserActionTypes =
   | IOnboardingCompleteAction
   | IClearOnboardingAction
   | ISetUserAction
-  | IClearUserAction;
+  | IClearUserAction
+  | IClearStoreAction

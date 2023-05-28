@@ -1,9 +1,6 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react-native';
 import Signin from '.';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../navigations/RootNavigation';
 import { render } from '../../utils-test/Test-utils';
 
 jest.mock('react-native-vector-icons/AntDesign', () => 'Icon');

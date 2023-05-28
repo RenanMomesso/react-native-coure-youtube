@@ -11,6 +11,7 @@ export interface HeaderNavigationProps {
     : string;
     rightIcon?: React.ReactElement | null;
     navigation: any
+    onPress?: () => void;
 }
 
 const HeaderNavigation: React.FC<HeaderNavigationProps> = ({
@@ -18,13 +19,14 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = ({
     title,
     rightIcon,
     navigation,
+    onPress
 }) => {
 
     const handleGoBack = () => navigation.goBack();
     return (
         <Row style={{ gap: 8 }}>
-            {leftIcon ? leftIcon : <Icon testID='back-button' name="arrow-long-left" size={20} color={theme.colors.black} onPress={handleGoBack} />}
-            <Text size='heading' style={{ marginLeft: leftIcon ? 8 : 0 }} color='black'>{title}</Text>
+            {leftIcon ? leftIcon : <Icon testID='back-button' name="arrow-long-left" size={20} color={theme.colors.black} onPress={onPress || handleGoBack} />}
+            <Text size='text' style={{ marginLeft: leftIcon ? 8 : 0 }} color='black'>{title}</Text>
             {rightIcon && rightIcon}
         </Row>
     );

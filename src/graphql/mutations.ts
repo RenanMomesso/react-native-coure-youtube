@@ -14,10 +14,11 @@ export const LoginMutation = gql`
     userLogin(data: $data) {
       token
       email
-      id
-      success
       message
+      success
       fullname
+      id
+      firstTimeLogging
     }
   }
 `;

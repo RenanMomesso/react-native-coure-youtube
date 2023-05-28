@@ -8,10 +8,11 @@ import SignupScreen from '@pages/Signup'
 import SigninPassword from '@pages/SigninPassword'
 import { RootState } from 'src/store'
 import { RootStackParamList } from 'src/dtos'
+import FillProfileScreen from '@pages/FillProfileScreen'
 
 const RootNavigation = () => {
     const userReducer = useSelector((state: RootState) => state.user)
-    console.log("🚀 ~ file: RootNavigation.tsx:20 ~ RootNavigation ~ userReducer:", userReducer)
+    console.log("🚀 ~ file: RootNavigation.tsx:20 ~ RootNavigation ~ userReducer:", JSON.stringify(userReducer, undefined, 3))
     const Stack = createStackNavigator<RootStackParamList>()
     const stackNavigationOptions: StackNavigationOptions = {
         headerShown: false,
@@ -29,10 +30,12 @@ const RootNavigation = () => {
                 <Stack.Screen name="SigninPassword" component={SigninPassword} />
             </>
         )
-    } else if (onboardingComplete && userInfo?.email?.length) {
+    } else if (onboardingComplete && userInfo?.firstTimeLogging) {
         stackScreen = (
-            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="FillProfileScreen" component={FillProfileScreen} />
         )
+    } else if (onboardingComplete && userInfo?.email?.length) {
+
     } else {
         stackScreen = (
             <Stack.Screen name="Onboarding" component={OnboardingScreen} />

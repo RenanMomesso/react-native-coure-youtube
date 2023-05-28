@@ -12,4 +12,5 @@ export type RootStackParamList = {
   Signup: undefined;
   SigninPassword: undefined;
   Onboarding: undefined;
+  FillProfileScreen: undefined;
 };
