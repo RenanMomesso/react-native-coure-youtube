@@ -26,7 +26,7 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = ({
     return (
         <Row style={{ gap: 8 }}>
             {leftIcon ? leftIcon : <Icon testID='back-button' name="arrow-long-left" size={20} color={theme.colors.black} onPress={onPress || handleGoBack} />}
-            <Text size='text' style={{ marginLeft: leftIcon ? 8 : 0 }} color='black'>{title}</Text>
+            <Text size='medium' style={{ marginLeft: leftIcon ? 8 : 0 }} color='black'>{title}</Text>
             {rightIcon && rightIcon}
         </Row>
     );

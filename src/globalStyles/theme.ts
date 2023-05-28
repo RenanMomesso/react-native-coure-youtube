@@ -10,7 +10,7 @@ export default {
     disabledBlack: '#cccc',
     white: '#FFF',
     lightWhite: '#f7f7F2',
-    lightGray: '#f9f9f9',
+    lightGray: '#fafafafa',
   },
   sizes: {
     fontSize: {

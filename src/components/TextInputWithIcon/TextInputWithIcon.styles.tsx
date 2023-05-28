@@ -17,7 +17,7 @@ export const InputContainer = styled.TouchableOpacity.attrs({
   border-color: ${({ theme, isFocused }) => isFocused ? theme.colors.black : 'transparent'};
   padding: 0px 18px;
   background-color: ${({ theme }) => theme.colors.lightGray};
-  border-radius: 8px;
+  border-radius: 12px;
   /* elevation:2; */
   gap: 8px;
   margin-vertical: 10px;

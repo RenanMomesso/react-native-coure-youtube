@@ -28,7 +28,11 @@ export const modifier = {
         color: ${({ theme }) => colorModifier[color]};
         font-family: ${({ theme }) => theme?.sizes?.fontFamily.InterBold};
         letter-spacing: 0.5px;
-    `,
+        `,
+  medium: (color: IColors) => css`
+        font-family: ${({ theme }) => theme?.sizes?.fontFamily.InterSemiBold};
+        font-size: ${({ theme }) => theme.sizes.fontSize.medium || 16}px;
+   `
 }
 
 export const StyledText = styled(Text) <ITextProps>`

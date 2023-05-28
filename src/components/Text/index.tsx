@@ -14,7 +14,7 @@ export enum FontFamily {
 export type IColors = 'white' | 'black' | 'disabled' | 'bolder';
 export interface ITextProps extends RNTextProps {
     fontFamily?: FontFamily;
-    size?: 'heading' | 'text' | 'button';
+    size?: 'heading' | 'text' | 'button' | 'medium';
     color?: IColors
     align?: 'left' | 'center' | 'right';
 }
