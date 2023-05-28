@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Alert, TextInput } from 'react-native'
+import { TextInput } from 'react-native'
 import HeaderNavigation from '../../components/HeaderNavigation';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -34,13 +34,8 @@ const SignupScreen = () => {
     }
 
     const handleSignUp = async () => {
-        try {
-            const result = await signUp(email, password)
-            if (result?.token) dispatch(setUserAction(result))
-            else Alert.alert("Error", "Something went wrong")
-        } catch (error) {
-            Alert.alert("Error", (error as any)?.networkError?.result?.errors[0].message || (error as Error).message || "Something went wrong")
-        }
+        const result = await signUp(email, password)
+        if (result.success && result.token) dispatch(setUserAction(result))
     };
 
     const disabledButton = !email.length || !password.length;
