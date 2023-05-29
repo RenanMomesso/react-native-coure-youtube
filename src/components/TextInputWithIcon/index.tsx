@@ -27,7 +27,7 @@ const TextInputIcon = React.forwardRef((props: InputProps, ref: React.Ref<RNText
                     style={{ flex: 1 }}
                     {...rest}
                     ref={ref}
-                    placeholder='Date of Birth'
+                    placeholder={placeholder}
                     onEndEditing={endEdditing}
                     value={value}
                     onChangeText={(masked, unmasked) => {

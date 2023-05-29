@@ -12,7 +12,13 @@ export const PhotoContainer = styled.View`
     background-color: lightblue;
 `
 
-export const Photo = styled.Image``;
+export const Photo = styled.Image.attrs((props: any) => ({
+    source: props.source || require('@assets/images/userprofile.png'),
+    ...props
+}))`
+    width: 100%;
+    height: 100%;
+`;
 
 export const PhotoButtonIcon = styled(Icons).attrs({
     name: 'camera',

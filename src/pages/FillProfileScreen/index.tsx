@@ -2,22 +2,19 @@ import HeaderNavigation from '@components/HeaderNavigation';
 import ProfilePhoto from '@components/ProfilePhoto';
 import TextInputIcon from '@components/TextInputWithIcon';
 import useAndroidBackHandler from '@hooks/useBackHandler';
-import React, { useRef, useEffect } from 'react';
+import React, { Dispatch, Reducer, useRef } from 'react';
 import { Alert, Pressable, ScrollView, KeyboardAvoidingView, Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { clearUserAction } from 'src/store/actions/userActions';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Button from '@components/Button';
 import FullScreenCalendar from '@components/FullScreenCalendar';
-import { RootState } from 'src/store';
-import inputStateReducer from 'src/helpers/inputStateReducer';
+import inputStateReducer, { InputState } from 'src/helpers/inputStateReducer';
 
 const FillProfileScreen: React.FC<any> = ({ navigation }) => {
 
-
     const [calendarOpen, setCalendarOpen] = React.useState(false);
-    console.log("🚀 ~ file: index.tsx:19 ~ calendarOpen:", calendarOpen)
-    const initialState = {
+    const initialState: InputState = {
         fullName: { value: '', isFocused: false, ref: useRef(null), label: 'Full Name' },
         nickName: { value: '', isFocused: false, ref: useRef(null), label: 'Nick Name' },
         birthDate: {
@@ -31,24 +28,29 @@ const FillProfileScreen: React.FC<any> = ({ navigation }) => {
             value: '', isFocused: false, ref: useRef(null), label: 'Email',
             icon: 'email',
         },
-        phoneNumber: { value: '', isFocused: false, ref: useRef(null), label: 'Phone Number' },
+        phoneNumber: { value: '', isFocused: false, ref: useRef(null), label: 'Phone Number', maskValue: [/^\+\d{13}$/] },
         gender: { value: '', isFocused: false, ref: useRef(null), label: 'Gender' },
     };
+    const scrollViewRef = useRef<ScrollView>(null);
 
-    const [state, dispatcher] = React.useReducer(inputStateReducer, initialState);
-    const setValue = React.useCallback((input, value) => {
+    const [state, dispatcher]: [InputState, Dispatch<any>] = React.useReducer<Reducer<InputState, any>>(inputStateReducer, initialState);
+    const setValue = React.useCallback((input: string, value: string) => {
         dispatcher({ type: 'SET_VALUE', input, value });
     }, []);
 
-    const setFocus = React.useCallback((input, isFocused) => {
+    const setFocus = React.useCallback((input: string, isFocused: boolean) => {
+        setCalendarOpen(false);
         dispatcher({ type: 'SET_FOCUS', input, isFocused });
     }, [])
 
-    const handleFocus = React.useCallback((input) => {
+    const handleFocus = React.useCallback((input: string) => {
+        if (input === 'email' || input === 'gender' || input === 'phoneNumber') {
+            scrollViewRef.current?.scrollTo({ y: 300, animated: true });
+        }
         setFocus(input, true);
     }, [setFocus]);
 
-    const handleBlur = React.useCallback((input) => {
+    const handleBlur = React.useCallback((input: string) => {
         setFocus(input, false);
     }, [setFocus]);
 
@@ -73,9 +75,9 @@ const FillProfileScreen: React.FC<any> = ({ navigation }) => {
 
     return (
         <>
-            {calendarOpen && <FullScreenCalendar setBirthDate={(value) => setValue('birthDate', value)} onPress={() => setCalendarOpen(false)} />}
+            {calendarOpen && <FullScreenCalendar setBirthDate={(value: string) => setValue('birthDate', value)} onPress={() => setCalendarOpen(false)} />}
             <Pressable onPress={handleLoseAllFocus} style={{ paddingHorizontal: 20, paddingTop: 40, backgroundColor: "#FFF", flex: 1 }}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
                     <KeyboardAvoidingView
                         behavior={'padding'}
                         keyboardVerticalOffset={40}
@@ -95,9 +97,9 @@ const FillProfileScreen: React.FC<any> = ({ navigation }) => {
                                     onFocus={() => handleFocus(key)}
                                     onBlur={() => handleBlur(key)}
                                     placeholderTextColor={"lightgray"}
-                                    rightIconName={state[key].icon ? <Icons name={state[key].icon} size={20} color='gray' onPress={state[key].onIconPress} /> : null}
-                                    maskValue={state[key].maskValue ?? null}
-                                    maxLength={state[key].maxLength ?? null}
+                                    rightIconName={state[key].icon ? <Icons name={state[key].icon || ''} size={20} color='gray' onPress={state[key].onIconPress} /> : undefined}
+                                    maskValue={state[key].maskValue ?? undefined}
+                                    maxLength={state[key].maxLength ?? undefined}
                                 />
                             )
                         })}

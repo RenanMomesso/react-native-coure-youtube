@@ -1,7 +1,19 @@
 const SET_VALUE = 'SET_VALUE';
 const SET_FOCUS = 'SET_FOCUS';
 
-// reducer for managing input state
+export type TextInputState = {
+  value: string;
+  isFocused: boolean;
+  ref: React.RefObject<any>;
+  label: string;
+  icon?: string;
+  onIconPress?: () => void;
+  maskValue?: RegExp[] | string | null;
+  maxLength?: number | undefined;
+};
+
+export type InputState = Record<string, TextInputState>;
+
 function inputStateReducer(state: any, action: any) {
   switch (action.type) {
     case SET_VALUE:
