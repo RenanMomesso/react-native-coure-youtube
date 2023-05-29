@@ -3,7 +3,7 @@ import { Alert, View, Dimensions } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 const { height } = Dimensions.get('window')
-const FullScreenCalendar: React.FC = ({ onPress, setBirthDate }) => {
+const FullScreenCalendar: React.FC<any> = ({ onPress, setBirthDate }) => {
     return (
         <View onTouchStart={() => onPress} style={{
             backgroundColor: 'white', zIndex: 1000,

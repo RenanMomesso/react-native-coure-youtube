@@ -1,6 +1,7 @@
 import React from 'react';
 import { KeyboardAvoidingView, TextInput as RNTextInput, TextInputProps } from 'react-native';
 import { InputContainer, TextInput } from './TextInputWithIcon.styles';
+import MaskInput from 'react-native-mask-input';
 
 interface InputProps extends TextInputProps {
     leftIconName?: React.ReactElement | null;
@@ -10,19 +11,32 @@ interface InputProps extends TextInputProps {
     value?: string;
     endEdditing?: () => void;
     isFocused?: boolean;
+    maskValue?: string | RegExp[];
 }
 
 const TextInputIcon = React.forwardRef((props: InputProps, ref: React.Ref<RNTextInput>) => {
-    const { onChangeText, leftIconName, placeholder, rightIconName, value, endEdditing, isFocused, ...rest } = props;
+    const { onChangeText, leftIconName, placeholder, rightIconName, value, endEdditing, isFocused, maskValue, ...rest } = props;
 
     return (
-        <KeyboardAvoidingView
-            behavior={'position'}
-            keyboardVerticalOffset={30}>
-            <InputContainer
-                isFocused={isFocused}
-                onPress={() => ref?.current && ref?.current?.focus()}>
-                {leftIconName && leftIconName}
+        <InputContainer
+            isFocused={isFocused}
+            onPress={() => ref?.current && ref?.current?.focus()}>
+            {leftIconName && leftIconName}
+            {maskValue ?
+                <MaskInput
+                    style={{ flex: 1 }}
+                    {...rest}
+                    ref={ref}
+                    placeholder='Date of Birth'
+                    onEndEditing={endEdditing}
+                    value={value}
+                    onChangeText={(masked, unmasked) => {
+                        onChangeText(masked);
+
+                    }}
+                    mask={maskValue as any}
+                />
+                :
                 <TextInput
                     onEndEditing={endEdditing}
                     {...rest}
@@ -31,9 +45,9 @@ const TextInputIcon = React.forwardRef((props: InputProps, ref: React.Ref<RNText
                     onChangeText={onChangeText}
                     placeholder={placeholder}
                 />
-                {rightIconName && rightIconName}
-            </InputContainer>
-        </KeyboardAvoidingView>
+            }
+            {rightIconName && rightIconName}
+        </InputContainer>
     );
 });
 
