@@ -3,38 +3,61 @@ import ProfilePhoto from '@components/ProfilePhoto';
 import TextInputIcon from '@components/TextInputWithIcon';
 import useAndroidBackHandler from '@hooks/useBackHandler';
 import React, { useRef, useEffect } from 'react';
-import { Alert, Pressable, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Alert, Pressable, ScrollView, KeyboardAvoidingView, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearUserAction } from 'src/store/actions/userActions';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Button from '@components/Button';
 import FullScreenCalendar from '@components/FullScreenCalendar';
 import { RootState } from 'src/store';
+import inputStateReducer from 'src/helpers/inputStateReducer';
 
 const FillProfileScreen: React.FC<any> = ({ navigation }) => {
 
-    const { userInfo } = useSelector((state: RootState) => state.user)
-    const [email, setEmail] = React.useState(userInfo?.email || "")
-    const [calendarOpen, setCalendarOpen] = React.useState(false)
-    const [birthDate, setBirthDate] = React.useState("")
-    const [fullName, setFullName] = React.useState(userInfo?.name || "")
-    const [phoneNumber, setPhoneNumber] = React.useState("")
-    const [nickName, setNickName] = React.useState("")
-    const [gender, setGender] = React.useState('')
 
-    const [fullNameFocused, setFullNameFocused] = React.useState(false)
-    const [nickNameFocused, setNickNameFocused] = React.useState(false)
-    const [phoneNumberFocused, setPhoneNumberFocused] = React.useState(false)
-    const [emailFocused, setEmailFocused] = React.useState(false)
-    const [birthDateFocused, setBirthDateFocused] = React.useState(false)
-    const [genderFocused, setGenderFocused] = React.useState(false)
+    const [calendarOpen, setCalendarOpen] = React.useState(false);
+    console.log("🚀 ~ file: index.tsx:19 ~ calendarOpen:", calendarOpen)
+    const initialState = {
+        fullName: { value: '', isFocused: false, ref: useRef(null), label: 'Full Name' },
+        nickName: { value: '', isFocused: false, ref: useRef(null), label: 'Nick Name' },
+        birthDate: {
+            value: '', isFocused: false, ref: useRef(null), label: 'Date of Birth',
+            icon: 'calendar',
+            onIconPress: () => setCalendarOpen(true),
+            maskValue: [/^[0-2]$/, /^[0-9]$/, /^[0-9]$/, /^[0-9]$/, '-', /^[0-9]$/, /^[0-9]$/, '-', /^[0-9]$/, /^[0-9]$/],
+            maxLength: 10,
+        },
+        email: {
+            value: '', isFocused: false, ref: useRef(null), label: 'Email',
+            icon: 'email',
+        },
+        phoneNumber: { value: '', isFocused: false, ref: useRef(null), label: 'Phone Number' },
+        gender: { value: '', isFocused: false, ref: useRef(null), label: 'Gender' },
+    };
 
-    const emailRef = useRef<any>(null);
-    const genderRef = useRef<any>(null);
-    const nickNameRef = useRef<any>(null);
-    const fullNameRef = useRef<any>(null);
-    const birthDateRef = useRef<any>(null);
-    const phoneNumberRef = useRef<any>(null);
+    const [state, dispatcher] = React.useReducer(inputStateReducer, initialState);
+    const setValue = React.useCallback((input, value) => {
+        dispatcher({ type: 'SET_VALUE', input, value });
+    }, []);
+
+    const setFocus = React.useCallback((input, isFocused) => {
+        dispatcher({ type: 'SET_FOCUS', input, isFocused });
+    }, [])
+
+    const handleFocus = React.useCallback((input) => {
+        setFocus(input, true);
+    }, [setFocus]);
+
+    const handleBlur = React.useCallback((input) => {
+        setFocus(input, false);
+    }, [setFocus]);
+
+    const handleLoseAllFocus = React.useCallback(() => {
+        setCalendarOpen(false);
+        Object.keys(state).forEach((key) => {
+            state[key].ref.current?.blur();
+        });
+    }, [state, calendarOpen]);
 
     const dispatch = useDispatch();
     const handleGoBack = (): void => {
@@ -46,27 +69,11 @@ const FillProfileScreen: React.FC<any> = ({ navigation }) => {
         return true;
     });
 
-    const handleLoseAllFocus = () => {
-        setCalendarOpen(false)
-        genderRef.current?.blur()
-        emailRef.current?.blur()
-        nickNameRef.current?.blur()
-        fullNameRef.current?.blur()
-        birthDateRef.current?.blur()
-    }
-
-    useEffect(() => {
-        if (calendarOpen) {
-            handleLoseAllFocus()
-        }
-    }, [fullNameFocused, nickNameFocused, phoneNumberFocused, emailFocused, birthDateFocused, genderFocused])
-
-
-    const disabledButton = !!email.length || !!phoneNumber.length || gender.length || !!birthDate.length || !!fullName.length || !!nickName.length
+    const disabledButton = Object.keys(state).every((key) => !!state[key].value.length);
 
     return (
         <>
-            {calendarOpen && <FullScreenCalendar setBirthDate={setBirthDate} onPress={() => setCalendarOpen(false)} />}
+            {calendarOpen && <FullScreenCalendar setBirthDate={(value) => setValue('birthDate', value)} onPress={() => setCalendarOpen(false)} />}
             <Pressable onPress={handleLoseAllFocus} style={{ paddingHorizontal: 20, paddingTop: 40, backgroundColor: "#FFF", flex: 1 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <KeyboardAvoidingView
@@ -75,89 +82,29 @@ const FillProfileScreen: React.FC<any> = ({ navigation }) => {
                     >
                         <HeaderNavigation title='Fill Your Profile' navigation={navigation} onPress={handleGoBack} />
                         <ProfilePhoto />
-                        <TextInputIcon
-                            isFocused={fullNameFocused}
-                            ref={fullNameRef}
-                            placeholder='Fullname'
-                            value={fullName}
-                            onChangeText={setFullName}
-                            returnKeyType='next'
-                            // endEdditing={() => passwordRef.current?.focus()}
-                            onFocus={() => setFullNameFocused(true)}
-                            onBlur={() => setFullNameFocused(false)}
-                            placeholderTextColor={"lightgray"}
-                        />
-                        <TextInputIcon
-                            isFocused={nickNameFocused}
-                            ref={nickNameRef}
-                            placeholder='Nickname'
-                            value={nickName}
-                            onChangeText={setNickName}
-                            returnKeyType='next'
-                            onSubmitEditing={() => nickNameRef.current?.focus()}
-                            onFocus={() => setNickNameFocused(true)}
-                            onBlur={() => setNickNameFocused(false)}
-                            placeholderTextColor={"lightgray"}
-                        />
-                        <TextInputIcon
-                            isFocused={birthDateFocused}
-                            keyboardType='numeric'
-                            ref={birthDateRef}
-                            placeholder='Date of Birth'
-                            value={birthDate}
-
-                            onChangeText={setBirthDate}
-                            returnKeyType='next'
-                            maskValue={[/^[0-2]$/, /^[0-9]$/, /^[0-9]$/, /^[0-9]$/, '-', /^[0-9]$/, /^[0-9]$/, '-', /^[0-9]$/, /^[0-9]$/]}
-                            maxLength={10}
-                            onFocus={() => setBirthDateFocused(true)}
-                            onBlur={() => setBirthDateFocused(false)}
-                            placeholderTextColor={"lightgray"}
-                            rightIconName={<Icons name='calendar' size={20} color='lightgray' onPress={() => setCalendarOpen(true)} />}
-                        />
-                        <TextInputIcon
-                            isFocused={emailFocused}
-                            keyboardType='email-address'
-                            ref={emailRef}
-                            placeholder='Email'
-                            onChangeText={setEmail}
-                            defaultValue={userInfo?.email}
-                            returnKeyType='next'
-                            // endEdditing={() => passwordRef.current?.focus()}
-                            rightIconName={<Icons name='email' size={20} color='lightgray' />}
-                            onFocus={() => setEmailFocused(true)}
-                            onBlur={() => setEmailFocused(false)}
-                            placeholderTextColor={"lightgray"}
-                        />
-                        <TextInputIcon
-                            isFocused={phoneNumberFocused}
-                            keyboardType='phone-pad'
-                            ref={phoneNumberRef}
-                            placeholder='Phone Number'
-                            value={phoneNumber}
-                            onChangeText={setPhoneNumber}
-                            returnKeyType='next'
-
-                            onFocus={() => setPhoneNumberFocused(true)}
-                            onBlur={() => setPhoneNumberFocused(false)}
-                            placeholderTextColor={"lightgray"}
-                        />
-                        <TextInputIcon
-                            isFocused={genderFocused}
-                            ref={genderRef}
-                            placeholder='Gender'
-                            value={gender}
-                            onChangeText={setGender}
-                            returnKeyType='next'
-                            // endEdditing={() => passwordRef.current?.focus()}
-                            onFocus={() => setGenderFocused(true)}
-                            onBlur={() => setGenderFocused(false)}
-                            placeholderTextColor={"lightgray"}
-                        />
-                        <Button style={{ opacity: disabledButton ? 0.5 : 1 }} disabled={!!disabledButton} text='Continue' onPress={() => Alert.alert("Filled")} />
+                        {Object.keys(initialState).map((key) => {
+                            return (
+                                <TextInputIcon
+                                    key={key}
+                                    isFocused={state[key].isFocused}
+                                    ref={state[key].ref}
+                                    placeholder={state[key].label}
+                                    value={state[key].value}
+                                    onChangeText={(value) => setValue(key, value)}
+                                    returnKeyType='next'
+                                    onFocus={() => handleFocus(key)}
+                                    onBlur={() => handleBlur(key)}
+                                    placeholderTextColor={"lightgray"}
+                                    rightIconName={state[key].icon ? <Icons name={state[key].icon} size={20} color='gray' onPress={state[key].onIconPress} /> : null}
+                                    maskValue={state[key].maskValue ?? null}
+                                    maxLength={state[key].maxLength ?? null}
+                                />
+                            )
+                        })}
+                        <Button style={{ opacity: !disabledButton ? 0.5 : 1 }} disabled={!disabledButton} text='Continue' onPress={() => Alert.alert("Filled")} />
                     </KeyboardAvoidingView>
                 </ScrollView>
-            </Pressable >
+            </Pressable>
         </>
 
     )
