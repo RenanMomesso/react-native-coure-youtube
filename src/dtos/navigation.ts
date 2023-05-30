@@ -13,4 +13,5 @@ export type RootStackParamList = {
   SigninPassword: undefined;
   Onboarding: undefined;
   FillProfileScreen: undefined;
+  ImagePickerScreen: undefined;
 };
