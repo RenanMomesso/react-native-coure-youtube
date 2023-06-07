@@ -1,8 +1,6 @@
 import React from 'react';
-import { KeyboardAvoidingView, TextInput as RNTextInput, TextInputProps } from 'react-native';
+import { TextInput as RNTextInput, TextInputProps } from 'react-native';
 import { InputContainer, TextInput } from './TextInputWithIcon.styles';
-import MaskInput from 'react-native-mask-input';
-
 interface InputProps extends TextInputProps {
     leftIconName?: React.ReactElement | null;
     rightIconName?: React.ReactElement | null;
@@ -22,30 +20,20 @@ const TextInputIcon = React.forwardRef((props: InputProps, ref: React.Ref<RNText
             isFocused={isFocused}
             onPress={() => ref?.current && ref?.current?.focus()}>
             {leftIconName && leftIconName}
-            {maskValue ?
-                <MaskInput
-                    style={{ flex: 1 }}
-                    {...rest}
-                    ref={ref}
-                    placeholder={placeholder}
-                    onEndEditing={endEdditing}
-                    value={value}
-                    onChangeText={(masked, unmasked) => {
-                        onChangeText(masked);
+            <TextInput
+                {...rest}
+                ref={ref}
+                placeholder={placeholder}
+                onEndEditing={endEdditing}
+                value={value}
+                onChangeText={(masked, unmasked) => {
+                    onChangeText(masked);
 
-                    }}
-                    mask={maskValue as any}
-                />
-                :
-                <TextInput
-                    onEndEditing={endEdditing}
-                    {...rest}
-                    value={value}
-                    ref={ref}
-                    onChangeText={onChangeText}
-                    placeholder={placeholder}
-                />
-            }
+                }}
+                mask={maskValue as any}
+            />
+
+
             {rightIconName && rightIconName}
         </InputContainer>
     );

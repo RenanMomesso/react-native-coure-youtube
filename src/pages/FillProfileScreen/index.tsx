@@ -3,21 +3,32 @@ import ProfilePhoto from '@components/ProfilePhoto';
 import TextInputIcon from '@components/TextInputWithIcon';
 import useAndroidBackHandler from '@hooks/useBackHandler';
 import React, { Dispatch, Reducer, useRef } from 'react';
-import { Alert, Pressable, ScrollView, KeyboardAvoidingView, Text } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { clearUserAction } from 'src/store/actions/userActions';
+import { Alert, Pressable, ScrollView } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUserAction, updateUserAction } from 'src/store/actions/userActions';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Button from '@components/Button';
 import FullScreenCalendar from '@components/FullScreenCalendar';
 import inputStateReducer, { InputState } from 'src/helpers/inputStateReducer';
+import { useKeyboard } from '@hooks/useKeyBoard';
+import { useBottomSheet } from 'src/providers/BottomSheetProvider';
+import { errorAlert } from '@utils/errorAlert';
+import { updateUser } from 'src/services/auth-service';
+import { RootState } from 'src/store';
+import { clearStorage } from '@utils/AsyncStorageUtils';
 
 const FillProfileScreen: React.FC<any> = ({ navigation }) => {
 
+    const { userInfo: {
+        email
+    } } = useSelector((state: RootState) => state.user)
     const [calendarOpen, setCalendarOpen] = React.useState(false);
+    const { closeBottomSheet } = useBottomSheet()
+    const { keyboardHeight } = useKeyboard()
+
     const initialState: InputState = {
-        fullName: { value: '', isFocused: false, ref: useRef(null), label: 'Full Name' },
-        nickName: { value: '', isFocused: false, ref: useRef(null), label: 'Nick Name' },
-        birthDate: {
+        fullname: { value: '', isFocused: false, ref: useRef(null), label: 'Full Name' },
+        birthday: {
             value: '', isFocused: false, ref: useRef(null), label: 'Date of Birth',
             icon: 'calendar',
             onIconPress: () => setCalendarOpen(true),
@@ -25,10 +36,10 @@ const FillProfileScreen: React.FC<any> = ({ navigation }) => {
             maxLength: 10,
         },
         email: {
-            value: '', isFocused: false, ref: useRef(null), label: 'Email',
+            value: email || '', isFocused: false, ref: useRef(null), label: 'Email',
             icon: 'email',
         },
-        phoneNumber: { value: '', isFocused: false, ref: useRef(null), label: 'Phone Number', maskValue: [/^\+\d{13}$/] },
+        phone: { value: '', isFocused: false, ref: useRef(null), label: 'Phone Number' },
         gender: { value: '', isFocused: false, ref: useRef(null), label: 'Gender' },
     };
     const scrollViewRef = useRef<ScrollView>(null);
@@ -44,8 +55,9 @@ const FillProfileScreen: React.FC<any> = ({ navigation }) => {
     }, [])
 
     const handleFocus = React.useCallback((input: string) => {
+        closeBottomSheet()
         if (input === 'email' || input === 'gender' || input === 'phoneNumber') {
-            scrollViewRef.current?.scrollTo({ y: 300, animated: true });
+            scrollViewRef.current?.scrollTo({ y: keyboardHeight + 100, animated: true });
         }
         setFocus(input, true);
     }, [setFocus]);
@@ -62,7 +74,8 @@ const FillProfileScreen: React.FC<any> = ({ navigation }) => {
     }, [state, calendarOpen]);
 
     const dispatch = useDispatch();
-    const handleGoBack = (): void => {
+    const handleGoBack = async (): Promise<void> => {
+        clearStorage();
         dispatch(clearUserAction())
     }
 
@@ -73,38 +86,46 @@ const FillProfileScreen: React.FC<any> = ({ navigation }) => {
 
     const disabledButton = Object.keys(state).every((key) => !!state[key].value.length);
 
+    const handleUpdateUser = async () => {
+        try {
+            const variables = Object.keys(state).reduce((acc, key) => {
+                return { ...acc, [key]: state[key].value }
+            }, {})
+            const data = await updateUser(variables)
+            console.log("🚀 ~ file: index.tsx:85 ~ handleUpdateUser ~ data:", data)
+            dispatch(updateUserAction(data))
+        } catch (error) {
+            errorAlert(error as Error)
+        }
+    }
+
     return (
         <>
-            {calendarOpen && <FullScreenCalendar setBirthDate={(value: string) => setValue('birthDate', value)} onPress={() => setCalendarOpen(false)} />}
-            <Pressable onPress={handleLoseAllFocus} style={{ paddingHorizontal: 20, paddingTop: 40, backgroundColor: "#FFF", flex: 1 }}>
-                <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
-                    <KeyboardAvoidingView
-                        behavior={'padding'}
-                        keyboardVerticalOffset={40}
-                    >
-                        <HeaderNavigation title='Fill Your Profile' navigation={navigation} onPress={handleGoBack} />
-                        <ProfilePhoto />
-                        {Object.keys(initialState).map((key) => {
-                            return (
-                                <TextInputIcon
-                                    key={key}
-                                    isFocused={state[key].isFocused}
-                                    ref={state[key].ref}
-                                    placeholder={state[key].label}
-                                    value={state[key].value}
-                                    onChangeText={(value) => setValue(key, value)}
-                                    returnKeyType='next'
-                                    onFocus={() => handleFocus(key)}
-                                    onBlur={() => handleBlur(key)}
-                                    placeholderTextColor={"lightgray"}
-                                    rightIconName={state[key].icon ? <Icons name={state[key].icon || ''} size={20} color='gray' onPress={state[key].onIconPress} /> : undefined}
-                                    maskValue={state[key].maskValue ?? undefined}
-                                    maxLength={state[key].maxLength ?? undefined}
-                                />
-                            )
-                        })}
-                        <Button style={{ opacity: !disabledButton ? 0.5 : 1 }} disabled={!disabledButton} text='Continue' onPress={() => Alert.alert("Filled")} />
-                    </KeyboardAvoidingView>
+            {calendarOpen && <FullScreenCalendar setBirthday={(value: string) => setValue('birthday', value)} onPress={() => setCalendarOpen(false)} />}
+            <Pressable onPress={handleLoseAllFocus} style={{ paddingHorizontal: 20, paddingTop: 40, flex: 1 }}>
+                <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef} keyboardShouldPersistTaps={'always'}>
+                    <HeaderNavigation title='Fill Your Profile' navigation={navigation} onPress={handleGoBack} />
+                    <ProfilePhoto />
+                    {Object.keys(initialState).map((key) => {
+                        return (
+                            <TextInputIcon
+                                key={key}
+                                isFocused={state[key].isFocused}
+                                ref={state[key].ref}
+                                placeholder={state[key].label}
+                                value={state[key].value}
+                                onChangeText={(value) => setValue(key, value)}
+                                returnKeyType='next'
+                                onFocus={() => handleFocus(key)}
+                                onBlur={() => handleBlur(key)}
+                                placeholderTextColor={"lightgray"}
+                                rightIconName={state[key].icon ? <Icons name={state[key].icon || ''} size={20} color='gray' onPress={state[key].onIconPress} /> : undefined}
+                                maskValue={state[key].maskValue ?? undefined}
+                                maxLength={state[key].maxLength ?? undefined}
+                            />
+                        )
+                    })}
+                    <Button style={{ opacity: !disabledButton ? 0.5 : 1 }} disabled={!disabledButton} text='Continue' onClick={handleUpdateUser} />
                 </ScrollView>
             </Pressable>
         </>

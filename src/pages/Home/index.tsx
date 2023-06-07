@@ -5,8 +5,10 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming, } from 'react-n
 import Button from '../../components/Button';
 import { Container } from '../../globalStyles/globalComponents';
 import { useDispatch } from 'react-redux'
-import { clearOnboarding } from '../../store/actions/userActions';
+import { clearOnboarding, clearUserAction } from '../../store/actions/userActions';
 import { NavigationScreenProp } from '../../dtos';
+import { clearStorage } from '@utils/AsyncStorageUtils';
+import { useBottomSheet } from 'src/providers/BottomSheetProvider';
 
 const Home: React.FC = () => {
     const dispatch = useDispatch()
@@ -18,16 +20,20 @@ const Home: React.FC = () => {
     }, [])
     const navigation = useNavigation<NavigationScreenProp>()
     const clearStorageDevice = () => {
-        dispatch({
-            type: "CLEAR_EVERYTHING"
-        })
+        clearStorage()
+        dispatch(clearUserAction())
+    }
+
+    const { toggleBottomSheet } = useBottomSheet()
+    const bottomSheet = () => {
+        toggleBottomSheet(<Text>Teste</Text>)
     }
 
     return (
         <Container>
             <Text onPress={() => sharedValue.value = Math.random() * 10}>Testing shared Value</Text>
             <Animated.Text style={animationFont} onPress={() => navigation.navigate('Signin')}>Homasde</Animated.Text>
-            <Button bgColor='red' onClick={clearStorageDevice} text='Clear storage' />
+            <Button bgColor='red' onClick={bottomSheet} text='Clear storage' />
         </Container>
     )
 }

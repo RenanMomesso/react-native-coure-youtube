@@ -1,6 +1,7 @@
 export const CLEAR_ONBOARDING = 'CLEAR_ONBOARDING';
 export const ONBOARDING_COMPLETE = 'ONBOARDING_COMPLETE';
 export const SET_USER = 'SET_USER';
+export const UPDATE_USER = 'UPDATE_USER';
 export const CLEAR_USER = 'CLEAR_USER';
 export const CLEAR_STORE = 'CLEAR_STORE';
 
@@ -10,6 +11,8 @@ export interface IUser {
   token?: string;
   id?: string;
   firstTimeLogging?: boolean;
+  profilePhoto?: string;
+
 }
 
 export type IUserInitialState = {
@@ -35,6 +38,11 @@ export interface IClearUserAction {
   payload: object;
 }
 
+export interface IUpdateUserAction {
+  type: typeof UPDATE_USER;
+  payload: object;
+}
+
 export interface IClearStoreAction {
   type: typeof CLEAR_STORE;
 }
@@ -45,3 +53,4 @@ export type UserActionTypes =
   | ISetUserAction
   | IClearUserAction
   | IClearStoreAction
+  | IUpdateUserAction;

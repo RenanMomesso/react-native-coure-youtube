@@ -1,3 +1,5 @@
+
+import { clearStorage } from '@utils/AsyncStorageUtils';
 import {
   CLEAR_ONBOARDING,
   ONBOARDING_COMPLETE,
@@ -6,6 +8,7 @@ import {
   CLEAR_USER,
   SET_USER,
   CLEAR_STORE,
+  UPDATE_USER,
 } from '../types/userTypes';
 
 const userInitialState: IUserInitialState = {
@@ -30,6 +33,11 @@ const userReducer = (
       return { ...state, onboardingComplete: false };
     case SET_USER:
       return { ...state, userInfo: action.payload };
+    case UPDATE_USER:
+      return {...state, userInfo: {
+        ...state.userInfo,
+        ...action.payload
+      }}  
     case CLEAR_USER:
       return {
         ...state,

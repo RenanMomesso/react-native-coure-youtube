@@ -2,6 +2,7 @@
 import styled from 'styled-components/native';
 import theme from '../../globalStyles/theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaskInput from 'react-native-mask-input';
 
 interface IconEyeProps {
   showPassword?: boolean;
@@ -23,7 +24,7 @@ export const InputContainer = styled.TouchableOpacity.attrs({
   margin-vertical: 10px;
   `;
 
-export const TextInput = styled.TextInput.attrs({
+export const TextInput = styled(MaskInput).attrs({
   selectionColor: theme.colors.black,
 })`
   flex:1;

@@ -8,7 +8,7 @@ export type TextInputState = {
   label: string;
   icon?: string;
   onIconPress?: () => void;
-  maskValue?: RegExp[] | string | null;
+  maskValue?: RegExp[] | string | null | undefined | any;
   maxLength?: number | undefined;
 };
 

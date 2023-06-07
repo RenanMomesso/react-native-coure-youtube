@@ -5,9 +5,11 @@ import {
   IClearStoreAction,
   IOnboardingCompleteAction,
   ISetUserAction,
+  IUpdateUserAction,
   IUser,
   ONBOARDING_COMPLETE,
   SET_USER,
+  UPDATE_USER,
 } from '../../types';
 
 export const clearOnboarding = (): IClearOnboardingAction => {
@@ -29,9 +31,16 @@ export const clearUserAction = (): IClearStoreAction => {
 };
 
 export const setUserAction = (user: IUser): ISetUserAction => {
-  console.log(JSON.stringify({ ...user }), undefined, 3);
   return {
     type: SET_USER,
     payload: { ...user },
+  };
+};
+
+export const updateUserAction = (user: IUser): IUpdateUserAction => {
+  console.log({ ...user });
+  return {
+    type: UPDATE_USER,
+    payload: user,
   };
 };

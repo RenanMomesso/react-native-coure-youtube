@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     SafeAreaView,
     StatusBar,
@@ -13,23 +13,28 @@ import { store, persistor } from './src/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Loading from './src/components/Loading';
 import ApolloProviderWrapper from './src/providers/ApolloProvider';
+import { BottomSheetProvider } from 'src/providers/BottomSheetProvider';
 
 const IS_STORYBOOK = false
 const App: React.FC = () => {
     const isDarkMode = useColorScheme() === 'dark';
+
+
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <ThemeProvider>
                 <Provider store={store}>
                     <PersistGate loading={<Loading />} persistor={persistor}>
                         <ApolloProviderWrapper>
-                            <SafeAreaView style={{ flex: 1 }}>
-                                <StatusBar
-                                    barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                                    backgroundColor={'#fff'}
-                                />
-                                <RootNavigation />
-                            </SafeAreaView>
+                            <BottomSheetProvider>
+                                <SafeAreaView style={{ flex: 1 }}>
+                                    <StatusBar
+                                        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+                                        backgroundColor={'#fff'}
+                                    />
+                                    <RootNavigation />
+                                </SafeAreaView>
+                            </BottomSheetProvider>
                         </ApolloProviderWrapper>
                     </PersistGate>
                 </Provider>

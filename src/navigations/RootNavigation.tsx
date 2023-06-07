@@ -9,8 +9,11 @@ import SigninPassword from '@pages/SigninPassword'
 import { RootState } from 'src/store'
 import { RootStackParamList } from 'src/dtos'
 import FillProfileScreen from '@pages/FillProfileScreen'
+import BottomSheet, { BottomSheetRefProps } from '@components/BottomSheet'
+import { useRef, useEffect } from 'react'
 
 const RootNavigation = () => {
+
     const userReducer = useSelector((state: RootState) => state.user)
     console.log("🚀 ~ file: RootNavigation.tsx:20 ~ RootNavigation ~ userReducer:", JSON.stringify(userReducer, undefined, 3))
     const Stack = createStackNavigator<RootStackParamList>()
@@ -34,8 +37,10 @@ const RootNavigation = () => {
         stackScreen = (
             <Stack.Screen name="FillProfileScreen" component={FillProfileScreen} />
         )
-    } else if (onboardingComplete && userInfo?.email?.length) {
-
+    } else if (onboardingComplete && !userInfo?.firstTimeLogging) {
+        stackScreen = (
+            <Stack.Screen name="Home" component={Home} />
+        )
     } else {
         stackScreen = (
             <Stack.Screen name="Onboarding" component={OnboardingScreen} />

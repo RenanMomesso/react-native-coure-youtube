@@ -36,7 +36,7 @@ export type LoginUserInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: ResponseMessage;
-  updateUser: ResponseMessage;
+  updateUser: User;
   userLogin: ResponseLoginUser;
 };
 
@@ -71,6 +71,7 @@ export type QueryGetUserArgs = {
 export type ResponseLoginUser = {
   __typename?: 'ResponseLoginUser';
   email: Scalars['String']['output'];
+  firstTimeLogging?: Maybe<Scalars['Boolean']['output']>;
   fullname: Scalars['String']['output'];
   id: Scalars['String']['output'];
   message: Scalars['String']['output'];
@@ -93,6 +94,7 @@ export type UpdateUserInput = {
   fullname?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
+  profilePhoto?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** The User model */
@@ -106,6 +108,7 @@ export type User = {
   birthday: Scalars['DateTime']['output'];
   cpf: Scalars['String']['output'];
   email: Scalars['String']['output'];
+  firstTimeLogging: Scalars['Boolean']['output'];
   fullname: Scalars['String']['output'];
   isAdmin: Scalars['Boolean']['output'];
   password: Scalars['String']['output'];

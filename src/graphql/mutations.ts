@@ -22,3 +22,17 @@ export const LoginMutation = gql`
     }
   }
 `;
+
+export const UpdateUserMutation = gql`
+  mutation UpdateUser($data: UpdateUserInput!) {
+    updateUser(data: $data) {
+      _id
+      fullname
+      birthday
+      cpf
+      email
+      firstTimeLogging
+      profilePhoto
+    }
+  }
+`;

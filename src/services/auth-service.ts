@@ -1,13 +1,20 @@
 import {
   MutationCreateUserArgs,
+  MutationUpdateUserArgs,
   MutationUserLoginArgs,
   ResponseLoginUser,
   ResponseMessage,
 } from '@graphql/generated';
-import { LoginMutation, SignupMutation } from '@graphql/mutations';
+import {
+  LoginMutation,
+  SignupMutation,
+  UpdateUserMutation,
+} from '@graphql/mutations';
+import { saveDataToStorage } from '@utils/AsyncStorageUtils';
 import { client } from '@utils/client';
 import { errorResponseHandling } from '@utils/errorResponseHandling';
 import { Alert } from 'react-native';
+import { IUser } from 'src/store/types';
 
 export interface ISignupResponse {
   createUser: ResponseMessage;
@@ -25,6 +32,11 @@ interface IResponseLoginUser {
   id?: string;
   fullname?: string;
   firstTimeLogging?: boolean;
+}
+
+interface IResponseError {
+  message: string;
+  success: boolean;
 }
 
 export async function signUp(
@@ -63,6 +75,7 @@ export async function login(
   password: string,
 ): Promise<IResponseLoginUser> {
   try {
+    console.log({email, password})
     const { data, errors } = await client.mutate<
       ILoginResponse,
       MutationUserLoginArgs
@@ -72,15 +85,45 @@ export async function login(
         data: { email, password },
       },
     });
+    console.log({data,errors})
     if (!data?.userLogin.success || errors?.length) {
       return errorResponseHandling(errors![0].message!);
     }
     if (data?.userLogin?.__typename) {
       delete data?.userLogin.__typename;
     }
-
-    return { ...data.userLogin };
+    await saveDataToStorage('@token', data?.userLogin.token!);
+    return {
+      ...data.userLogin,
+      firstTimeLogging: data.userLogin.firstTimeLogging ?? false,
+    };
   } catch (error) {
+    console.log({ error })
+    Alert.alert('Error', (error as Error).message);
+    return errorResponseHandling((error as Error).message);
+  }
+}
+
+export async function updateUser(user: IUser): Promise<IUser | IResponseError> {
+  console.log({ user });
+  try {
+
+    const variables = {...user}
+    delete variables?.gender
+    const { data, errors } = await client.mutate<any, MutationUpdateUserArgs>({
+      mutation: UpdateUserMutation,
+      variables: {
+        id: 'asdasdasd' ,
+        data: variables
+      },
+    });
+    console.log({ data, errors });
+    delete data?.updateUser.__typename;
+    return {
+      ...data?.updateUser
+    }
+  } catch (error) {
+    console.log({ error });
     Alert.alert('Error', (error as Error).message);
     return errorResponseHandling((error as Error).message);
   }

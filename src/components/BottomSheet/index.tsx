@@ -90,11 +90,13 @@ const styles = StyleSheet.create({
     bottomSheetContainer: {
         height: SCREEN_HEIGHT,
         width: SCREEN_WIDTH,
-        backgroundColor: 'red',
+        backgroundColor: 'white',
+        elevation: 5,
         position: 'absolute',
         top: SCREEN_HEIGHT,
         borderRadius: 25,
-        zIndex: 1000000000000000,
+        zIndex: 100,
+        paddingHorizontal: 20
     },
     line: {
         width: 75,
