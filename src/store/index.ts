@@ -1,12 +1,13 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
-import { persistReducer, persistStore } from 'redux-persist';
+import { PersistConfig, persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const persistConfig = {
+const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   storage: AsyncStorage,
+  blacklist: ['quizzReducer']
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -16,6 +16,7 @@ import { RootStackParamList } from 'src/dtos';
 import { login, signUp } from 'src/services/auth-service';
 import LoginWithSocials from '@components/LoginWithSocials';
 import AuthForm from '@pages/shared/AuthForm';
+import { authService } from 'src/services/api/auth/auth.service';
 
 type ScreenName = keyof RootStackParamList;
 export type NavigationScreenProp = StackNavigationProp<RootStackParamList, ScreenName>
@@ -38,11 +39,13 @@ const SigninWithPassword = () => {
     const handleSignin = async () => {
 
         try {
-            const result = await login(email, password)
-            if (result?.token) {
-                dispatch(setUserAction(result))
+            const result = await authService.signIn({ username: email, password })
+            console.log({ result })
+            if (result?.data?.token) {
+                dispatch(setUserAction(result?.data?.user))
             }
         } catch (error) {
+            console.log({ error: error })
             Alert.alert("Error", (error as any)?.networkError?.result?.errors[0].message || (error as Error).message || "Something went wrong")
         }
     };

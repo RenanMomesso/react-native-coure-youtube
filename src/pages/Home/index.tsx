@@ -6,7 +6,7 @@ import Button from '../../components/Button';
 import { Container } from '../../globalStyles/globalComponents';
 import { useDispatch } from 'react-redux'
 import { clearOnboarding, clearUserAction } from '../../store/actions/userActions';
-import { NavigationScreenProp } from '../../dtos';
+import { NavigationScreenProp, ScreenName } from '../../dtos';
 import { clearStorage } from '@utils/AsyncStorageUtils';
 import { useBottomSheet } from 'src/providers/BottomSheetProvider';
 import HeaderNavigation from '@components/HeaderNavigation';
@@ -26,9 +26,14 @@ const Home: React.FC = () => {
         dispatch(clearUserAction())
     }
 
-    const { toggleBottomSheet } = useBottomSheet()
+    const { toggleBottomSheet, isOpen } = useBottomSheet()
+    console.log("🚀 ~ file: index.tsx:30 ~ isOpen:", isOpen)
     const bottomSheet = () => {
         toggleBottomSheet(<Text onPress={clearStorageDevice}>clear storage</Text>)
+    }
+
+    const navigationTo = (screen: ScreenName) => {
+        navigation.navigate(screen)
     }
 
     return (
@@ -42,6 +47,9 @@ const Home: React.FC = () => {
                 }
                 navigation={navigation} />
             <InviteFriendsBanner />
+            <Button bgColor='blue' onClick={() => navigationTo('Sudoku')} text='Sudoku' />
+            <Button bgColor='blue' onClick={() => navigationTo('PaperScissorsRock')} text='PaperScissorsRock' />
+            <Button bgColor='blue' onClick={() => navigationTo('CreateQuizz')} text='Create new Quizz' />
             <Button bgColor='red' onClick={bottomSheet} text='Clear storage' />
         </Container>
     )

@@ -12,7 +12,6 @@ const ProfilePhoto: React.FC = () => {
     const dispatch = useDispatch()
     const { dissmisKeyboard } = useKeyboard()
     const { openBottomSheet, closeBottomSheet, isOpen } = useBottomSheet()
-    console.log("🚀 ~ file: index.tsx:15 ~ isOpen:", isOpen)
     const { userInfo: {
         profilePhoto
     } } = useSelector((state: RootState) => state.user)

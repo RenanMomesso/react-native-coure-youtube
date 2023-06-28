@@ -18,24 +18,25 @@ import { BottomSheetProvider } from 'src/providers/BottomSheetProvider';
 const IS_STORYBOOK = false
 const App: React.FC = () => {
     const isDarkMode = useColorScheme() === 'dark';
-
+   
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <ThemeProvider>
                 <Provider store={store}>
                     <PersistGate loading={<Loading />} persistor={persistor}>
-                        <ApolloProviderWrapper>
-                            <BottomSheetProvider>
-                                <SafeAreaView style={{ flex: 1 }}>
-                                    <StatusBar
-                                        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                                        backgroundColor={'#fff'}
-                                    />
-                                    <RootNavigation />
-                                </SafeAreaView>
-                            </BottomSheetProvider>
-                        </ApolloProviderWrapper>
+                        {/* <ApolloProviderWrapper> */}
+                        <BottomSheetProvider>
+                            <SafeAreaView style={{ flex: 1 }} >
+                                <StatusBar
+                                    
+                                    barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+                                    backgroundColor={'#fff'}
+                                />
+                                <RootNavigation />
+                            </SafeAreaView>
+                        </BottomSheetProvider>
+                        {/* </ApolloProviderWrapper> */}
                     </PersistGate>
                 </Provider>
             </ThemeProvider>

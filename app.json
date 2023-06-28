@@ -1,6 +1,6 @@
 {
-  "name": "eviraAPP",
-  "displayName": "eviraAPP",
+  "name": "quizzBeat",
+  "displayName": "quizzBeat",
   "android": {
     "adaptiveIcon": {
       "foregroundImage": "./assets/images/adaptive-icon.png",

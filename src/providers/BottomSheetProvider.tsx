@@ -1,6 +1,7 @@
 import BottomSheet, { BottomSheetRefProps } from '@components/BottomSheet';
 import { useKeyboard } from '@hooks/useKeyBoard';
 import React, { useState, useRef, useEffect, createContext, useContext } from 'react';
+import { useSharedValue } from 'react-native-reanimated';
 
 interface BottomSheetContextProps {
     isOpen?: boolean
@@ -21,7 +22,10 @@ export const BottomSheetProvider = ({ children }: {
     const [isOpen, setIsOpen] = useState(false);
     const bottomSheetRef = useRef<BottomSheetRefProps>(null);
     const { dissmisKeyboard } = useKeyboard()
-
+    const translateY = useSharedValue(0);
+    console.log("🚀 ~ file: BottomSheetProvider.tsx:26 ~ translateY:", translateY)
+    
+    console.log('isactive', bottomSheetRef.current?.isActive())
     useEffect(() => {
         if (!isOpen) {
             bottomSheetRef.current?.scrollTo(0);
@@ -29,6 +33,8 @@ export const BottomSheetProvider = ({ children }: {
             bottomSheetRef.current?.scrollTo(-400);
         }
     }, [isOpen]);
+
+
 
     const openBottomSheet = (children: React.ReactNode | null) => {
         setBottomSheetChildren(children || null);
@@ -51,7 +57,7 @@ export const BottomSheetProvider = ({ children }: {
 
     return (
         <BottomSheetContext.Provider value={{ openBottomSheet, closeBottomSheet, isOpen, toggleBottomSheet }}>
-            <BottomSheet ref={bottomSheetRef}>{bottomSheetChildren}</BottomSheet>
+            <BottomSheet translateY={translateY} ref={bottomSheetRef}>{bottomSheetChildren}</BottomSheet>
             {children}
         </BottomSheetContext.Provider>
     );

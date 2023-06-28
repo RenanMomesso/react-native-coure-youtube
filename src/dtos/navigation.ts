@@ -14,4 +14,13 @@ export type RootStackParamList = {
   Onboarding: undefined;
   FillProfileScreen: undefined;
   ImagePickerScreen: undefined;
+  Sudoku: undefined;
+  PaperScissorsRock: undefined;
+  CreateQuizz: undefined;
+  SelectQuizz: {
+    quizzId: string;
+  }
+  CreateQuestion: {
+    questionType: string;
+  }
 };

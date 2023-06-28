@@ -3,4 +3,5 @@ declare module '@env' {
   export const MYAPP_RELEASE_KEY_ALIAS: string;
   export const MYAPP_RELEASE_STORE_PASSWORD: string;
   export const MYAPP_RELEASE_KEY_PASSWORD: string;
+  export const REACT_NATIVE_BASE_API: string;
 }

@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native'
-import { StackNavigationOptions, createStackNavigator } from '@react-navigation/stack'
+import { StackNavigationOptions, TransitionPresets, createStackNavigator } from '@react-navigation/stack'
 import Home from '../pages/Home'
 import Signin from '../pages/Signin'
 import OnboardingScreen from '../pages/OnboardingScreen'
@@ -9,13 +9,15 @@ import SigninPassword from '@pages/SigninPassword'
 import { RootState } from 'src/store'
 import { RootStackParamList } from 'src/dtos'
 import FillProfileScreen from '@pages/FillProfileScreen'
-import BottomSheet, { BottomSheetRefProps } from '@components/BottomSheet'
-import { useRef, useEffect } from 'react'
+import Sudoku from '@components/Games/Sudoku'
+import PaperScissorRock from '@components/Games/PaperScissorRock'
+import CreateQuizz from '@pages/CreateQuizz'
+import SelectQuizz from '@pages/SelectQuizz'
+import CreateQuestion from '@pages/CreateQuestion'
 
 const RootNavigation = () => {
 
     const userReducer = useSelector((state: RootState) => state.user)
-    console.log("🚀 ~ file: RootNavigation.tsx:20 ~ RootNavigation ~ userReducer:", JSON.stringify(userReducer, undefined, 3))
     const Stack = createStackNavigator<RootStackParamList>()
     const stackNavigationOptions: StackNavigationOptions = {
         headerShown: false,
@@ -39,7 +41,22 @@ const RootNavigation = () => {
         )
     } else if (onboardingComplete && !userInfo?.firstTimeLogging) {
         stackScreen = (
-            <Stack.Screen name="Home" component={Home} />
+            <>
+                <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="Sudoku" component={Sudoku} />
+                <Stack.Screen name="PaperScissorsRock" component={PaperScissorRock} />
+                <Stack.Screen name="CreateQuizz" component={CreateQuizz} options={{
+                    headerShown: true,
+                    headerTitle: 'Create Quizz',
+
+                }} />
+                <Stack.Screen name="SelectQuizz" component={SelectQuizz} options={{
+                    presentation: 'transparentModal',
+                    animationEnabled: true,
+                    cardOverlayEnabled: true,
+                }} />
+                <Stack.Screen name="CreateQuestion" component={CreateQuestion} />
+            </>
         )
     } else {
         stackScreen = (

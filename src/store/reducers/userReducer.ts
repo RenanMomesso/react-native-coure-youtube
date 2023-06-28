@@ -1,4 +1,3 @@
-
 import { clearStorage } from '@utils/AsyncStorageUtils';
 import {
   CLEAR_ONBOARDING,
@@ -10,6 +9,7 @@ import {
   CLEAR_STORE,
   UPDATE_USER,
 } from '../types/userTypes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const userInitialState: IUserInitialState = {
   onboardingComplete: false,
@@ -20,6 +20,7 @@ const userInitialState: IUserInitialState = {
     token: '',
     id: '',
   },
+  jwt: '',
 };
 
 const userReducer = (
@@ -32,12 +33,15 @@ const userReducer = (
     case CLEAR_ONBOARDING:
       return { ...state, onboardingComplete: false };
     case SET_USER:
-      return { ...state, userInfo: action.payload };
+      return { ...state, userInfo: action.payload, jwt: action.payload?.token };
     case UPDATE_USER:
-      return {...state, userInfo: {
-        ...state.userInfo,
-        ...action.payload
-      }}  
+      return {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          ...action.payload,
+        },
+      };
     case CLEAR_USER:
       return {
         ...state,

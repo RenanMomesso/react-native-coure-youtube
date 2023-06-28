@@ -19,7 +19,7 @@ export interface ITextProps extends RNTextProps {
     align?: 'left' | 'center' | 'right';
 }
 
-const Text: React.FC<ITextProps> = ({ children, size = 'button', align = 'center', ...rest }) => {
+const Text: React.FC<ITextProps> = ({ children, size = 'button', align = 'left', ...rest }) => {
     return <StyledText size={size} align={align} {...rest}>{children}</StyledText>;
 };
 

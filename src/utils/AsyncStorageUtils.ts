@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const STORAGE_KEY = '@eviraApp:Data';
+const STORAGE_KEY = '@quizzBeat:Data';
 
 export const saveDataToStorage = async (key: string, data: any) => {
   try {

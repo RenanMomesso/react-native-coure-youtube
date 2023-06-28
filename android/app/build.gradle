@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.eviraapp"
+    namespace "com.quizzBeat"
     defaultConfig {
-        applicationId "com.eviraapp"
+        applicationId "com.quizzBeat"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

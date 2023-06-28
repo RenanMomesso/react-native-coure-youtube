@@ -18,6 +18,7 @@ export interface IUser {
 export type IUserInitialState = {
   onboardingComplete: boolean;
   userInfo: IUser;
+  jwt: string;
 };
 
 export interface IOnboardingCompleteAction {

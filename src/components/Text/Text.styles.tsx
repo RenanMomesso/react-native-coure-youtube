@@ -38,7 +38,7 @@ export const modifier = {
 
 export const StyledText = styled(Text) <ITextProps>`
   ${({ size, color, align }) => css`
-        ${size && modifier[size || 'button'](color || 'white')};
+        ${size && modifier[size || 'button'](color || 'black')};
         text-align: ${align};
   `}
 `;

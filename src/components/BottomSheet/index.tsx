@@ -9,6 +9,8 @@ import Animated, {
     withSpring,
     withTiming,
 } from 'react-native-reanimated';
+import { act } from 'react-test-renderer';
+import { a } from 'aws-amplify';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -16,6 +18,7 @@ const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + 50;
 
 type BottomSheetProps = {
     children?: React.ReactNode;
+    translateY?: Animated.SharedValue<number>;
 };
 
 export type BottomSheetRefProps = {
@@ -24,8 +27,8 @@ export type BottomSheetRefProps = {
 };
 
 const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
-    ({ children }, ref) => {
-        const translateY = useSharedValue(0);
+    ({ children, translateY }, ref) => {
+
         const active = useSharedValue(false);
 
         const scrollTo = useCallback((destination: number) => {
@@ -39,9 +42,14 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
             return active.value;
         }, []);
 
+
+
+
+
         useImperativeHandle(ref, () => ({ scrollTo, isActive }), [
             scrollTo,
             isActive,
+
         ]);
 
         const context = useSharedValue({ y: 0 });
@@ -54,10 +62,16 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
                 translateY.value = Math.max(translateY.value, MAX_TRANSLATE_Y);
             })
             .onEnd(() => {
+                console.log("🚀 ~ file: index.tsx:63 ~ .onEnd ~ MAX_TRANSLATE_Y:", MAX_TRANSLATE_Y)
                 if (translateY.value > -SCREEN_HEIGHT / 3) {
                     scrollTo(0);
+                    active.value = false;
                 } else if (translateY.value < -SCREEN_HEIGHT / 1.5) {
+                    active.value = true;
                     scrollTo(MAX_TRANSLATE_Y);
+
+                } else {
+                    active.value = false;
                 }
             });
 
