@@ -32,8 +32,11 @@ const QuizzGame = () => {
     const selectedQuestionType = isQuizzSelected ? selectedQuizz?.questionType : draftQuizz?.questionType ? draftQuizz?.questionType : 'quizz';
 
     useEffect(() => {
-        setQuestionType(selectedQuestionType)
-    }, [selectedQuestionType, quizzId])
+        setBgImg(bgQuizzQuestionImg)
+        setQuestionType(selectedQuestionType || 'quizz')
+    }, [selectedQuestionType, quizzId, bgQuizzQuestionImg])
+
+
 
 
     useEffect(() => {
@@ -44,9 +47,7 @@ const QuizzGame = () => {
 
     const disabledButton = draftQuizz?.question?.length === 0 || draftQuizz?.question === null || draftQuizz?.question === undefined
 
-    useEffect(() => {
-        setBgImg(bgQuizzQuestionImg)
-    }, [bgQuizzQuestionImg])
+
 
 
     const handleSaveQuizzQuestion = async () => {
@@ -110,10 +111,6 @@ const QuizzGame = () => {
 
     return (
         <Container>
-            <Text>{JSON.stringify({
-                selectedQuestionType,
-                bgQuizzQuestionImg
-            }, undefined, 2)}</Text>
             <HeaderNavigation
                 title='Create Quizzo'
                 navigation={navigation}

@@ -18,7 +18,7 @@ const DraftQuizzes: React.FC = () => {
     const draftQuizz = quizz.draftQuizz || {}
     const alreadyCreatedQuizzes = quizz.quizzes || []
     const allQuizzes = alreadyCreatedQuizzes.concat(draftQuizz)
-    const isQuizzSelected: boolean = selectedQuizz?.isQuizzSelected
+    const isQuizzSelected: boolean | undefined = selectedQuizz.isQuizzSelected
 
     const handleSelectQuizz = (quizz: any) => {
         dispatch(selectQuizz({
@@ -26,6 +26,8 @@ const DraftQuizzes: React.FC = () => {
             isQuizzSelected: true
         }))
     }
+
+
 
     const handleSaveQuizzQuestion = async () => {
         dispatch(addQuestionToQuizzes([draftQuizz]))
@@ -49,7 +51,7 @@ const DraftQuizzes: React.FC = () => {
                     const lastElement = allQuizzes.length - 1;
                     const pressLastElement = index === lastElement;
 
-                    return ( 
+                    return (
                         <Pressable key={index}
                             onPress={pressLastElement ? () => dispatch(unselectQuizz()) : () => handleSelectQuizz(quizz)}
                             style={{
@@ -65,7 +67,7 @@ const DraftQuizzes: React.FC = () => {
                             {!!quizz?.bgQuizzQuestionImg && <Image source={{ uri: quizz?.bgQuizzQuestionImg }} style={{ height: 55, width: 75 }} />}
                             <Text>{quizz?.questionType}</Text>
                         </Pressable>
-                    ) 
+                    )
                 })}
             </ScrollView>
             <TouchableOpacity

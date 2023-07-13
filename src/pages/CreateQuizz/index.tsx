@@ -54,8 +54,10 @@ const CreateQuizz: React.FC = () => {
 
     const saveQuizz = async () => {
         const response = await quizzService.createQuizz(quizz)
-        
+
     }
+
+    
 
     return (
         <ScrollView contentContainerStyle={{ flex: 1 }}>

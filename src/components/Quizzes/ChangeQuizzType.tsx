@@ -41,13 +41,12 @@ const ChangeQuizzType: FC<Props> = ({ label, onSelect }) => {
   };
 
   const onItemPress = (item: any): void => {
+    onSelect(item.id);
     if (isQuizzSelected) {
-      Alert.alert("IS SELECTED PORRA")
       dispatch(updateQuizz({ ...selectedQuizz, questionType: item.id, answers: null }))
     } else {
       dispatch(addDraftQuizz({ questionType: item.id, answers: null }))
     }
-    onSelect(item.id);
 
     setVisible(false);
   };
@@ -75,19 +74,13 @@ const ChangeQuizzType: FC<Props> = ({ label, onSelect }) => {
   };
 
   return (
-    <>
-      <DropdownButtonWrapper ref={DropdownButton} onPress={toggleDropdown}>
-        {renderDropdown()}
-        <ButtonText>
-          {label}
-        </ButtonText>
-        {/* <Icon style={styles.icon} type="font-awesome" name="chevron-down" /> */}
-      </DropdownButtonWrapper>
+    <DropdownButtonWrapper ref={DropdownButton} onPress={toggleDropdown}>
+      {renderDropdown()}
       <ButtonText>
-        {JSON.stringify(quizz?.draftQuizz?.questionType)}
-        {JSON.stringify(selectedQuizz?.questionType)}
+        {label}
       </ButtonText>
-    </>
+      {/* <Icon style={styles.icon} type="font-awesome" name="chevron-down" /> */}
+    </DropdownButtonWrapper>
   );
 };
 

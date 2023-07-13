@@ -1,4 +1,3 @@
-import { produce } from 'immer';
 const ADD_QUIZZ = 'ADD_QUIZZ';
 const REMOVE_QUIZZ = 'REMOVE_QUIZZ';
 const UPDATE_QUIZZ = 'UPDATE_QUIZZ';
@@ -76,7 +75,7 @@ export const selectQuizz = (quizz: Quizz) => ({
 });
 
 export const updateQuizz = (quizz: Quizz & Record<string, any>) => {
-  console.log('UPDATE QUIZZ', quizz);
+  console.log("UPDATE QUIZZ", quizz)
   return {
     type: UPDATE_QUIZZ,
     quizz,
@@ -89,30 +88,30 @@ export const unselectQuizz = () => ({
 
 export const removeQuizz = (quizz: Quizz) => ({});
 
-const quizzReducer = (state = initialState, action) => {
-  return produce(state, draft => {
-    console.log('state', JSON.stringify(state.selectedQuizz, undefined, 2));
-    console.log('draft', JSON.stringify(draft.selectedQuizz, undefined, 2));
-    switch (action.type) {
-      case ADD_QUIZZ:
-        draft.quizz = action.quizz;
-        break;
-      case ADD_DRAFT_QUIZZ:
-        draft.quizz = {
-          ...draft.quizz,
+const quizzReducer = (state: initialStateProps = initialState, action: any) => {
+  switch (action.type) {
+    case ADD_QUIZZ:
+      return { ...state, quizz: action.quizz };
+    case ADD_DRAFT_QUIZZ:
+      return {
+        ...state,
+        quizz: {
+          ...state.quizz,
           ...action.quizz,
-          quizzes: [...draft.quizz.quizzes],
+          quizzes: [...state.quizz.quizzes],
           draftQuizz: {
-            ...draft.quizz.draftQuizz,
+            ...state.quizz.draftQuizz,
             ...action.draftQuizz,
           },
-        };
-        break;
-      case ADD_QUESTION:
-        draft.quizz = {
-          ...draft.quizz,
+        },
+      };
+    case ADD_QUESTION:
+      return {
+        ...state,
+        quizz: {
+          ...state.quizz,
           quizzes: [
-            ...draft.quizz.quizzes,
+            ...state.quizz.quizzes,
             ...(Array.isArray(action.quizzQuestion)
               ? action.quizzQuestion
               : [action.quizzQuestion]),
@@ -123,31 +122,47 @@ const quizzReducer = (state = initialState, action) => {
           selectedQuizz: {
             isQuizzSelected: false,
           },
-        };
-        break;
-      case SELECT_QUIZZ:
-        draft.selectedQuizz = action.quizz;
-        break;
-      case UNSELECT_QUIZZ:
-        draft.selectedQuizz = {
+        },
+      };
+    case SELECT_QUIZZ:
+      return {
+        ...state,
+        selectedQuizz: action.quizz,
+        quizz: {
+          ...state.quizz,
+        },
+      };
+    case UNSELECT_QUIZZ:
+      return {
+        ...state,
+        selectedQuizz: {
           isQuizzSelected: false,
-        };
-        break;
-      case UPDATE_QUIZZ:
-        draft.quizz.quizzes = draft.quizz.quizzes.map(quizz => {
-          if (quizz.quizzId === draft.selectedQuizz?.quizzId) {
-            return {
-              ...quizz,
-              ...action.quizz,
-            };
-          }
-          return quizz;
-        });
-        break;
-      default:
-        break;
-    }
-  });
+        },
+        quizz: {
+          ...state.quizz,
+        },
+      };
+    case UPDATE_QUIZZ:
+      return {
+        ...state,
+        quizz: {
+          ...state.quizz,
+          quizzes: [
+            ...state.quizz.quizzes.map((quizz: Quizz) => {
+              if (quizz.quizzId === state.selectedQuizz?.quizzId) {
+                return {
+                  ...quizz,
+                  ...action.quizz,
+                };
+              }
+              return { ...quizz };
+            }),
+          ],
+        },
+      };
+    default:
+      return state;
+  }
 };
 
 export default quizzReducer;
