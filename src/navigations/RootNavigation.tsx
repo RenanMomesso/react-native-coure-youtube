@@ -52,8 +52,7 @@ const RootNavigation = () => {
                 }} />
                 <Stack.Screen name="SelectQuizz" component={SelectQuizz} options={{
                     presentation: 'transparentModal',
-                    animationEnabled: true,
-                    cardOverlayEnabled: true,
+
                 }} />
                 <Stack.Screen name="CreateQuestion" component={CreateQuestion} />
             </>

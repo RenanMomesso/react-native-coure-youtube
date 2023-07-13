@@ -11,6 +11,10 @@ import { NavigationScreenProp } from 'src/dtos';
 import { games, quizzQuetionTypes } from '@utils/games'
 import QuizzTitle from '@components/QuizzTitle';
 import Text from '@components/Text';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'src/store';
+import { quizzUseSelector } from '@hooks/useRedux';
+import { addDraftQuizz } from 'src/store/reducers/quizzReducer';
 
 
 export interface SelectQuizzProps {
@@ -26,6 +30,7 @@ export default function SelectQuizz({ route, navigation }: SelectQuizzProps) {
     const { quizzId } = route.params;
     const { colors } = useTheme();
     const { current } = useCardAnimation();
+    const dispatch = useDispatch();
 
     const quizzesOptions: Record<string, any> = {
         versusGame: games,
@@ -40,8 +45,13 @@ export default function SelectQuizz({ route, navigation }: SelectQuizzProps) {
         navigation.navigate('CreateQuestion', {
             questionType: quizz.id,
         })
-    }
+        dispatch(
+            addDraftQuizz({
+                questionType: quizz.id,
+            })
+        )
 
+    }
 
     return (
         <View
@@ -82,7 +92,12 @@ export default function SelectQuizz({ route, navigation }: SelectQuizzProps) {
                 }}
             >
                 <Text size='heading'>{addQuizzTypeText}</Text>
-                {quizzes.map((quizz: any) => <QuizzTitle  key={quizz.id} quizzTitle={quizz.name} onPress={() => navigationToQuizz(quizz)} />)}
+                {quizzes?.map((quizz: any) => <QuizzTitle
+                    key={quizz.id}
+                    quizzId={quizz.id}
+                    quizzTitle={quizz.name}
+                    onPress={() => navigationToQuizz(quizz)}
+                />)}
             </Animated.View>
         </View>
     );

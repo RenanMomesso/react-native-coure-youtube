@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput as RNTextInput, TextInputProps } from 'react-native';
+import { TextInput as RNTextInput, TextInputProps, TouchableOpacity } from 'react-native';
 import { ArrowDownIcon, InputContainer, TextInput } from './TextInputWithIcon.styles';
 import Text from '../Text';
 import DropdownSelect from '@components/DropdownSelect/Dropdown';
@@ -22,8 +22,16 @@ interface InputProps extends TextInputProps {
 
 const TextInputIcon = React.forwardRef((props: InputProps, ref: React.Ref<RNTextInput>) => {
     const [dropdownOpen, setDropdownOpen] = React.useState(false);
+    const [topPosition, setTopPosition] = React.useState(0);
     const { onChangeText, leftIconName, placeholder, rightIconName, value, endEdditing, isFocused, maskValue, topTitle = null, dropDownList, ...rest } = props;
     const { dissmisKeyboard } = useKeyboard()
+    const elemenRef = React.useRef<TouchableOpacity>(null);
+
+    const handleMeasure = () => {
+        elemenRef.current?.measure((x, y, width, height, pageX, pageY) => {
+            setTopPosition(pageY);
+        });
+    };
 
 
     const handleDropdown = () => {
@@ -42,6 +50,8 @@ const TextInputIcon = React.forwardRef((props: InputProps, ref: React.Ref<RNText
         <>
             {topTitle && <Text style={{ marginTop: 10 }}>{topTitle}</Text>}
             <InputContainer
+                onLayout={handleMeasure}
+                ref={elemenRef}
                 topTitle={!!topTitle}
                 isFocused={isFocused}
                 onPress={isDropdown ? () => handleDropdown() : () => ref?.current && ref?.current?.focus()}>
@@ -53,7 +63,7 @@ const TextInputIcon = React.forwardRef((props: InputProps, ref: React.Ref<RNText
                     placeholder={placeholder}
                     onEndEditing={endEdditing}
                     value={value}
-                    onChangeText={(masked, unmasked) => {
+                    onChangeText={(masked: any, unmasked: any) => {
                         onChangeText(masked);
 
                     }}
@@ -61,8 +71,9 @@ const TextInputIcon = React.forwardRef((props: InputProps, ref: React.Ref<RNText
                 />
                 {rightIconName && rightIconName}
                 {!!dropDownList && dropDownList.length > 0 && <ArrowDownIcon onPress={handleDropdown} />}
-            </InputContainer >
+            </InputContainer>
             {dropdownOpen && !!dropDownList?.length && <DropdownSelect
+                topPosition={topPosition}
                 closeDropdown={() => setDropdownOpen(false)}
                 dropdownList={dropDownList}
                 add={handleAdd}

@@ -1,1 +1,1 @@
-export * as default from './Quizz';
+export * as default from './QuizzGame';

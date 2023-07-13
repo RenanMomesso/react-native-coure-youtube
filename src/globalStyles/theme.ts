@@ -11,6 +11,7 @@ export default {
     white: '#FFF',
     lightWhite: '#f7f7F2',
     lightGray: '#fafafafa',
+    purpleMain:'#7052ff'
   },
   sizes: {
     fontSize: {

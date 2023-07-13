@@ -5,7 +5,7 @@ import theme from "../../globalStyles/theme";
 
 const colorModifier = {
   white: theme.colors.white || '#FFF',
-  black: theme.colors.black || '#000',
+  black: theme.colors.black || 'red',
   disabled: theme.colors.disabledBlack || '#CCC',
   bolder: theme.colors.normalBlack || '#333',
 }

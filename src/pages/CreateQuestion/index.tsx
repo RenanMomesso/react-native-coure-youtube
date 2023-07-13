@@ -1,16 +1,19 @@
-import AddImage from '@components/AddImage';
-import HeaderNavigation from '@components/HeaderNavigation';
-import Text from '@components/Text';
+import DraftQuizzes from '@components/DraftQuizzes';
+import Quizz from '@components/Quizzes/QuizzGame';
+import { quizzUseSelector } from '@hooks/useRedux';
 import { Container } from '@theme/globalComponents';
 import React from 'react';
-import { View } from 'react-native';
+import { useSelector } from 'react-redux';
 
+const CreateQuestion = () => {
+    const { quizz, selectedQuizz } = useSelector(quizzUseSelector)
+    const draftQuizz = selectedQuizz ?? quizz?.draftQuizz ?? {}
+    const quiizes = quizz?.quizzes.concat(draftQuizz)
 
-const CreateQuestion: React.FC = ({ navigation }) => {
     return (
         <Container style={{ padding: 20 }}>
-            <HeaderNavigation title='Create Quizzo' navigation={navigation} />
-            <AddImage style={{ marginTop: 20 }} />
+            <Quizz />
+            {!!quiizes?.length && <DraftQuizzes />}
         </Container>
     )
 }
