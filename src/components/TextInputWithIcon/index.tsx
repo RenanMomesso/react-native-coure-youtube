@@ -29,7 +29,7 @@ const TextInputIcon = React.forwardRef((props: InputProps, ref: React.Ref<RNText
 
     const handleMeasure = () => {
         elemenRef.current?.measure((x, y, width, height, pageX, pageY) => {
-            setTopPosition(pageY);
+            setTopPosition(pageY + height);
         });
     };
 

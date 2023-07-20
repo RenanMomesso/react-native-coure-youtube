@@ -3,7 +3,7 @@ import { useKeyboard } from '@hooks/useKeyBoard';
 import { quizzUseSelector } from '@hooks/useRedux';
 import { PlusIcon } from '@theme/globalComponents/icons';
 import theme from '@theme/theme';
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native';
 import { Pressable, Keyboard } from 'react-native';
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Quizz, addQuestionToQuizzes, selectQuizz, unselectQuizz } from 'src/store/reducers/quizzReducer';
 
 const DraftQuizzes: React.FC = () => {
+    const scrollViewRef = useRef<ScrollView>(null)
     const dispatch = useDispatch()
     const { keyboardVisible } = useKeyboard()
     const { quizz, selectedQuizz } = useSelector(quizzUseSelector)
@@ -37,6 +38,7 @@ const DraftQuizzes: React.FC = () => {
     return (
         <View>
             <ScrollView
+                ref={scrollViewRef}
                 horizontal
                 contentContainerStyle={{
                     gap: 8,
@@ -53,6 +55,10 @@ const DraftQuizzes: React.FC = () => {
 
                     return (
                         <Pressable key={index}
+                            onLayout={(event) => {
+                                var layout = event.nativeEvent.layout;
+                                
+                            }}
                             onPress={pressLastElement ? () => dispatch(unselectQuizz()) : () => handleSelectQuizz(quizz)}
                             style={{
                                 borderWidth: 1,

@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Keyboard } from 'react-native';
 import Text from '@components/Text';
 import { useKeyboard } from '@hooks/useKeyBoard';
 
-const Container = styled(View) <{ keyboardVisible: boolean }>`
+const Container = styled(View)`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -22,7 +22,6 @@ const Container = styled(View) <{ keyboardVisible: boolean }>`
   border-top-color: #cdc9e089;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  display: ${({ keyboardVisible }) => (keyboardVisible ? 'none' : 'flex')};
 `;
 
 const Button = styled(TouchableOpacity)`
@@ -49,9 +48,9 @@ interface BottomButtonsProps {
 
 
 const BottomButtons = ({ onPressRightButton, onPressSave = () => { }, rightButtonText }: BottomButtonsProps) => {
-  const { keyboardVisible } = useKeyboard();
+
   return (
-    <Container keyboardVisible={keyboardVisible}>
+    <Container>
       <SaveButton onPress={onPressSave}>
         <Text style={{ color: "#7052ff" }}>Save</Text>
       </SaveButton>

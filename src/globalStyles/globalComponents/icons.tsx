@@ -7,3 +7,11 @@ export const PlusIcon = styled(Icon).attrs({
     size: 25
 })`
 `;
+
+
+export const HomeIcon = styled(Icon).attrs({
+    name: "home",
+    color: props => props.color || "white",
+    size: 25
+})`
+`;

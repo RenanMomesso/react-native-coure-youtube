@@ -4,13 +4,13 @@ import Icon from 'react-native-vector-icons/Entypo';
 import { Row } from '../../globalStyles/globalComponents';
 import Text from '../Text';
 import theme from '../../globalStyles/theme';
+import { useNavigation } from '@react-navigation/native';
 
 export interface HeaderNavigationProps {
     leftIcon?: React.ReactElement | null;
     title?
     : string;
     rightIcon?: React.ReactElement | null;
-    navigation: any
     onPress?: () => void;
 }
 
@@ -18,9 +18,10 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = ({
     leftIcon = '',
     title,
     rightIcon,
-    navigation,
     onPress
 }) => {
+
+    const navigation = useNavigation()
 
     const handleGoBack = () => navigation.goBack();
     return (

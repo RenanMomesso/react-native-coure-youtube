@@ -10,7 +10,7 @@ export const DropdownContainer = styled(Animated.View) <{ topPosition?: number }
     gap: 4px;
     position: absolute;
     top: ${({ topPosition }) => topPosition ? `${topPosition}px` : 'auto'};
-    z-index: 1;
+    z-index: 12;
     margin-horizontal:20px;
     margin-top:-20px;
     width: 100%;

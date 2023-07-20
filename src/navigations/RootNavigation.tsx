@@ -14,6 +14,8 @@ import PaperScissorRock from '@components/Games/PaperScissorRock'
 import CreateQuizz from '@pages/CreateQuizz'
 import SelectQuizz from '@pages/SelectQuizz'
 import CreateQuestion from '@pages/CreateQuestion'
+import BottomTabNavigation from './BottomNavigation'
+import DiscoverScreen from '@pages/DiscoverScreen'
 
 const RootNavigation = () => {
 
@@ -42,7 +44,8 @@ const RootNavigation = () => {
     } else if (onboardingComplete && !userInfo?.firstTimeLogging) {
         stackScreen = (
             <>
-                <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="BottomTabNavigation" component={BottomTabNavigation} />
+                <Stack.Screen name="DiscoverScreen" component={DiscoverScreen} />
                 <Stack.Screen name="Sudoku" component={Sudoku} />
                 <Stack.Screen name="PaperScissorsRock" component={PaperScissorRock} />
                 <Stack.Screen name="CreateQuizz" component={CreateQuizz} options={{

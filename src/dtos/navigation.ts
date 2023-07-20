@@ -17,6 +17,8 @@ export type RootStackParamList = {
   Sudoku: undefined;
   PaperScissorsRock: undefined;
   CreateQuizz: undefined;
+  BottomTabNavigation: undefined;
+  DiscoverScreen: undefined;
   SelectQuizz: {
     quizzId: string;
   }
