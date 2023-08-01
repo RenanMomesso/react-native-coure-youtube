@@ -18,11 +18,19 @@ export type RootStackParamList = {
   PaperScissorsRock: undefined;
   CreateQuizz: undefined;
   BottomTabNavigation: undefined;
+  BattleQuizzSearchingOpponent: undefined;
+  PickOneVsOneGame: undefined;
   DiscoverScreen: undefined;
+  BattleGameScreen: {
+    room: any;
+  };
+  QuizzScreen: {
+    quizzId: string;
+  };
   SelectQuizz: {
     quizzId: string;
-  }
+  };
   CreateQuestion: {
     questionType: string;
-  }
+  };
 };

@@ -7,9 +7,16 @@ import SudokuNumbers from './SudokuNumbers';
 import SudoButtonsBottom from './BottomButtons';
 import SudokuTimer from './SudokuTimer';
 import Button from '@components/Button';
+import { io } from 'socket.io-client'
+import { set } from 'lodash';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
 
 export type SudokuLevel = 'easy' | 'medium' | 'hard' | 'expert';
+const socketIO = io("http://10.0.2.2:6000");
+socketIO.on('connect', () => console.log("Connected Sudoku"))
 const Sudoku: React.FC = () => {
+    const userID = useSelector((state: RootState) => state.user.userInfo?._id)
     const timerRef = useRef<{
         start: () => void;
         pause: () => void;
@@ -24,7 +31,14 @@ const Sudoku: React.FC = () => {
         const grid = createSudokuGrid(50);
         const shadowCopy = [...grid];
         findAndHighlightFirstZero(shadowCopy);
-        setGrid(shadowCopy);
+        socketIO.emit('sudoku started', shadowCopy);
+        socketIO.on('sudo isPlaying', board => {
+            if (board) {
+                setGrid(board);
+            } else {
+                setGrid(shadowCopy);
+            }
+        })
     };
 
     const findAndHighlightFirstZero = (grid: SudokuNode[][]) => {
@@ -39,8 +53,13 @@ const Sudoku: React.FC = () => {
     };
 
     useEffect(() => {
-        createNewGame();
+        socketIO.on('sudo isPlaying ', (board) => {
+            setGrid(board);
+        });
+        socketIO.emit('sudoku started', grid); // Replace with actual room name
     }, []);
+
+
 
     const handleCellClick = (row: number, col: number) => {
         const newGrid = [...grid];
@@ -53,24 +72,23 @@ const Sudoku: React.FC = () => {
             });
         });
         cell.isHighlighted = true;
-
+        // socketIO.emit('sudoku started', newGrid);
         setGrid(newGrid);
     };
 
     const handleNumberClick = (number: number) => {
-
-        setGrid((prevGrid: SudokuNode[][]) => {
-            setWrongCells(null)
-            return prevGrid.map(row => {
-                return row.map(cell => {
-
-                    if (cell.isHighlighted && cell.isModified) {
-                        return { ...cell, value: number };
-                    }
-                    return cell;
-                });
+        const previousGrid: SudokuNode[][] = [...grid];
+        const newGrid = previousGrid.map(row => {
+            return row.map(cell => {
+                if (cell.isHighlighted) {
+                    return { ...cell, value: number, isModified: true, user: userID };
+                }
+                return cell;
             });
         });
+        setWrongCells(null)
+        socketIO.emit('sudoku started', newGrid);
+        setGrid(newGrid);
     };
 
     const finishGame = () => {

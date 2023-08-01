@@ -5,8 +5,7 @@ import ProfilePhotoButtons from '@components/ProfilePhotoButtons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { useKeyboard } from '@hooks/useKeyBoard';
-import { updateUserAction } from 'src/store/actions/userActions';
-import { Alert } from 'react-native'
+import { updateUser } from 'src/store/reducers/userReducer';
 
 const ProfilePhoto: React.FC = () => {
     const dispatch = useDispatch()
@@ -17,7 +16,7 @@ const ProfilePhoto: React.FC = () => {
     } } = useSelector((state: RootState) => state.user)
 
     const handleOPressBottomSheet = () => {
-        
+
         if (isOpen) closeBottomSheet()
         else {
             dissmisKeyboard()
@@ -27,7 +26,7 @@ const ProfilePhoto: React.FC = () => {
 
     const clearPhotoProfile = () => {
         closeBottomSheet();
-        dispatch(updateUserAction({ profilePhoto: '' }));
+        dispatch(updateUser({ profilePhoto: '' }));
     }
 
     return (

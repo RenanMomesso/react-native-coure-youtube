@@ -2,6 +2,8 @@ import Text from '@components/Text';
 import React from 'react';
 import { View, TouchableOpacity, Pressable, TouchableWithoutFeedback } from 'react-native';
 import { SudokuNode } from './SudokuGrid';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
 
 export interface SudokuButtonProps {
     cell: SudokuNode
@@ -14,6 +16,8 @@ export interface SudokuButtonProps {
 }
 
 const SudokuButton: React.FC<SudokuButtonProps> = ({ cell, handleCellClick, wrongCells }) => {
+    const userID = useSelector((state: RootState) => state.user.userInfo?._id)
+
     const { col, row, value, isHighlighted, isModified } = cell;
     const wrongCol = wrongCells?.col;
     const wrongRow = wrongCells?.row;
@@ -24,13 +28,38 @@ const SudokuButton: React.FC<SudokuButtonProps> = ({ cell, handleCellClick, wron
     const isWrongCol = wrongCol?.includes(col);
     const isWrongBox = wrongBox?.includes(box);
 
+    const boxColor = () => {
+
+        if (isWrongRow || isWrongCol || isWrongBox) {
+            return '#f70000b3'
+        }
+        if (isHighlighted) {
+            return '#f7f700b3'
+        }
+
+        if (isModified && !cell?.user) {
+            return 'white'
+        }
+        if (!!cell?.user && cell?.user?.toString() !== userID?.toString()) {
+            return 'lightgreen'
+        }
+
+        if (cell?.user?.toString() === userID?.toString()) {
+            return 'lightblue'
+        }
+
+
+
+
+        return '#DDD'
+    }
+
     return (
         <Pressable
             disabled={!isModified}
             style={{
                 borderBottomWidth: row === 2 || row === 5 ? 2 : 1,
                 borderBottomColor: 'black',
-
                 borderRightColor: col === 2 || col === 5 || col === 8 ? 'black' : 'lightgray',
                 borderRightWidth: col === 2 || col === 5 ? 3 : 1,
                 borderTopWidth: 1,
@@ -42,7 +71,7 @@ const SudokuButton: React.FC<SudokuButtonProps> = ({ cell, handleCellClick, wron
 
                 height: 40,
                 width: 40,
-                backgroundColor: isHighlighted ? '#f9ffe0' : isModified ? 'white' : isWrongRow || isWrongCol || isWrongBox ? '#f70000b3' : '#DDD',
+                backgroundColor: boxColor()
             }}
             onPress={() => handleCellClick(row, col)}
         >

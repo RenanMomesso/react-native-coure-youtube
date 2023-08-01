@@ -11,16 +11,19 @@ import PopupMenu, { PopupMenuOptions } from '@components/Popup';
 import ButtonAnswers from '../ButtonAnswers';
 import { handleGallery } from '@utils/handleGallery';
 import { useDispatch, useSelector } from 'react-redux';
-import { addDraftQuizz, addQuestionToQuizzes, duplicateQuizz, finishQuizzCreation, updateQuizz } from 'src/store/reducers/quizzReducer';
+import { addDraftQuizz, addQuestionToQuizzes, duplicateQuizz, completedQuizz, updateQuizz } from 'src/store/reducers/quizzReducer';
 import { quizzUseSelector } from '@hooks/useRedux';
 import TrueOrFalseQuizzOption from '../TrueOrFalseQuizz/TrueFalseOption';
 import Text from '@components/Text';
 import { gameId } from '@utils/index';
 import { quizzService } from 'src/services/api/quizz/quizz.service';
 import { Alert } from 'react-native';
+import { useAddQuizzMutation, useGetQuizzesQuery } from 'src/store/quizzApi';
 
 const QuizzGame = () => {
+    const { refetch } = useGetQuizzesQuery({})
     const [questionType, setQuestionType] = useState("");
+    const [addQuizz] = useAddQuizzMutation()
 
     const dispatch = useDispatch();
     const navigation = useNavigation<NavigationScreenProp>();
@@ -51,12 +54,14 @@ const QuizzGame = () => {
 
     const disabledButton = draftQuizz?.question?.length === 0 || draftQuizz?.question === null || draftQuizz?.question === undefined
     const handleSaveQuizzConfirm = () => {
+        refetch()
         navigation.navigate('Home')
-        dispatch(finishQuizzCreation())
+        dispatch(completedQuizz())
     }
 
     const handleSaveQuizz = async () => {
-        const response = await quizzService.createQuizz(quizz)
+        const response = await addQuizz(quizz)
+        console.log("RESPONSE =========>", response)
         if (response) {
             Alert.alert('Quizz saved successfully', 'All quizzes are saved in database, except incompleted quizzes are not saved.', [
                 {

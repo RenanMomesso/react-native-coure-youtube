@@ -5,7 +5,6 @@ import useAndroidBackHandler from '@hooks/useBackHandler';
 import React, { Dispatch, Reducer, useRef } from 'react';
 import { Alert, Pressable, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearUserAction, updateUserAction } from 'src/store/actions/userActions';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Button from '@components/Button';
 import FullScreenCalendar from '@components/FullScreenCalendar';
@@ -13,9 +12,11 @@ import inputStateReducer, { InputState } from 'src/helpers/inputStateReducer';
 import { useKeyboard } from '@hooks/useKeyBoard';
 import { useBottomSheet } from 'src/providers/BottomSheetProvider';
 import { errorAlert } from '@utils/errorAlert';
-import { updateUser } from 'src/services/auth-service';
+import { updateUserService } from 'src/services/auth-service';
 import { RootState } from 'src/store';
 import { clearStorage } from '@utils/AsyncStorageUtils';
+import { clearUser, updateUser } from 'src/store/reducers/userReducer';
+
 
 const FillProfileScreen: React.FC<any> = ({ navigation }) => {
 
@@ -76,7 +77,7 @@ const FillProfileScreen: React.FC<any> = ({ navigation }) => {
     const dispatch = useDispatch();
     const handleGoBack = async (): Promise<void> => {
         clearStorage();
-        dispatch(clearUserAction())
+        dispatch(clearUser())
     }
 
     useAndroidBackHandler(() => {
@@ -91,9 +92,9 @@ const FillProfileScreen: React.FC<any> = ({ navigation }) => {
             const variables = Object.keys(state).reduce((acc, key) => {
                 return { ...acc, [key]: state[key].value }
             }, {})
-            const data = await updateUser(variables)
+            const data = await updateUserService(variables)
             console.log("🚀 ~ file: index.tsx:85 ~ handleUpdateUser ~ data:", data)
-            dispatch(updateUserAction(data))
+            dispatch(updateUser(data))
         } catch (error) {
             errorAlert(error as Error)
         }

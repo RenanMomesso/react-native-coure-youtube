@@ -7,7 +7,7 @@ import Button from '../../components/Button';
 import Paginator from './components/Paginator';
 import SkipSlides from './components/Skip';
 import { useDispatch } from "react-redux"
-import { onBoardingCompleted } from '../../store/actions/userActions';
+import { completeOnboarding } from 'src/store/reducers/userReducer';
 
 const OnboardingScreen = () => {
     const dispatch = useDispatch()
@@ -35,7 +35,7 @@ const OnboardingScreen = () => {
     const buttonTitle = currentIndex === onboardingData.length - 1 ? 'Get Started' : 'Next';
 
     const navigationToLogin = async () => {
-        dispatch(onBoardingCompleted())
+        dispatch(completeOnboarding())
     };
 
     return (

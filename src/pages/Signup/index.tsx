@@ -9,11 +9,11 @@ import RememberMeCheckBox from '@components/CheckBoxAndText/RememberMeCheckBox';
 import Button from '@components/Button';
 import HorizontalLineWithText from '../../components/LineWithText';
 import { useDispatch } from 'react-redux';
-import { setUserAction } from '../../store/actions/userActions';
 import { RootStackParamList } from 'src/dtos';
 import { signUp } from 'src/services/auth-service';
 import AuthForm from '@pages/shared/AuthForm';
 import LoginWithSocials from '@components/LoginWithSocials';
+import { setUser } from 'src/store/reducers/userReducer';
 
 type ScreenName = keyof RootStackParamList;
 export type NavigationScreenProp = StackNavigationProp<RootStackParamList, ScreenName>
@@ -35,7 +35,7 @@ const SignupScreen = () => {
 
     const handleSignUp = async () => {
         const result = await signUp(email, password)
-        if (result.success && result.token) dispatch(setUserAction(result))
+        if (result.success && result.token) dispatch(setUser(result))
     };
 
     const disabledButton = !email.length || !password.length;

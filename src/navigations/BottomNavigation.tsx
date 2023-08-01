@@ -1,18 +1,23 @@
 import React from 'react';
-import { View, Keyboard } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '@pages/Home';
-import { HomeIcon } from '@theme/globalComponents/icons';
+import { AddNewIcon, BrainBattleIcon, CategoryIcon, HomeIcon, ProfileIcon } from '@theme/globalComponents/icons';
 import CreateQuizz from '@pages/CreateQuizz';
-import { IconHome, IconList } from '@pages/Home/home.styles';
 import Text from '@components/Text';
 import { useKeyboard } from '@hooks/useKeyBoard';
-
+import BattleQuizz from '@pages/BattleQuizz';
 
 const BottomTabNavigation: React.FC = () => {
-
     const Tab = createBottomTabNavigator();
-    const { keyboardVisible } = useKeyboard()
+    const { keyboardVisible } = useKeyboard();
+
+    const screens = [
+        { name: "Home", component: Home, icon: HomeIcon, label: "Home" },
+        { name: "Library", component: CreateQuizz, icon: CategoryIcon, label: "Library" },
+        { name: "Battle", component: BattleQuizz, icon: BrainBattleIcon, label: "Battle" },
+        { name: "Create", component: CreateQuizz, icon: AddNewIcon, label: "Create" },
+        { name: "Profile", component: CreateQuizz, icon: ProfileIcon, label: "Profile" }
+    ];
 
     return (
         <Tab.Navigator screenOptions={{
@@ -22,43 +27,22 @@ const BottomTabNavigation: React.FC = () => {
                 borderTopWidth: 0,
                 elevation: 1,
                 height: keyboardVisible ? 0 : 60,
-                paddingBottom: 10
+                paddingBottom: 10,
             },
+            tabBarHideOnKeyboard: true,
         }}>
-            <Tab.Screen name="Home" component={Home}
-                options={{
-                    tabBarIcon: ({ focused }) => {
-                        return (
-
-                            <IconHome name="home" color={focused ? "black" : "lightgray"} size={35} />
+            {screens.map(({ name, component, icon: Icon, label }, index) => (
+                <Tab.Screen key={index} name={name} component={component}
+                    options={{
+                        tabBarIcon: ({ focused }) => (
+                            <Icon style={{ width: name === "Profile" ? 22 : label === "Battle" ? 40 : 30, height: name === "Profile" ? 22 : label === "Battle" ? 40 : 30 }} color={focused ? "black" : "lightgray"} />
+                        ),
+                        tabBarLabel: ({ focused }) => (
+                            <Text style={{ fontSize: 9, fontWeight: '500' }} color={focused ? 'black' : 'disabled'}>{label}</Text>
                         )
-                    },
-                    tabBarLabel: ({ focused }) => {
-                        return (
-                            <Text style={{ fontSize: 9, fontWeight: '500' }} color={focused ? 'black' : 'disabled'}>Home</Text>
-                        )
-                    }
-                }}
-            />
-            <Tab.Screen name="Library" component={CreateQuizz}
-                options={{
-                    tabBarIcon: ({ focused }) => {
-                        return (
-
-                            <IconList name="home" color={focused ? "black" : "lightgray"} size={35} />
-                        )
-                    },
-                    tabBarLabel: ({ focused }) => {
-                        return (
-                            <Text style={{ fontSize: 9, fontWeight: '500' }} color={focused ? 'black' : 'disabled'}>Home</Text>
-                        )
-                    }
-                }}
-            />
-            <Tab.Screen name="Join" component={CreateQuizz} />
-            <Tab.Screen name="Create" component={CreateQuizz} />
-            <Tab.Screen name="Profile" component={CreateQuizz} />
-
+                    }}
+                />
+            ))}
         </Tab.Navigator>
     )
 }

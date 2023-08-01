@@ -13,6 +13,7 @@ export const handleGallery = (): Promise<Asset> => {
     quality: 0.5,
     maxWidth: 500,
     maxHeight: 500,
+    includeBase64: true,
   };
 
   return new Promise((resolve, reject) => {

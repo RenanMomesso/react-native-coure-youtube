@@ -2,10 +2,12 @@ import AddImage from '@components/AddImage';
 import BottomButtons from '@components/BottomButtons';
 import TextInput from '@components/TextInputWithIcon';
 import { useKeyboard } from '@hooks/useKeyBoard';
+import { quizzUseSelector } from '@hooks/useRedux';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Container } from '@theme/globalComponents';
 import { quizzMethods } from '@utils/Quizz';
 import { handleGallery } from '@utils/handleGallery';
+import { imagesToBase64 } from '@utils/imagesToBase64';
 import { gameId } from '@utils/index';
 import React, { useState, useEffect, useCallback } from 'react';
 import { ScrollView, Alert, Keyboard, KeyboardAvoidingView } from 'react-native';
@@ -14,13 +16,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavigationScreenProp } from 'src/dtos';
 import { quizzService } from 'src/services/api/quizz/quizz.service';
 import { RootState } from 'src/store';
-import { addDraftQuizz, addQuizz, createQuizz } from 'src/store/reducers/quizzReducer';
+import { addDraftQuizz, addQuizz, } from 'src/store/reducers/quizzReducer';
 
 const CreateQuizz: React.FC = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation<NavigationScreenProp>()
-    const { quizz } = useSelector((state: RootState) => state.quizzReducer)
-    const reducerQuizz = useSelector((state: RootState) => state.quizzReducer)
+    const { quizz } = useSelector(quizzUseSelector)
+    console.log("🚀 ~ file: index.tsx:23 ~ quizz:", quizz)
+    const reducerQuizz = useSelector(quizzUseSelector)
     const { keyboardVisible } = useKeyboard()
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -47,7 +50,7 @@ const CreateQuizz: React.FC = () => {
     }, [quizz?.title, quizz.description, quizz.collection, quizz.quizzType, quizz.theme, quizz.bgQuizzQuestionImg]))
 
     const createQuizzType = () => {
-        dispatch(createQuizz({
+        dispatch(addQuizz({
             title,
             description,
             collection,
@@ -66,18 +69,15 @@ const CreateQuizz: React.FC = () => {
 
     const handleAddImage = async () => {
         const response: Asset = await handleGallery()
-        console.log({ response })
         if (response) {
-            setCreatebgQuizzQuestionImg(response?.uri)
-            dispatch(createQuizz({ bgQuizzQuestionImg: response?.uri }))
+            setCreatebgQuizzQuestionImg(`data:image/jpeg;base64,${response?.base64}}`)
+            dispatch(addQuizz({ bgQuizzQuestionImg: `data:image/jpeg;base64,${response?.base64}}` }))
         }
     }
 
     const removeBgImg = () => {
         setCreatebgQuizzQuestionImg('')
-        dispatch(createQuizz({
-            bgQuizzQuestionImg: ''
-        }))
+        dispatch(addQuizz({ bgQuizzQuestionImg: '' }))
     }
 
 

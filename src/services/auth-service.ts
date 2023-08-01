@@ -104,8 +104,7 @@ export async function login(
   }
 }
 
-export async function updateUser(user: IUser): Promise<IUser | IResponseError> {
-  console.log({ user });
+export async function updateUserService(user: IUser): Promise<IUser | IResponseError> {
   try {
 
     const variables = {...user}

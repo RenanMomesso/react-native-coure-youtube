@@ -8,6 +8,7 @@ export interface SudokuNode {
     col: number;
     isModified: boolean;
     isHighlighted: boolean;
+    user?: string;
 
 }
 export interface SudokuGridProps {

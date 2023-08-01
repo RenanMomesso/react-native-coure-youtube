@@ -4,19 +4,16 @@ import HeaderNavigation from '../../components/HeaderNavigation';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Text from '../../components/Text';
-import TextInputIcon from '../../components/TextInputWithIcon';
-import { EmailIcon, IconEye, PasswordIcon } from '../../components/TextInputWithIcon/TextInputWithIcon.styles';
 import { Pressable } from 'react-native'
 import RememberMeCheckBox from '@components/CheckBoxAndText/RememberMeCheckBox';
 import Button from '@components/Button';
 import HorizontalLineWithText from '../../components/LineWithText';
 import { useDispatch } from 'react-redux';
-import { setUserAction } from '../../store/actions/userActions';
 import { RootStackParamList } from 'src/dtos';
-import { login, signUp } from 'src/services/auth-service';
 import LoginWithSocials from '@components/LoginWithSocials';
 import AuthForm from '@pages/shared/AuthForm';
 import { authService } from 'src/services/api/auth/auth.service';
+import { setUser } from 'src/store/reducers/userReducer';
 
 type ScreenName = keyof RootStackParamList;
 export type NavigationScreenProp = StackNavigationProp<RootStackParamList, ScreenName>
@@ -42,7 +39,7 @@ const SigninWithPassword = () => {
             const result = await authService.signIn({ username: email, password })
             console.log({ result })
             if (result?.data?.token) {
-                dispatch(setUserAction(result?.data?.user))
+                dispatch(setUser(result?.data?.user))
             }
         } catch (error) {
             console.log({ error: error })

@@ -1,17 +1,13 @@
 import axios from 'src/axios';
-import fs from 'react-native-fs';
-import { convertImagesInObject } from '@utils/imagesToBase64';
 
 class QuizzService {
   async createQuizz(quizzData: any) {
     const copyQuizzData = { ...quizzData };
     delete copyQuizzData.selectedQuizz;
     delete copyQuizzData.draftQuizz;
-    const convertedObject = await convertImagesInObject(copyQuizzData);
-    console.log(JSON.stringify(convertedObject, undefined, 3));
 
     const response = await axios.post('/quizz/create', {
-      ...convertedObject,
+      ...copyQuizzData,
     });
 
     return response.data;
@@ -19,6 +15,27 @@ class QuizzService {
 
   async getQuizzes() {
     const response = await axios.get('/quizz/get-all-quizzes');
+    return response.data;
+  }
+
+  async getQuizzById(quizzId: string) {
+    const response = await axios.get(`/quizz/get-quizz/${quizzId}`);
+    return response.data;
+  }
+
+  async searchOpononentQuizz(quizzId: string) {
+    const response = await axios.post('/quizz/search-oponent', {
+      quizzId,
+    });
+
+    return response.data;
+  }
+
+  async getAvailableRooms(userId: string) {
+    const body = {
+      playerA: userId,
+    };
+    const response = await axios.post('/quizz/available-rooms', body);
     return response.data;
   }
 }

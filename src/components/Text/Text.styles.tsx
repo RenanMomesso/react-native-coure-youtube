@@ -31,7 +31,7 @@ export const modifier = {
         `,
   medium: (color: IColors) => css`
         font-family: ${({ theme }) => theme?.sizes?.fontFamily.InterSemiBold};
-        font-size: ${({ theme }) => theme.sizes.fontSize.medium || 16}px;
+        font-size: ${({ theme }) => theme.sizes.fontSize.medium || 20}px;
         color: ${({ theme }) => colorModifier[color]};
    `
 }

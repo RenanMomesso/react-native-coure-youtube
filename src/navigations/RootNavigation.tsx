@@ -16,9 +16,14 @@ import SelectQuizz from '@pages/SelectQuizz'
 import CreateQuestion from '@pages/CreateQuestion'
 import BottomTabNavigation from './BottomNavigation'
 import DiscoverScreen from '@pages/DiscoverScreen'
+import Quizz from '@pages/Quizz'
+import BattleQuizzSearchingOponent from '@pages/BattleQuizzSearchingOponent'
+import BattleGamingScreen from '@pages/BattleGamingScreen'
+import PickOneVsOneGame from '@pages/PickOneVsOneGame'
 
 const RootNavigation = () => {
-
+    const allReducers = useSelector((state: RootState) => state.quizzApi)
+    console.log("🚀 ~ file: RootNavigation.tsx:26 ~ RootNavigation ~ allReducers:", JSON.stringify(allReducers, undefined, 2))
     const userReducer = useSelector((state: RootState) => state.user)
     const Stack = createStackNavigator<RootStackParamList>()
     const stackNavigationOptions: StackNavigationOptions = {
@@ -26,8 +31,8 @@ const RootNavigation = () => {
     }
 
     let stackScreen = null;
-    const onboardingComplete = userReducer.onboardingComplete
-    const userInfo = userReducer.userInfo
+    const onboardingComplete = userReducer?.onboardingComplete
+    const userInfo = userReducer?.userInfo
 
     if (onboardingComplete && !userInfo?.email?.length) {
         stackScreen = (
@@ -45,7 +50,12 @@ const RootNavigation = () => {
         stackScreen = (
             <>
                 <Stack.Screen name="BottomTabNavigation" component={BottomTabNavigation} />
+                <Stack.Screen name="PickOneVsOneGame" component={PickOneVsOneGame} />
+
+                <Stack.Screen name="BattleGameScreen" component={BattleGamingScreen} />
+                <Stack.Screen name="QuizzScreen" component={Quizz} />
                 <Stack.Screen name="DiscoverScreen" component={DiscoverScreen} />
+                <Stack.Screen name="BattleQuizzSearchingOpponent" component={BattleQuizzSearchingOponent} />
                 <Stack.Screen name="Sudoku" component={Sudoku} />
                 <Stack.Screen name="PaperScissorsRock" component={PaperScissorRock} />
                 <Stack.Screen name="CreateQuizz" component={CreateQuizz} options={{

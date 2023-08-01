@@ -6,7 +6,7 @@ export const IconHome = styled(Icon).attrs({
     size: 25,
 })``
 export const IconList = styled(Icon).attrs({
-    name: 'category',
+    name: 'home',
     size: 25,
 })``
 
@@ -23,4 +23,19 @@ export const InviteFriendsBanner = styled.TouchableOpacity`
     border-radius: 8px;
     margin-top: 30px;
     overflow: hidden;
+`
+
+export const Shadow = styled.View`
+  position: absolute;
+  width: 100%;
+  height: 120px;
+  background-color: #021b0290;
+  opacity: 0.5;
+  border-radius: 12px;
+  z-index: -1;
+  margin-bottom: 0px;
+  margin-right:10px;
+  left: 0;
+  bottom: -8;
+  right: 0;
 `

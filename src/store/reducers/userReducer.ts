@@ -1,17 +1,20 @@
-import { clearStorage } from '@utils/AsyncStorageUtils';
-import {
-  CLEAR_ONBOARDING,
-  ONBOARDING_COMPLETE,
-  IUserInitialState,
-  UserActionTypes,
-  CLEAR_USER,
-  SET_USER,
-  CLEAR_STORE,
-  UPDATE_USER,
-} from '../types/userTypes';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const userInitialState: IUserInitialState = {
+interface UserInfo {
+  name: string;
+  email: string;
+  firstTimeLogging: boolean;
+  token: string;
+  id: string;
+}
+
+interface UserState {
+  onboardingComplete: boolean;
+  userInfo: UserInfo;
+  jwt: string;
+}
+
+const initialState: UserState = {
   onboardingComplete: false,
   userInfo: {
     name: '',
@@ -23,36 +26,39 @@ const userInitialState: IUserInitialState = {
   jwt: '',
 };
 
-const userReducer = (
-  state: IUserInitialState = userInitialState,
-  action: UserActionTypes,
-): IUserInitialState => {
-  switch (action.type) {
-    case ONBOARDING_COMPLETE:
-      return { ...state, onboardingComplete: true };
-    case CLEAR_ONBOARDING:
-      return { ...state, onboardingComplete: false };
-    case SET_USER:
-      return { ...state, userInfo: action.payload, jwt: action.payload?.token };
-    case UPDATE_USER:
-      return {
-        ...state,
-        userInfo: {
-          ...state.userInfo,
-          ...action.payload,
-        },
-      };
-    case CLEAR_USER:
-      return {
-        ...state,
-        userInfo: {},
-      };
-    case CLEAR_STORE: {
-      return userInitialState;
-    }
-    default:
-      return state;
-  }
-};
+const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    completeOnboarding(state) {
+      state.onboardingComplete = true;
+    },
+    clearOnboarding(state) {
+      state.onboardingComplete = false;
+    },
+    setUser(state, action: PayloadAction<UserInfo>) {
+      state.userInfo = action.payload;
+      state.jwt = action.payload.token;
+    },
+    updateUser(state, action: PayloadAction<Partial<UserInfo>>) {
+      state.userInfo = { ...state.userInfo, ...action.payload };
+    },
+    clearUser(state) {
+      state.userInfo = initialState.userInfo;
+    },
+    clearStore() {
+      return initialState;
+    },
+  },
+});
 
-export default userReducer;
+export const {
+  completeOnboarding,
+  clearOnboarding,
+  setUser,
+  updateUser,
+  clearUser,
+  clearStore,
+} = userSlice.actions;
+
+export default userSlice.reducer;

@@ -7,12 +7,12 @@ export const CLEAR_STORE = 'CLEAR_STORE';
 
 export interface IUser {
   name?: string;
+  username?: string;
   email?: string;
   token?: string;
-  id?: string;
+  _id?: string;
   firstTimeLogging?: boolean;
   profilePhoto?: string;
-
 }
 
 export type IUserInitialState = {

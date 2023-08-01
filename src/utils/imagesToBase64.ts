@@ -6,8 +6,8 @@ export const imagesToBase64 = async (path: string) => {
   return base64Image;
 };
 
-export const convertImagesInObject = async obj => {
-  let newObj = Array.isArray(obj) ? [] : {};
+export const convertImagesInObject = async (obj: any) => {
+  let newObj:any = Array.isArray(obj) ? [] : {};
   for (let key in obj) {
     if (typeof obj[key] === 'object' && obj[key] !== null) {
       // If the property is an object, recurse into it

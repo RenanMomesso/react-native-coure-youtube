@@ -23,5 +23,28 @@ export const ButtonContainer = styled.TouchableOpacity<IButtonContainerProps>`
         margin-vertical: 10px;
         flex-direction: row;
         gap: 7px;
+        z-index: 1;
     `}
+`
+
+export const ButtonShadow = styled.View`
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+    background-color: ${({ theme }) => theme.colors.purpleMain};
+    position: absolute;
+    z-index: -1;
+    top:0px;
+
+`
+
+export const ButtonShadow2 = styled.View`
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+    background-color: ${({ theme }) => theme.colors.disabledBlack};
+    position: absolute;
+    z-index: -2;
+    top:5px;
+
 `

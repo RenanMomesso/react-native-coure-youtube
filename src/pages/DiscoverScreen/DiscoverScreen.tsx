@@ -1,10 +1,11 @@
 import HeaderNavigation from '@components/HeaderNavigation';
 import QuizItem from '@components/QuizzItem';
-import { quizzUseSelector } from '@hooks/useRedux';
-import React, { useEffect } from 'react';
+import Text from '@components/Text';
+import React, { useState } from 'react';
 import { View, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllQuizzes } from 'src/store/actions/quizz-actions';
+import axios from 'src/axios';
+import { useGetQuizzesQuery } from 'src/store/quizzApi';
 import styled from 'styled-components/native';
 
 // Define styles using styled-components
@@ -22,31 +23,38 @@ const EmptyView = styled(View)`
 
 
 const DiscoverScreen = () => {
-    const { allQuizzes, error: quizzError, loadingQuizzes } = useSelector(quizzUseSelector)
-    console.log("🚀 ~ file: DiscoverScreen.tsx:32 ~ DiscoverScreen ~ allQuizzes:", allQuizzes)
-    const dispatch = useDispatch();
+    const [quizzes, setQuizzes] = useState([])
+    const { data, isLoading } = useGetQuizzesQuery({})
 
-    useEffect(() => {
-        if(!!allQuizzes?.quizzes?.length) return;
-        dispatch(fetchAllQuizzes())
-    }, []);
-
-    const quizzData = allQuizzes?.quizzes
+    const getItemLayout = (data: any, index: number) => {
+        const item = data[index]
+        const length = 180
+        const offset = length * index
+        return { length, offset, index }
+    }
 
     return (
         <Container>
             <HeaderNavigation title={'Discover'} />
-            <FlatList
-                data={quizzData}
-                renderItem={({ item }) => <QuizItem
-                    creatorName={'test'}
-                    title={item.title}
-                    backgroundImage={item?.bgQuizzQuestionImg}
-                    creatorAvatar={'test'}
-                // onPress={() => { }}
-                />}
-                keyExtractor={(item) => item.id}
-            />
+            <View style={{ flexDirection: 'row' }}>
+                <FlatList
+                    style={{ flexGrow: 0 }}
+                    horizontal={false}
+
+                    keyExtractor={(_, index) => index.toString()}
+                    showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}
+                    data={data?.quizzes || []}
+                    getItemLayout={getItemLayout}
+                    ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                    renderItem={({ item }) => <QuizItem
+                        quizzId={item?._id}
+                        creatorName={item.authorId.username}
+                        title={item.title}
+                        backgroundImage={item?.bgQuizzQuestionImg}
+                        creatorAvatar={'test'} />}
+                />
+            </View>
         </Container>
     );
 };

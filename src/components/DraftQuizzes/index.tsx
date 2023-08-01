@@ -18,7 +18,7 @@ const DraftQuizzes: React.FC = () => {
     const { quizz, selectedQuizz } = useSelector(quizzUseSelector)
     const draftQuizz = quizz.draftQuizz || {}
     const alreadyCreatedQuizzes = quizz.quizzes || []
-    const allQuizzes = alreadyCreatedQuizzes.concat(draftQuizz)
+    const allQuizzes = alreadyCreatedQuizzes?.concat(draftQuizz)
     const isQuizzSelected: boolean | undefined = selectedQuizz.isQuizzSelected
 
     const handleSelectQuizz = (quizz: any) => {
@@ -49,7 +49,7 @@ const DraftQuizzes: React.FC = () => {
                 automaticallyAdjustContentInsets={false}
 
             >
-                {allQuizzes.map((quizz: Quizz, index: number) => {
+                {allQuizzes?.map((quizz: Quizz, index: number) => {
                     const lastElement = allQuizzes.length - 1;
                     const pressLastElement = index === lastElement;
 

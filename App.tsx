@@ -14,33 +14,37 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Loading from './src/components/Loading';
 import ApolloProviderWrapper from './src/providers/ApolloProvider';
 import { BottomSheetProvider } from 'src/providers/BottomSheetProvider';
+import { ApiProvider } from "@reduxjs/toolkit/query/react"
+import { quizzApi } from 'src/store/quizzApi';
+import DiscoverScreen from '@pages/DiscoverScreen';
+import { socketService } from 'src/services/socket/socketConnection';
 
 const IS_STORYBOOK = false
 const App: React.FC = () => {
     const isDarkMode = useColorScheme() === 'dark';
-   
+
+    useEffect(() => {
+        socketService.setupSocketConnection();
+    }, [])
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <ThemeProvider>
                 <Provider store={store}>
                     <PersistGate loading={<Loading />} persistor={persistor}>
-                        {/* <ApolloProviderWrapper> */}
                         <BottomSheetProvider>
                             <SafeAreaView style={{ flex: 1 }} >
                                 <StatusBar
-                                    
                                     barStyle={isDarkMode ? 'light-content' : 'dark-content'}
                                     backgroundColor={'#fff'}
                                 />
                                 <RootNavigation />
                             </SafeAreaView>
                         </BottomSheetProvider>
-                        {/* </ApolloProviderWrapper> */}
                     </PersistGate>
                 </Provider>
             </ThemeProvider>
-        </GestureHandlerRootView >
+        </GestureHandlerRootView>
     );
 };
 

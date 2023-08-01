@@ -4,13 +4,11 @@ import React from 'react';
 import { CameraOptions, ImageLibraryOptions, Callback, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useDispatch } from 'react-redux';
 import { useBottomSheet } from 'src/providers/BottomSheetProvider';
-import { updateUserAction } from 'src/store/actions/userActions';
-
+import { updateUser } from 'src/store/reducers/userReducer';
 
 const ProfilePhotoButtons: React.FC = () => {
     const dispatch = useDispatch();
     const { closeBottomSheet } = useBottomSheet();
-
 
     type LaunchFunction = (options: ImageLibraryOptions | CameraOptions, callback: Callback) => void;
 
@@ -19,7 +17,7 @@ const ProfilePhotoButtons: React.FC = () => {
             launchFunction({ mediaType: 'photo' }, (response) => {
                 if (response.didCancel || !!response.errorCode || !!response.errorMessage) return;
                 closeBottomSheet();
-                dispatch(updateUserAction({ profilePhoto: response.assets?.[0].uri || '' }));
+                dispatch(updateUser({ profilePhoto: response.assets?.[0].uri || '' }));
             });
         };
     };
